@@ -75,6 +75,10 @@ body {
     font-weight: 400; 
 }
 
+.togglePassword {
+    color: white;
+}
+
 .button {
     border-left-width: 1px;
     border-right-width: 1px;
@@ -93,20 +97,4 @@ body {
     font-size: 17px;     
     font-weight: 400; 
     margin-top: 5%;
-}
-
-.error-message {
-    color: #ff4118;
-    font-size: 12px;
-    margin-top: 10px;
-    padding: 0;
-}
-
-.togglePassword {
-    color: white;
-}
-
-.Google {
-    background-color: #4D4D63;
-    color:white;
 }
