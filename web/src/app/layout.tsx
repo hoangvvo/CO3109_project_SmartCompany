@@ -21,7 +21,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Inter as FontSans } from "next/font/google";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -151,8 +151,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [hydrated, setHydrated] = useState(false);
+
   useEffect(() => {
     useUserStore.persist.rehydrate();
+    setHydrated(true);
   }, []);
 
   return (
@@ -160,7 +163,8 @@ export default function RootLayout({
       <head />
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          "min-h-screen bg-background font-sans antialiased opacity-0 transition-opacity",
+          hydrated && `opacity-100`,
           fontSans.variable,
         )}
       >
