@@ -1,51 +1,41 @@
 export const baseApi = {
-  token: "",
-  getAuthHeader(): HeadersInit {
-    return {
-      Authorization: `Bearer ${this.token}`,
-    };
+  async request<D = any>(input: RequestInfo | URL, init?: RequestInit) {
+    const res = await fetch(input, {
+      credentials: "same-origin",
+      ...init,
+    });
+
+    if (!res.ok) {
+      if (res.status >= 500) {
+        throw new Error("Server Error");
+      }
+
+      const json = await res.json();
+      throw new Error(json.message);
+    }
+
+    if (res.headers.get("Content-Type")?.includes("application/json")) {
+      return res.json() as Promise<D>;
+    }
+
+    return res.text() as Promise<D>;
   },
-  async get<D = any>(path: string, params?: any) {
-    const url = new URL(path);
+  async GET<D = any>(path: string, params?: any) {
+    const url = new URL(path, window.location.origin);
     if (params) {
       url.search = new URLSearchParams(params).toString();
     }
 
-    const res = await fetch(url, {
-      headers: {
-        ...this.getAuthHeader(),
-      },
-    });
-
-    if (!res.ok) {
-      const json = await res.json();
-      throw new Error(json.message);
-    }
-
-    if (res.headers.get("Content-Type")?.includes("application/json")) {
-      return res.json() as Promise<D>;
-    }
-    return res.text() as Promise<D>;
+    return this.request<D>(url);
   },
-  async post<D = any>(path: string, data: any) {
-    const res = await fetch(path, {
+  async POST<D = any>(path: string, data?: any) {
+    return this.request<D>(path, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        ...this.getAuthHeader(),
       },
-      body: JSON.stringify(data),
+      body: data ? JSON.stringify(data) : undefined,
       credentials: "same-origin",
     });
-
-    if (!res.ok) {
-      const json = await res.json();
-      throw new Error(json.message);
-    }
-
-    if (res.headers.get("Content-Type")?.includes("application/json")) {
-      return res.json() as Promise<D>;
-    }
-    return res.text() as Promise<D>;
   },
 };

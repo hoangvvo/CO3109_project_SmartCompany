@@ -1,31 +1,24 @@
-import { User } from "@/types/user";
+import {
+  ApiUserGetResponse,
+  ApiUserLoginRequest,
+  ApiUserLoginResponse,
+  ApiUserSignupRequest,
+  ApiUserSignupResponse,
+} from "@/app/api/types";
 import { baseApi } from "./base";
 
-export interface AuthResponse {
-  refresh: string;
-  access: string;
-  user: User;
-}
-
-export interface UserApiLoginVariables {
-  email: string;
-  password: string;
-}
-
-export interface UserApiRegisterVariables {
-  email: string;
-  password: string;
-  name: string;
-}
-
 export const userApi = {
-  login(variables: UserApiLoginVariables) {
-    return baseApi.post<AuthResponse>("/api/user/login", variables);
+  login(variables: ApiUserLoginRequest) {
+    return baseApi.POST<ApiUserLoginResponse>("/api/user/login", variables);
   },
-  register(variables: UserApiRegisterVariables) {
-    return baseApi.post<AuthResponse>("/api/user/signup", variables);
+  register(variables: ApiUserSignupRequest) {
+    return baseApi.POST<ApiUserSignupResponse>("/api/user/signup", variables);
   },
-  getCurrentUser() {
-    return baseApi.get<User>("/api/user");
+  async getCurrentUser() {
+    const res = await baseApi.GET<ApiUserGetResponse>("/api/user");
+    return res.user;
+  },
+  logout() {
+    return baseApi.POST("/api/user/logout");
   },
 };

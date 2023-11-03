@@ -1,47 +1,16 @@
-CREATE TABLE public.verification_token
-(
-  identifier TEXT NOT NULL,
-  expires TIMESTAMPTZ NOT NULL,
-  token TEXT NOT NULL,
-
-  PRIMARY KEY (identifier, token)
+CREATE TABLE app_user (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    image_url VARCHAR(255),
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE public.accounts
-(
-  id SERIAL,
-  "userId" INTEGER NOT NULL,
-  type VARCHAR(255) NOT NULL,
-  provider VARCHAR(255) NOT NULL,
-  "providerAccountId" VARCHAR(255) NOT NULL,
-  refresh_token TEXT,
-  access_token TEXT,
-  expires_at BIGINT,
-  id_token TEXT,
-  scope TEXT,
-  session_state TEXT,
-  token_type TEXT,
-
-  PRIMARY KEY (id)
-);
-
-CREATE TABLE public.sessions
-(
-  id SERIAL,
-  "userId" INTEGER NOT NULL,
-  expires TIMESTAMPTZ NOT NULL,
-  "sessionToken" VARCHAR(255) NOT NULL,
-
-  PRIMARY KEY (id)
-);
-
-CREATE TABLE public.users
-(
-  id SERIAL,
-  name VARCHAR(255),
-  email VARCHAR(255),
-  "emailVerified" TIMESTAMPTZ,
-  image TEXT,
-
-  PRIMARY KEY (id)
+CREATE TABLE app_session (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES app_user(id),
+    token VARCHAR(255) NOT NULL UNIQUE,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    expires_at TIMESTAMP NOT NULL
 );

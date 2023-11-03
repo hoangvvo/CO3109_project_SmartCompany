@@ -1,6 +1,6 @@
 "use client";
 
-import { AuthResponse, UserApiLoginVariables, userApi } from "@/apis/user";
+import { userApi } from "@/apis/user";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
+import { useUserStore } from "@/stores/user.store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
@@ -31,13 +32,14 @@ const formSchema = z.object({
 export default function LoginPage() {
   const router = useRouter();
 
-  const mutation = useMutation<AuthResponse, Error, UserApiLoginVariables>({
+  const mutation = useMutation({
     mutationFn: userApi.login,
     onSuccess(data) {
       toast({
         title: "Login successful",
         description: `Welcome back, ${data.user.name}!`,
       });
+      useUserStore.getState().login(data.user);
       router.replace("/");
     },
     onError(error) {

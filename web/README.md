@@ -7,11 +7,7 @@ HCMUT CO3109 project Smart Company.
 1. Create a `.env.local` file in the root directory of the project.
 
 ```env
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
-POSTGRES_PASSWORD=
-AUTH_SECRET=
-AUTH_URL=http://localhost:3000
+DATABASE_URL=
 ```
 
 2. Start Docker Compose, which includes PostgreSQL and other dependencies.
@@ -25,7 +21,7 @@ docker compose --env-file .env.local up
 We use [golang-migrate/migrate](https://github.com/golang-migrate/migrate) for migration.
 
 ```sh
-migrate -source file://./db/migrations -database "postgres://postgres:${POSTGRES_PASSWORD}@localhost:5432/postgres?sslmode=disable" up
+migrate -source file://./db/migrations -database "$DATABASE_URL" up
 ```
 
 To create a new migration file, run:

@@ -1,21 +1,27 @@
 "use client";
 
 import { ThemeProvider } from "@/components/theme-provider";
-import { AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { Toaster } from "@/components/ui/toaster";
+import { toast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { useUserStore } from "@/stores/user.store";
 import "@/styles/globals.css";
-import { Avatar } from "@radix-ui/react-avatar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Inter as FontSans } from "next/font/google";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -45,6 +51,24 @@ const NavbarLink: React.FC<{ href: string; children: string }> = ({
 const NavbarUser: React.FC = () => {
   const { user } = useUserStore();
 
+  const onLogout = () => {
+    useUserStore
+      .getState()
+      .logout()
+      .then(
+        () =>
+          toast({
+            description: "You have been logged out.",
+          }),
+        (error) => {
+          toast({
+            description: error.message,
+            variant: "destructive",
+          });
+        },
+      );
+  };
+
   if (!user) {
     return (
       <div className="flex items-center gap-2">
@@ -67,6 +91,14 @@ const NavbarUser: React.FC = () => {
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href="/settings">Settings</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={onLogout}>Log out</DropdownMenuItem>
+      </DropdownMenuContent>
     </DropdownMenu>
   );
 };
@@ -102,9 +134,8 @@ const Navbar: React.FC = () => {
         </Link>
         <div className="flex items-center justify-start gap-4 flex-1">
           <NavbarLink href="/">Dashboard</NavbarLink>
-          <NavbarLink href="/automation">Automation</NavbarLink>
+          <NavbarLink href="/devices">Devices</NavbarLink>
           <NavbarLink href="/activity">Activity</NavbarLink>
-          <NavbarLink href="/settings">Settings</NavbarLink>
         </div>
         <NavbarSearch />
         <NavbarUser />
@@ -120,6 +151,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  useEffect(() => {
+    useUserStore.persist.rehydrate();
+  }, []);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
@@ -138,6 +173,7 @@ export default function RootLayout({
           >
             <Navbar />
             <main>{children}</main>
+            <Toaster />
           </ThemeProvider>
         </QueryClientProvider>
       </body>
