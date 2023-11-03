@@ -1,6 +1,6 @@
 "use client";
 
-import { AuthResponse, UserApiLoginVariables, userApi } from "@/apis/user";
+import { AuthResponse, UserApiRegisterVariables, userApi } from "@/apis/user";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -26,23 +26,26 @@ const formSchema = z.object({
   password: z.string().min(8, {
     message: "Password must be at least 8 characters.",
   }),
+  name: z.string().min(1, {
+    message: "Name must be at least 1 character.",
+  }),
 });
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
 
-  const mutation = useMutation<AuthResponse, Error, UserApiLoginVariables>({
-    mutationFn: userApi.login,
+  const mutation = useMutation<AuthResponse, Error, UserApiRegisterVariables>({
+    mutationFn: userApi.register,
     onSuccess(data) {
       toast({
-        title: "Login successful",
-        description: `Welcome back, ${data.user.name}!`,
+        title: "Registration successful",
+        description: `Welcome, ${data.user.name}!`,
       });
       router.replace("/");
     },
     onError(error) {
       toast({
-        title: "Login failed",
+        title: "Registration failed",
         description: error.message,
         variant: "destructive",
       });
@@ -54,6 +57,7 @@ export default function LoginPage() {
     defaultValues: {
       email: "",
       password: "",
+      name: "",
     },
   });
 
@@ -65,9 +69,9 @@ export default function LoginPage() {
     <div className="h-[calc(100vh-64px*2)] flex flex-col gap-4 items-center justify-center">
       <div className="flex flex-col items-center justify-center w-96 max-w-full gap-6">
         <div className="flex flex-col space-y-2 text-center">
-          <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Register</h1>
           <p className="text-sm text-muted-foreground">
-            Enter your email and password to continue
+            Create an account to get started.
           </p>
         </div>
         <Form {...form}>
@@ -95,7 +99,24 @@ export default function LoginPage() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input {...field} type="password" />
+                    <Input
+                      {...field}
+                      type="password"
+                      autoComplete="new-password"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -112,9 +133,9 @@ export default function LoginPage() {
         </Form>
       </div>
       <div className="text-muted-foreground text-sm">
-        Don&apos;t have an account?{" "}
-        <Link href="/register" className="text-primary hover:underline">
-          Sign up
+        Already have an account?{" "}
+        <Link href="/login" className="text-primary hover:underline">
+          Login
         </Link>
       </div>
     </div>
