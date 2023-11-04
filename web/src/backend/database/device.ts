@@ -29,7 +29,9 @@ export const deviceRepository = {
   },
 
   async getAllDevices() {
-    const res = await pool.query<DeviceDbObject>(`SELECT * FROM device`);
+    const res = await pool.query<DeviceDbObject>(
+      `SELECT * FROM device ORDER BY created_at DESC`,
+    );
 
     if (res.rowCount === 0) {
       return [];
@@ -110,9 +112,13 @@ export const deviceActivityRepository = {
   },
 
   async getAllDeviceActivities() {
-    const res = await pool.query<DeviceActivityDbObject>(
-      `SELECT * FROM device_activity`,
-    );
+    const res = await pool.query<
+      DeviceActivityDbObject & Pick<DeviceDbObject, "name">
+    >(`
+      SELECT device_activity.*, device.name FROM device_activity
+      JOIN device ON device.id = device_activity.device_id
+      ORDER BY device_activity.created_at DESC
+      `);
 
     if (res.rowCount === 0) {
       return [];
@@ -122,9 +128,15 @@ export const deviceActivityRepository = {
   },
 
   async getAllDeviceActivitiesByDeviceId(device_id: number) {
-    const res = await pool.query<DeviceActivityDbObject>(
-      `SELECT * FROM device_activity WHERE device_id = $1 SORT BY created_at DESC`,
-      [device_id],
+    const res = await pool.query<
+      DeviceActivityDbObject & Pick<DeviceDbObject, "name">
+    >(
+      `
+      SELECT device_activity.*, device.name FROM device_activity
+      JOIN device ON device.id = device_activity.device_id
+      WHERE device_id = $1
+      ORDER BY device_activity.created_at DESC
+      `[device_id],
     );
 
     if (res.rowCount === 0) {

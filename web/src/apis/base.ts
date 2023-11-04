@@ -38,4 +38,19 @@ export const baseApi = {
       credentials: "same-origin",
     });
   },
+  async PUT<D = any>(path: string, data?: any) {
+    return this.request<D>(path, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data ? JSON.stringify(data) : undefined,
+      credentials: "same-origin",
+    });
+  },
+  async DELETE<D = any>(path: string) {
+    return this.request<D>(path, {
+      method: "DELETE",
+    });
+  },
 };

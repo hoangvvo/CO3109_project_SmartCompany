@@ -1,5 +1,5 @@
 import { deviceRepository } from "@/backend/database";
-import { DeviceDbObject } from "@/backend/database/types";
+import { DeviceDbObject, DeviceStateDbType } from "@/backend/database/types";
 import { unauthorizedResponse } from "@/backend/http";
 import { authService } from "@/backend/services";
 import { cookies } from "next/headers";
@@ -49,6 +49,7 @@ export async function POST(request: Request) {
     description,
     description_location,
     device_category,
+    current_state: DeviceStateDbType.OFF,
   });
 
   return Response.json(createdDevice);

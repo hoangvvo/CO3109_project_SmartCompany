@@ -1,8 +1,10 @@
+export type { ApiDeviceActivitiesGetResponse } from "./device-activities/route";
 export type {
   ApiDeviceGetResponse,
   ApiDevicePutRequest,
   ApiDevicePutResponse,
 } from "./devices/[device_id]/route";
+export type { ApiDeviceStatePostRequest } from "./devices/[device_id]/state/route";
 export type {
   ApiDevicesGetResponse,
   ApiDevicesPostRequest,

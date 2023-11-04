@@ -2,6 +2,11 @@ import { deviceRepository } from "@/backend/database";
 import { mqttClient } from "@/backend/mqtt/client";
 import { NextRequest } from "next/server";
 
+export interface ApiDeviceStatePostRequest {
+  state: string;
+  value?: number | null;
+}
+
 export const POST = async (
   request: NextRequest,
   { params }: { params: { device_id: string } },

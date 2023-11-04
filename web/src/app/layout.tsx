@@ -128,7 +128,7 @@ const NavbarSearch: React.FC = () => {
 const Navbar: React.FC = () => {
   return (
     <nav className="border-b border-border w-full">
-      <div className="flex h-16 gap-10 items-center px-4 container">
+      <div className="flex h-16 gap-10 items-center container">
         <Link href="/" className="flex items-center gap-1">
           <span className="font-medium">SmartCompany</span>
         </Link>
@@ -136,6 +136,7 @@ const Navbar: React.FC = () => {
           <NavbarLink href="/">Dashboard</NavbarLink>
           <NavbarLink href="/devices">Devices</NavbarLink>
           <NavbarLink href="/activity">Activity</NavbarLink>
+          <NavbarLink href="/automation">Automation</NavbarLink>
         </div>
         <NavbarSearch />
         <NavbarUser />
