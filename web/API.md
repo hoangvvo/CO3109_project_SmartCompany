@@ -156,16 +156,62 @@ Called by **web app** to delete a device.
 
 None
 
-### Update device state
+### Get all devices' activities
 
-Called by **yolobit board** to update a device state.
+Called by **web app** to get all device activities.
 
 #### Request
 
-`POST /api/device_state?path=:path`
+`GET /api/device-activities`
+
+#### Response
+
+```
+<<DeviceActivityDbObject[]>>
+```
+
+### Get a device's activities
+
+Called by **web app** to get a device's activities.
+
+#### Request
+
+`GET /api/devices/:id/activities`
+
+#### Response
+
+```
+<<DeviceActivityDbObject[]>>
+```
+
+### Set device state
+
+Called by **web app** to set a device state.
+
+#### Request
+
+`POST /api/devices/:id/state`
 
 ```json
 {
+  "state": "<<DeviceStateType>>",
+  "value": 0
+}
+```
+
+### On device state changed
+
+Published by **yolobit board** to update a device state.
+
+#### MQTT message
+
+Topic: `device_state_changed`
+
+Payload (JSON stringified):
+
+```json
+{
+  "path": "P1/P2/P3",
   "state": "<<DeviceStateType>>",
   "value": 0,
   "extra_data": {
@@ -176,8 +222,20 @@ Called by **yolobit board** to update a device state.
 }
 ```
 
-#### Response
+### On device state set
 
-```
-<<DeviceActivityDbObject>>
+After being requested by **web app**, the device state will be published to **yolobit board**.
+
+#### MQTT message
+
+Topic: `device_state_set`
+
+Payload (JSON stringified):
+
+```json
+{
+  "path": "P1/P2/P3",
+  "state": "<<DeviceStateType>>",
+  "value": 0
+}
 ```

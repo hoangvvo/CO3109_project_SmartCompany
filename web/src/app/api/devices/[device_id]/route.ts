@@ -4,6 +4,8 @@ import { unauthorizedResponse } from "@/backend/http";
 import { authService } from "@/backend/services";
 import { cookies } from "next/headers";
 
+export type ApiDeviceGetResponse = DeviceDbObject;
+
 export async function GET(
   request: Request,
   { params }: { params: { device_id: string } },
@@ -18,8 +20,19 @@ export async function GET(
 
   const device = await deviceRepository.getDeviceById(Number(params.device_id));
 
+  if (!device) {
+    return Response.json({ message: "Device not found" }, { status: 404 });
+  }
+
   return Response.json(device);
 }
+
+export type ApiDevicePutRequest = Pick<
+  DeviceDbObject,
+  "name" | "path" | "description" | "description_location" | "device_category"
+>;
+
+export type ApiDevicePutResponse = DeviceDbObject;
 
 export async function PUT(
   request: Request,
@@ -39,10 +52,7 @@ export async function PUT(
     description,
     description_location,
     device_category,
-  }: Pick<
-    DeviceDbObject,
-    "name" | "path" | "description" | "description_location" | "device_category"
-  > = await request.json();
+  }: ApiDevicePutRequest = await request.json();
 
   const updatedDevice = await deviceRepository.updateDevice({
     id: Number(params.device_id),

@@ -42,7 +42,7 @@ export const deviceRepository = {
     const res = await pool.query<DeviceDbObject>(
       `
         INSERT INTO device (user_id, name, path, description, description_location, device_category, current_state, current_value, current_extra_data)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
         RETURNING *
         `,
       [

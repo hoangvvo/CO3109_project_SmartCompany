@@ -4,6 +4,8 @@ import { unauthorizedResponse } from "@/backend/http";
 import { authService } from "@/backend/services";
 import { cookies } from "next/headers";
 
+export type ApiDevicesGetResponse = DeviceDbObject[];
+
 export async function GET() {
   const user = await authService.getUserBySession(
     cookies().get("authToken")?.value,
@@ -17,6 +19,11 @@ export async function GET() {
 
   return Response.json(devices);
 }
+
+export type ApiDevicesPostRequest = Pick<
+  DeviceDbObject,
+  "name" | "path" | "description" | "description_location" | "device_category"
+>;
 
 export async function POST(request: Request) {
   const user = await authService.getUserBySession(
@@ -33,10 +40,7 @@ export async function POST(request: Request) {
     description,
     description_location,
     device_category,
-  }: Pick<
-    DeviceDbObject,
-    "name" | "path" | "description" | "description_location" | "device_category"
-  > = await request.json();
+  }: ApiDevicesPostRequest = await request.json();
 
   const createdDevice = await deviceRepository.createDevice({
     user_id: user.id,

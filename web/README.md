@@ -8,6 +8,7 @@ HCMUT CO3109 project Smart Company.
 
 ```env
 DATABASE_URL=
+BROKER_URL=
 ```
 
 2. Run database migration (optional)
