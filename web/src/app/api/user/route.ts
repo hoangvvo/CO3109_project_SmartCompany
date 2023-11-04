@@ -7,13 +7,10 @@ export interface ApiUserGetResponse {
 }
 
 export async function GET(request: Request) {
-  const authTokenCookie = cookies().get("authToken");
-  if (!authTokenCookie) {
-    return Response.json({ user: null });
-  }
-
-  const authUser = await authService.getUserBySession(authTokenCookie.value);
+  const user = await authService.getUserBySession(
+    cookies().get("authToken")?.value,
+  );
   return Response.json({
-    user: authUser,
+    user,
   });
 }

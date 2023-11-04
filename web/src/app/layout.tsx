@@ -109,7 +109,7 @@ const NavbarSearch: React.FC = () => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    router.push;
+    router.push(`/search?q=${e.currentTarget.search.value}`);
   };
 
   return (

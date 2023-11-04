@@ -10,22 +10,28 @@ HCMUT CO3109 project Smart Company.
 DATABASE_URL=
 ```
 
-2. Start Docker Compose, which includes PostgreSQL and other dependencies.
-
-```sh
-docker compose --env-file .env.local up
-```
-
-3. Run database migration
+2. Run database migration (optional)
 
 We use [golang-migrate/migrate](https://github.com/golang-migrate/migrate) for migration.
 
 ```sh
-migrate -source file://./db/migrations -database "$DATABASE_URL" up
+migrate -source file://./db/migrations -database "$DATABASE_URL?options=endpoint%3D[endpoint_id]" up
 ```
 
 To create a new migration file, run:
 
 ```sh
 migrate create -ext sql -dir ./db/migrations -seq <migration_name>
+```
+
+3. Install dependencies
+
+```sh
+npm install
+```
+
+4. Run the project
+
+```sh
+npm run dev
 ```

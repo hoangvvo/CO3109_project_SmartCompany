@@ -31,7 +31,13 @@ export const authService = {
     return appSessionRepository.deleteSessionByToken(token);
   },
 
-  async getUserBySession(token: string): Promise<User | null> {
+  async getUserBySession(
+    token: string | null | undefined,
+  ): Promise<User | null> {
+    if (!token) {
+      return null;
+    }
+
     const res = await appSessionRepository.getUserBySessionToken(token);
     if (!res) {
       return null;

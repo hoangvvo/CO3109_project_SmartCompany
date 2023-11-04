@@ -1,3 +1,5 @@
+BEGIN;
+
 CREATE TABLE app_user (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -14,3 +16,5 @@ CREATE TABLE app_session (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     expires_at TIMESTAMP NOT NULL
 );
+
+COMMIT;
