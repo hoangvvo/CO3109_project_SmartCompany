@@ -23,7 +23,6 @@ import type {
   SetDeviceStateRequest,
   UpdateDeviceRequest,
   UserLoginRequest,
-  UserSignUp200Response,
   UserSignUpRequest,
 } from '../models/index';
 import {
@@ -43,8 +42,6 @@ import {
     UpdateDeviceRequestToJSON,
     UserLoginRequestFromJSON,
     UserLoginRequestToJSON,
-    UserSignUp200ResponseFromJSON,
-    UserSignUp200ResponseToJSON,
     UserSignUpRequestFromJSON,
     UserSignUpRequestToJSON,
 } from '../models/index';
@@ -341,7 +338,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async userLoginRaw(requestParameters: UserLoginOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserSignUp200Response>> {
+    async userLoginRaw(requestParameters: UserLoginOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetCurrentUser200Response>> {
         if (requestParameters.userLoginRequest === null || requestParameters.userLoginRequest === undefined) {
             throw new runtime.RequiredError('userLoginRequest','Required parameter requestParameters.userLoginRequest was null or undefined when calling userLogin.');
         }
@@ -360,12 +357,12 @@ export class DefaultApi extends runtime.BaseAPI {
             body: UserLoginRequestToJSON(requestParameters.userLoginRequest),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => UserSignUp200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetCurrentUser200ResponseFromJSON(jsonValue));
     }
 
     /**
      */
-    async userLogin(requestParameters: UserLoginOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserSignUp200Response> {
+    async userLogin(requestParameters: UserLoginOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetCurrentUser200Response> {
         const response = await this.userLoginRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -395,7 +392,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async userSignUpRaw(requestParameters: UserSignUpOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserSignUp200Response>> {
+    async userSignUpRaw(requestParameters: UserSignUpOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetCurrentUser200Response>> {
         if (requestParameters.userSignUpRequest === null || requestParameters.userSignUpRequest === undefined) {
             throw new runtime.RequiredError('userSignUpRequest','Required parameter requestParameters.userSignUpRequest was null or undefined when calling userSignUp.');
         }
@@ -414,12 +411,12 @@ export class DefaultApi extends runtime.BaseAPI {
             body: UserSignUpRequestToJSON(requestParameters.userSignUpRequest),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => UserSignUp200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetCurrentUser200ResponseFromJSON(jsonValue));
     }
 
     /**
      */
-    async userSignUp(requestParameters: UserSignUpOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserSignUp200Response> {
+    async userSignUp(requestParameters: UserSignUpOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetCurrentUser200Response> {
         const response = await this.userSignUpRaw(requestParameters, initOverrides);
         return await response.value();
     }

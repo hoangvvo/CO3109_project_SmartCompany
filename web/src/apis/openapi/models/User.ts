@@ -16,39 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface UserSignUp200ResponseUser
+ * @interface User
  */
-export interface UserSignUp200ResponseUser {
+export interface User {
     /**
      * 
      * @type {number}
-     * @memberof UserSignUp200ResponseUser
+     * @memberof User
      */
     id: number;
     /**
      * 
      * @type {string}
-     * @memberof UserSignUp200ResponseUser
+     * @memberof User
      */
     email: string;
     /**
      * 
      * @type {string}
-     * @memberof UserSignUp200ResponseUser
+     * @memberof User
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof UserSignUp200ResponseUser
+     * @memberof User
      */
     image_url: string | null;
 }
 
 /**
- * Check if a given object implements the UserSignUp200ResponseUser interface.
+ * Check if a given object implements the User interface.
  */
-export function instanceOfUserSignUp200ResponseUser(value: object): boolean {
+export function instanceOfUser(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "email" in value;
@@ -58,11 +58,11 @@ export function instanceOfUserSignUp200ResponseUser(value: object): boolean {
     return isInstance;
 }
 
-export function UserSignUp200ResponseUserFromJSON(json: any): UserSignUp200ResponseUser {
-    return UserSignUp200ResponseUserFromJSONTyped(json, false);
+export function UserFromJSON(json: any): User {
+    return UserFromJSONTyped(json, false);
 }
 
-export function UserSignUp200ResponseUserFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserSignUp200ResponseUser {
+export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -75,7 +75,7 @@ export function UserSignUp200ResponseUserFromJSONTyped(json: any, ignoreDiscrimi
     };
 }
 
-export function UserSignUp200ResponseUserToJSON(value?: UserSignUp200ResponseUser | null): any {
+export function UserToJSON(value?: User | null): any {
     if (value === undefined) {
         return undefined;
     }

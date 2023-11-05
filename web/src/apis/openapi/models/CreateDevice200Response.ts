@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { GetDevices200ResponseDevicesInner } from './GetDevices200ResponseDevicesInner';
+import type { Device } from './Device';
 import {
-    GetDevices200ResponseDevicesInnerFromJSON,
-    GetDevices200ResponseDevicesInnerFromJSONTyped,
-    GetDevices200ResponseDevicesInnerToJSON,
-} from './GetDevices200ResponseDevicesInner';
+    DeviceFromJSON,
+    DeviceFromJSONTyped,
+    DeviceToJSON,
+} from './Device';
 
 /**
  * 
@@ -28,10 +28,10 @@ import {
 export interface CreateDevice200Response {
     /**
      * 
-     * @type {GetDevices200ResponseDevicesInner}
+     * @type {Device}
      * @memberof CreateDevice200Response
      */
-    device: GetDevices200ResponseDevicesInner;
+    device: Device;
 }
 
 /**
@@ -54,7 +54,7 @@ export function CreateDevice200ResponseFromJSONTyped(json: any, ignoreDiscrimina
     }
     return {
         
-        'device': GetDevices200ResponseDevicesInnerFromJSON(json['device']),
+        'device': DeviceFromJSON(json['device']),
     };
 }
 
@@ -67,7 +67,7 @@ export function CreateDevice200ResponseToJSON(value?: CreateDevice200Response | 
     }
     return {
         
-        'device': GetDevices200ResponseDevicesInnerToJSON(value.device),
+        'device': DeviceToJSON(value.device),
     };
 }
 

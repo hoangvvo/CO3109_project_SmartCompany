@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { GetDevices200ResponseDevicesInner } from './GetDevices200ResponseDevicesInner';
+import type { Device } from './Device';
 import {
-    GetDevices200ResponseDevicesInnerFromJSON,
-    GetDevices200ResponseDevicesInnerFromJSONTyped,
-    GetDevices200ResponseDevicesInnerToJSON,
-} from './GetDevices200ResponseDevicesInner';
+    DeviceFromJSON,
+    DeviceFromJSONTyped,
+    DeviceToJSON,
+} from './Device';
 
 /**
  * 
@@ -28,10 +28,10 @@ import {
 export interface GetDevices200Response {
     /**
      * 
-     * @type {Array<GetDevices200ResponseDevicesInner>}
+     * @type {Array<Device>}
      * @memberof GetDevices200Response
      */
-    devices: Array<GetDevices200ResponseDevicesInner>;
+    devices: Array<Device>;
 }
 
 /**
@@ -54,7 +54,7 @@ export function GetDevices200ResponseFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
-        'devices': ((json['devices'] as Array<any>).map(GetDevices200ResponseDevicesInnerFromJSON)),
+        'devices': ((json['devices'] as Array<any>).map(DeviceFromJSON)),
     };
 }
 
@@ -67,7 +67,7 @@ export function GetDevices200ResponseToJSON(value?: GetDevices200Response | null
     }
     return {
         
-        'devices': ((value.devices as Array<any>).map(GetDevices200ResponseDevicesInnerToJSON)),
+        'devices': ((value.devices as Array<any>).map(DeviceToJSON)),
     };
 }
 

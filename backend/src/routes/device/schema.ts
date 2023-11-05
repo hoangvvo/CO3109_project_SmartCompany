@@ -11,32 +11,38 @@ import {
 } from "../../utils/typebox.js";
 import { deviceActivitySchema } from "../device-activity/schema.js";
 
-export const deviceSchema = Type.Object({
-  id: Type.Number(),
-  user_id: Type.Number(),
-  name: Type.String(),
-  path: Type.String(),
-  description: TypeNullable(Type.String()),
-  description_location: TypeNullable(Type.String()),
-  device_category: TypeStringEnum(DeviceCategoryDbType),
-  created_at: TypeStringDate(),
-  current_state: TypeNullable(TypeStringEnum(DeviceStateDbType)),
-  current_value: TypeNullable(Type.Number()),
-  current_extra_data: TypeNullable(
-    Type.Object(
-      {},
-      {
-        additionalProperties: true,
-      },
+export const deviceSchema = Type.Object(
+  {
+    id: Type.Number(),
+    user_id: Type.Number(),
+    name: Type.String(),
+    path: Type.String(),
+    description: TypeNullable(Type.String()),
+    description_location: TypeNullable(Type.String()),
+    device_category: TypeStringEnum(DeviceCategoryDbType),
+    created_at: TypeStringDate(),
+    current_state: TypeNullable(TypeStringEnum(DeviceStateDbType)),
+    current_value: TypeNullable(Type.Number()),
+    current_extra_data: TypeNullable(
+      Type.Object(
+        {},
+        {
+          additionalProperties: true,
+        },
+      ),
     ),
-  ),
-});
+  },
+  {
+    $id: "Device",
+    title: "Device",
+  },
+);
 
 export const devicesGetSchema = {
   operationId: "getDevices",
   response: {
     200: Type.Object({
-      devices: Type.Array(deviceSchema),
+      devices: Type.Array(Type.Ref<typeof deviceSchema>(deviceSchema)),
     }),
   },
 } satisfies FastifySchema;
@@ -52,7 +58,7 @@ export const devicesPostSchema = {
   }),
   response: {
     200: Type.Object({
-      device: deviceSchema,
+      device: Type.Ref<typeof deviceSchema>(deviceSchema),
     }),
   },
 } satisfies FastifySchema;
@@ -64,7 +70,7 @@ export const deviceGetSchema = {
   }),
   response: {
     200: Type.Object({
-      device: deviceSchema,
+      device: Type.Ref<typeof deviceSchema>(deviceSchema),
     }),
   },
 } satisfies FastifySchema;
@@ -83,7 +89,7 @@ export const devicePutSchema = {
   }),
   response: {
     200: Type.Object({
-      device: deviceSchema,
+      device: Type.Ref<typeof deviceSchema>(deviceSchema),
     }),
   },
 } satisfies FastifySchema;
@@ -105,7 +111,9 @@ export const deviceActivitiesGetSchema = {
   }),
   response: {
     200: Type.Object({
-      deviceActivities: Type.Array(deviceActivitySchema),
+      deviceActivities: Type.Array(
+        Type.Ref<typeof deviceActivitySchema>(deviceActivitySchema),
+      ),
     }),
   },
 } satisfies FastifySchema;

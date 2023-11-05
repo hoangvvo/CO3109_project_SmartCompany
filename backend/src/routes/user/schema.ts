@@ -2,18 +2,24 @@ import { Type } from "@sinclair/typebox";
 import type { FastifySchema } from "fastify";
 import { TypeNullable } from "../../utils/typebox.js";
 
-const userSchema = Type.Object({
-  id: Type.Number(),
-  email: Type.String(),
-  name: Type.String(),
-  image_url: TypeNullable(Type.String()),
-});
+export const userSchema = Type.Object(
+  {
+    id: Type.Number(),
+    email: Type.String(),
+    name: Type.String(),
+    image_url: TypeNullable(Type.String()),
+  },
+  {
+    $id: "User",
+    title: "User",
+  },
+);
 
 export const userGetSchema = {
   operationId: "getCurrentUser",
   response: {
     200: Type.Object({
-      user: TypeNullable(userSchema),
+      user: TypeNullable(Type.Ref<typeof userSchema>(userSchema)),
     }),
   },
 } satisfies FastifySchema;
@@ -27,7 +33,7 @@ export const userSignUpSchema = {
   }),
   response: {
     200: Type.Object({
-      user: userSchema,
+      user: Type.Ref<typeof userSchema>(userSchema),
     }),
   },
 } satisfies FastifySchema;
@@ -40,7 +46,7 @@ export const userLoginSchema = {
   }),
   response: {
     200: Type.Object({
-      user: userSchema,
+      user: Type.Ref<typeof userSchema>(userSchema),
     }),
   },
 } satisfies FastifySchema;

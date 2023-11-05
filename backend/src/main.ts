@@ -2,7 +2,7 @@ import fastifyCookie from "@fastify/cookie";
 import { fastify } from "fastify";
 import { PORT } from "./constants/environments.js";
 import { authentication } from "./plugins/auth.js";
-import { swaggerGen } from "./plugins/swagger.js";
+import { schemaSetup } from "./plugins/schema.js";
 import { deviceActivityRouter } from "./routes/device-activity/route.js";
 import { deviceRouter } from "./routes/device/route.js";
 import { userRouter } from "./routes/user/route.js";
@@ -13,7 +13,7 @@ app.register(fastifyCookie);
 
 await app.register(authentication);
 
-await app.register(swaggerGen);
+await app.register(schemaSetup);
 
 await app.register(userRouter, {
   prefix: "/user",

@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { GetDeviceActivities200ResponseDeviceActivitiesInner } from './GetDeviceActivities200ResponseDeviceActivitiesInner';
+import type { DeviceActivity } from './DeviceActivity';
 import {
-    GetDeviceActivities200ResponseDeviceActivitiesInnerFromJSON,
-    GetDeviceActivities200ResponseDeviceActivitiesInnerFromJSONTyped,
-    GetDeviceActivities200ResponseDeviceActivitiesInnerToJSON,
-} from './GetDeviceActivities200ResponseDeviceActivitiesInner';
+    DeviceActivityFromJSON,
+    DeviceActivityFromJSONTyped,
+    DeviceActivityToJSON,
+} from './DeviceActivity';
 
 /**
  * 
@@ -28,10 +28,10 @@ import {
 export interface GetDeviceActivities200Response {
     /**
      * 
-     * @type {Array<GetDeviceActivities200ResponseDeviceActivitiesInner>}
+     * @type {Array<DeviceActivity>}
      * @memberof GetDeviceActivities200Response
      */
-    deviceActivities: Array<GetDeviceActivities200ResponseDeviceActivitiesInner>;
+    deviceActivities: Array<DeviceActivity>;
 }
 
 /**
@@ -54,7 +54,7 @@ export function GetDeviceActivities200ResponseFromJSONTyped(json: any, ignoreDis
     }
     return {
         
-        'deviceActivities': ((json['deviceActivities'] as Array<any>).map(GetDeviceActivities200ResponseDeviceActivitiesInnerFromJSON)),
+        'deviceActivities': ((json['deviceActivities'] as Array<any>).map(DeviceActivityFromJSON)),
     };
 }
 
@@ -67,7 +67,7 @@ export function GetDeviceActivities200ResponseToJSON(value?: GetDeviceActivities
     }
     return {
         
-        'deviceActivities': ((value.deviceActivities as Array<any>).map(GetDeviceActivities200ResponseDeviceActivitiesInnerToJSON)),
+        'deviceActivities': ((value.deviceActivities as Array<any>).map(DeviceActivityToJSON)),
     };
 }
 

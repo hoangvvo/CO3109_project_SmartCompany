@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { GetCurrentUser200ResponseUser } from './GetCurrentUser200ResponseUser';
+import type { User } from './User';
 import {
-    GetCurrentUser200ResponseUserFromJSON,
-    GetCurrentUser200ResponseUserFromJSONTyped,
-    GetCurrentUser200ResponseUserToJSON,
-} from './GetCurrentUser200ResponseUser';
+    UserFromJSON,
+    UserFromJSONTyped,
+    UserToJSON,
+} from './User';
 
 /**
  * 
@@ -28,10 +28,10 @@ import {
 export interface GetCurrentUser200Response {
     /**
      * 
-     * @type {GetCurrentUser200ResponseUser}
+     * @type {User}
      * @memberof GetCurrentUser200Response
      */
-    user: GetCurrentUser200ResponseUser | null;
+    user: User;
 }
 
 /**
@@ -54,7 +54,7 @@ export function GetCurrentUser200ResponseFromJSONTyped(json: any, ignoreDiscrimi
     }
     return {
         
-        'user': GetCurrentUser200ResponseUserFromJSON(json['user']),
+        'user': UserFromJSON(json['user']),
     };
 }
 
@@ -67,7 +67,7 @@ export function GetCurrentUser200ResponseToJSON(value?: GetCurrentUser200Respons
     }
     return {
         
-        'user': GetCurrentUser200ResponseUserToJSON(value.user),
+        'user': UserToJSON(value.user),
     };
 }
 

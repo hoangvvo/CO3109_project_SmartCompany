@@ -16,73 +16,73 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface GetDevices200ResponseDevicesInner
+ * @interface Device
  */
-export interface GetDevices200ResponseDevicesInner {
+export interface Device {
     /**
      * 
      * @type {number}
-     * @memberof GetDevices200ResponseDevicesInner
+     * @memberof Device
      */
     id: number;
     /**
      * 
      * @type {number}
-     * @memberof GetDevices200ResponseDevicesInner
+     * @memberof Device
      */
     user_id: number;
     /**
      * 
      * @type {string}
-     * @memberof GetDevices200ResponseDevicesInner
+     * @memberof Device
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof GetDevices200ResponseDevicesInner
+     * @memberof Device
      */
     path: string;
     /**
      * 
      * @type {string}
-     * @memberof GetDevices200ResponseDevicesInner
+     * @memberof Device
      */
     description: string | null;
     /**
      * 
      * @type {string}
-     * @memberof GetDevices200ResponseDevicesInner
+     * @memberof Device
      */
     description_location: string | null;
     /**
      * 
      * @type {string}
-     * @memberof GetDevices200ResponseDevicesInner
+     * @memberof Device
      */
-    device_category: GetDevices200ResponseDevicesInnerDeviceCategoryEnum;
+    device_category: DeviceDeviceCategoryEnum;
     /**
      * 
      * @type {Date}
-     * @memberof GetDevices200ResponseDevicesInner
+     * @memberof Device
      */
     created_at: Date;
     /**
      * 
      * @type {string}
-     * @memberof GetDevices200ResponseDevicesInner
+     * @memberof Device
      */
-    current_state: GetDevices200ResponseDevicesInnerCurrentStateEnum;
+    current_state: DeviceCurrentStateEnum;
     /**
      * 
      * @type {number}
-     * @memberof GetDevices200ResponseDevicesInner
+     * @memberof Device
      */
     current_value: number | null;
     /**
      * 
      * @type {{ [key: string]: any; }}
-     * @memberof GetDevices200ResponseDevicesInner
+     * @memberof Device
      */
     current_extra_data: { [key: string]: any; } | null;
 }
@@ -91,29 +91,29 @@ export interface GetDevices200ResponseDevicesInner {
 /**
  * @export
  */
-export const GetDevices200ResponseDevicesInnerDeviceCategoryEnum = {
+export const DeviceDeviceCategoryEnum = {
     Light: 'light',
     Thermostat: 'thermostat',
     Door: 'door',
     AirConditioner: 'air_conditioner',
     Fan: 'fan'
 } as const;
-export type GetDevices200ResponseDevicesInnerDeviceCategoryEnum = typeof GetDevices200ResponseDevicesInnerDeviceCategoryEnum[keyof typeof GetDevices200ResponseDevicesInnerDeviceCategoryEnum];
+export type DeviceDeviceCategoryEnum = typeof DeviceDeviceCategoryEnum[keyof typeof DeviceDeviceCategoryEnum];
 
 /**
  * @export
  */
-export const GetDevices200ResponseDevicesInnerCurrentStateEnum = {
+export const DeviceCurrentStateEnum = {
     On: 'on',
     Off: 'off'
 } as const;
-export type GetDevices200ResponseDevicesInnerCurrentStateEnum = typeof GetDevices200ResponseDevicesInnerCurrentStateEnum[keyof typeof GetDevices200ResponseDevicesInnerCurrentStateEnum];
+export type DeviceCurrentStateEnum = typeof DeviceCurrentStateEnum[keyof typeof DeviceCurrentStateEnum];
 
 
 /**
- * Check if a given object implements the GetDevices200ResponseDevicesInner interface.
+ * Check if a given object implements the Device interface.
  */
-export function instanceOfGetDevices200ResponseDevicesInner(value: object): boolean {
+export function instanceOfDevice(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "user_id" in value;
@@ -130,11 +130,11 @@ export function instanceOfGetDevices200ResponseDevicesInner(value: object): bool
     return isInstance;
 }
 
-export function GetDevices200ResponseDevicesInnerFromJSON(json: any): GetDevices200ResponseDevicesInner {
-    return GetDevices200ResponseDevicesInnerFromJSONTyped(json, false);
+export function DeviceFromJSON(json: any): Device {
+    return DeviceFromJSONTyped(json, false);
 }
 
-export function GetDevices200ResponseDevicesInnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetDevices200ResponseDevicesInner {
+export function DeviceFromJSONTyped(json: any, ignoreDiscriminator: boolean): Device {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -154,7 +154,7 @@ export function GetDevices200ResponseDevicesInnerFromJSONTyped(json: any, ignore
     };
 }
 
-export function GetDevices200ResponseDevicesInnerToJSON(value?: GetDevices200ResponseDevicesInner | null): any {
+export function DeviceToJSON(value?: Device | null): any {
     if (value === undefined) {
         return undefined;
     }
