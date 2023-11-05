@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "openapi": "npx rimraf ./src/apis/openapi && npx @openapitools/openapi-generator-cli generate -i http://localhost:4000/documentation/json -g typescript-fetch -o src/apis/openapi --additional-properties=modelPropertyNaming=original"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
@@ -41,6 +42,7 @@
     "next-themes": "^0.2.1",
     "pg": "^8.11.3",
     "react": "^18",
+    "react-day-picker": "^8.9.1",
     "react-dom": "^18",
     "react-hook-form": "^7.47.0",
     "tailwind-merge": "^1.14.0",

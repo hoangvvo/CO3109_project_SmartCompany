@@ -7,11 +7,24 @@ HCMUT CO3109 project Smart Company.
 1. Create a `.env.local` file in the root directory of the project.
 
 ```env
-DATABASE_URL=
-BROKER_URL=
+API_URL=http://localhost:4000
 ```
 
-2. Run database migration (optional)
+2. Install dependencies
+
+```sh
+npm install
+```
+
+3. Run the project
+
+```sh
+npm run dev
+```
+
+## Workflows
+
+1. Run database migration
 
 We use [golang-migrate/migrate](https://github.com/golang-migrate/migrate) for migration.
 
@@ -25,14 +38,8 @@ To create a new migration file, run:
 migrate create -ext sql -dir ./db/migrations -seq <migration_name>
 ```
 
-3. Install dependencies
+2. Generate OpenAPI client
 
 ```sh
-npm install
-```
-
-4. Run the project
-
-```sh
-npm run dev
+npm run openapi
 ```

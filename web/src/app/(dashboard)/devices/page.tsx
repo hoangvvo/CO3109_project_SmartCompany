@@ -1,6 +1,7 @@
 "use client";
 
 import { deviceApi } from "@/apis/device";
+import { Device } from "@/types/device";
 import { useQuery } from "@tanstack/react-query";
 import { AddDevice } from "./_components/AddDevice";
 import { DeviceCard } from "./_components/DeviceCard";
@@ -25,7 +26,9 @@ export default function DevicesPage() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {data?.map((device) => <DeviceCard key={device.id} device={device} />)}
+        {data?.devices.map((device) => (
+          <DeviceCard key={device.id} device={device as Device} />
+        ))}
       </div>
     </div>
   );

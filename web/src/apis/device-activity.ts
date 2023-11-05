@@ -1,18 +1,13 @@
-import { ApiDeviceActivitiesGetResponse } from "@/app/api/types";
-import { baseApi } from "./base";
+import { api } from "./api";
 
 export const deviceActivityApi = {
-  async getDeviceActivities(id: string) {
-    const res = await baseApi.GET<ApiDeviceActivitiesGetResponse>(
-      `/api/devices/${id}/activities`,
-    );
-    return res;
+  getDeviceActivities(id: string) {
+    return api.getDeviceActivities({
+      deviceId: Number(id),
+    });
   },
 
   async getAllDeviceActivities() {
-    const res = await baseApi.GET<ApiDeviceActivitiesGetResponse>(
-      `/api/device-activities`,
-    );
-    return res;
+    return api.getAllDeviceActivities();
   },
 };

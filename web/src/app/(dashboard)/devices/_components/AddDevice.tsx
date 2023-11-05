@@ -58,7 +58,7 @@ const AddDeviceForm: React.FC<{
       });
       toast({
         title: "Device created",
-        description: `Device ${data.name} has been created.`,
+        description: `Device ${data.device.name} has been created.`,
       });
       setOpen(false);
     },

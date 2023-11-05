@@ -28,8 +28,8 @@ export const useUserStore = create(
       onRehydrateStorage() {
         userApi
           .getCurrentUser()
-          .then((user) => {
-            useUserStore.setState({ user });
+          .then((data) => {
+            useUserStore.setState({ user: data.user });
           })
           .catch((err) => {
             console.error(err);

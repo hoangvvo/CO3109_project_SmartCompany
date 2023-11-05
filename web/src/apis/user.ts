@@ -1,24 +1,21 @@
-import {
-  ApiUserGetResponse,
-  ApiUserLoginRequest,
-  ApiUserLoginResponse,
-  ApiUserSignupRequest,
-  ApiUserSignupResponse,
-} from "@/app/api/types";
-import { baseApi } from "./base";
+import { api } from "./api";
+import { UserLoginRequest, UserSignUpRequest } from "./openapi";
 
 export const userApi = {
-  login(variables: ApiUserLoginRequest) {
-    return baseApi.POST<ApiUserLoginResponse>("/api/user/login", variables);
+  login(variables: UserLoginRequest) {
+    return api.userLogin({
+      userLoginRequest: variables,
+    });
   },
-  register(variables: ApiUserSignupRequest) {
-    return baseApi.POST<ApiUserSignupResponse>("/api/user/signup", variables);
+  register(variables: UserSignUpRequest) {
+    return api.userSignUp({
+      userSignUpRequest: variables,
+    });
   },
   async getCurrentUser() {
-    const res = await baseApi.GET<ApiUserGetResponse>("/api/user");
-    return res.user;
+    return api.getCurrentUser();
   },
   logout() {
-    return baseApi.POST("/api/user/logout");
+    return api.userLogout();
   },
 };

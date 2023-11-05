@@ -1,4 +1,21 @@
-export enum DeviceCategoryType {
+export interface UserDbObject {
+  id: number;
+  email: string;
+  password_hash: string;
+  name: string;
+  image_url: string | null;
+  created_at: Date;
+}
+
+export interface AppSessionDbObject {
+  id: number;
+  user_id: number;
+  token: string;
+  created_at: Date;
+  expires_at: Date;
+}
+
+export enum DeviceCategoryDbType {
   LIGHT = "light",
   THERMOSTAT = "thermostat",
   DOOR = "door",
@@ -6,12 +23,12 @@ export enum DeviceCategoryType {
   FAN = "fan",
 }
 
-export enum DeviceStateType {
+export enum DeviceStateDbType {
   ON = "on",
   OFF = "off",
 }
 
-export interface Device {
+export interface DeviceDbObject {
   id: number;
   user_id: number;
   name: string;
@@ -21,9 +38,9 @@ export interface Device {
   path: string;
   description: string | null;
   description_location: string | null;
-  device_category: DeviceCategoryType;
+  device_category: DeviceCategoryDbType;
   created_at: Date;
-  current_state: DeviceStateType;
+  current_state: DeviceStateDbType;
   current_value: number | null;
   /**
    * JSON object for extra data. For example, the temperature and humidity for a thermostat.
@@ -31,12 +48,12 @@ export interface Device {
   current_extra_data: any | null;
 }
 
-export interface DeviceActivity {
+export interface DeviceActivityDbObject {
   id: number;
   device_id: number;
-  current_state: DeviceStateType;
+  current_state: DeviceStateDbType;
   current_value: number | null;
   current_extra_data: any | null;
   duration_seconds: number | null;
-  created_at: string;
+  created_at: Date;
 }

@@ -40,9 +40,11 @@ export default function ActivityPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data?.map((activity) => (
+            {data?.deviceActivities.map((activity) => (
               <TableRow key={activity.id}>
-                <TableCell className="font-medium">{activity.name}</TableCell>
+                <TableCell className="font-medium">
+                  {activity.device.name}
+                </TableCell>
                 <TableCell>{activity.current_state}</TableCell>
                 <TableCell>{activity.current_value}</TableCell>
                 <TableCell>{activity.current_extra_data}</TableCell>
