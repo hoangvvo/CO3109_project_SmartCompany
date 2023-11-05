@@ -1,6 +1,5 @@
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
-import assert from "assert";
 import fp from "fastify-plugin";
 import { deviceActivitySchema } from "../routes/device-activity/schema.js";
 import { deviceSchema } from "../routes/device/schema.js";
@@ -12,8 +11,7 @@ export const schemaSetup = fp(async (fastify) => {
     openapi: {},
     refResolver: {
       buildLocalReference(json) {
-        assert(json.$id);
-        return json.$id;
+        return json.$id as string;
       },
     },
   });
