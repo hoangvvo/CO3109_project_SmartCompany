@@ -6,6 +6,9 @@ import {
 } from "../../database/device.js";
 import { DeviceStateDbType } from "../../database/types.js";
 import { mqttClient } from "../../mqtt/client.js";
+import { MQTTTopic } from "../../mqtt/constants.js";
+import type { DeviceStateSetPayload } from "../../mqtt/types.js";
+import { StateSetTimeoutError } from "./error.js";
 import {
   deviceActivitiesGetSchema,
   deviceDeleteSchema,
@@ -161,16 +164,45 @@ export const deviceRouter: FastifyPluginAsyncTypebox = async (fastify) => {
 
       const { state, value } = request.body;
 
-      mqttClient.publish(
-        "device_state_set",
-        JSON.stringify({
-          path: device.path,
-          state,
-          value,
-        }),
-      );
+      let removeListener: (() => void) | undefined;
 
-      return null;
+      const promise = new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          reject(new StateSetTimeoutError());
+        });
+
+        const listener = (topic: string, message: Buffer) => {
+          if (topic !== MQTTTopic.DeviceStateChanged) {
+            return;
+          }
+          const {
+            path,
+            state: newState,
+            value: newValue,
+          } = JSON.parse(message.toString()) as DeviceStateSetPayload;
+
+          if (path !== device.path) {
+            return;
+          }
+
+          clearTimeout(timeout);
+
+          resolve({ newState, newValue });
+        };
+        mqttClient.on("message", listener);
+
+        removeListener = () => mqttClient.off("message", listener);
+      });
+
+      const setPayload: DeviceStateSetPayload = {
+        path: device.path,
+        state,
+        value,
+      };
+
+      mqttClient.publish(MQTTTopic.DeviceStateSet, JSON.stringify(setPayload));
+
+      return promise.then(() => null).finally(removeListener);
     },
   );
 };

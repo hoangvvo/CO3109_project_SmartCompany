@@ -1,5 +1,6 @@
 "use client";
 
+import { parseResponseError } from "@/apis/error";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -61,9 +62,11 @@ const NavbarUser: React.FC = () => {
             description: "You have been logged out.",
           }),
         (error) => {
-          toast({
-            description: error.message,
-            variant: "destructive",
+          parseResponseError(error).then((error) => {
+            toast({
+              description: error.message,
+              variant: "destructive",
+            });
           });
         },
       );

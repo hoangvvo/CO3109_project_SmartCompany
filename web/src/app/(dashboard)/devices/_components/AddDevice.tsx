@@ -1,4 +1,5 @@
 import { deviceApi } from "@/apis/device";
+import { parseResponseError } from "@/apis/error";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -63,10 +64,12 @@ const AddDeviceForm: React.FC<{
       setOpen(false);
     },
     onError(error) {
-      toast({
-        title: "Device creation failed",
-        description: error.message,
-        variant: "destructive",
+      parseResponseError(error).then((error) => {
+        toast({
+          title: "Device creation failed",
+          description: error.message,
+          variant: "destructive",
+        });
       });
     },
   });
