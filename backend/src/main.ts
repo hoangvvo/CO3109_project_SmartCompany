@@ -1,6 +1,7 @@
 import fastifyCookie from "@fastify/cookie";
 import { fastify } from "fastify";
 import { PORT } from "./constants/environments.js";
+import { registerMQTTHandler } from "./mqtt/handler.js";
 import { authentication } from "./plugins/auth.js";
 import { schemaSetup } from "./plugins/schema.js";
 import { deviceActivityRouter } from "./routes/device-activity/route.js";
@@ -26,6 +27,8 @@ await app.register(deviceRouter, {
 await app.register(deviceActivityRouter, {
   prefix: "/device-activities",
 });
+
+registerMQTTHandler();
 
 await app.listen({ port: PORT, host: "0.0.0.0" });
 

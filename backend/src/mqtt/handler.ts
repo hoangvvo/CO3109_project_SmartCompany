@@ -2,19 +2,18 @@ import {
   deviceActivityRepository,
   deviceRepository,
 } from "../database/device.js";
-import type { DeviceStateDbType } from "../database/types.js";
+import { mqttClient } from "./client.js";
+import { MQTTTopic } from "./constants.js";
+import type { DeviceStateChangedPayload } from "./types.js";
 
 export const handleStateMessage = async (topic: string, message: string) => {
   if (topic !== "device_state_changed") {
     return;
   }
 
-  const { path, state, value, extra_data } = JSON.parse(message) as {
-    path: string;
-    state: DeviceStateDbType;
-    value: number;
-    extra_data: any;
-  };
+  const { path, state, value, extra_data } = JSON.parse(
+    message,
+  ) as DeviceStateChangedPayload;
 
   const device = await deviceRepository.getDeviceByPath(path);
 
@@ -54,3 +53,15 @@ export const handleStateMessage = async (topic: string, message: string) => {
     current_extra_data: extra_data,
   });
 };
+
+export function registerMQTTHandler() {
+  console.log("mqtt: registering handler");
+  mqttClient.on("message", (topic, message) => {
+    console.log(`MQTT client message: ${topic}`, message.toString());
+    handleStateMessage(topic, message.toString());
+  });
+
+  mqttClient.subscribe(MQTTTopic.DeviceStateSet);
+  mqttClient.subscribe(MQTTTopic.DeviceStateChanged);
+  console.log("mqtt: handler registered");
+}
