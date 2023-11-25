@@ -15,29 +15,47 @@
 
 import * as runtime from '../runtime';
 import type {
+  CreateAutomation200Response,
+  CreateAutomationRequest,
   CreateDevice200Response,
   CreateDeviceRequest,
+  GetAutomations200Response,
   GetCurrentUser200Response,
   GetDeviceActivities200Response,
   GetDevices200Response,
+  ReplaceAutomationConditions200Response,
+  ReplaceAutomationConditionsRequest,
   SetDeviceStateRequest,
+  UpdateAutomationRequest,
   UpdateDeviceRequest,
   UserLoginRequest,
   UserSignUpRequest,
 } from '../models/index';
 import {
+    CreateAutomation200ResponseFromJSON,
+    CreateAutomation200ResponseToJSON,
+    CreateAutomationRequestFromJSON,
+    CreateAutomationRequestToJSON,
     CreateDevice200ResponseFromJSON,
     CreateDevice200ResponseToJSON,
     CreateDeviceRequestFromJSON,
     CreateDeviceRequestToJSON,
+    GetAutomations200ResponseFromJSON,
+    GetAutomations200ResponseToJSON,
     GetCurrentUser200ResponseFromJSON,
     GetCurrentUser200ResponseToJSON,
     GetDeviceActivities200ResponseFromJSON,
     GetDeviceActivities200ResponseToJSON,
     GetDevices200ResponseFromJSON,
     GetDevices200ResponseToJSON,
+    ReplaceAutomationConditions200ResponseFromJSON,
+    ReplaceAutomationConditions200ResponseToJSON,
+    ReplaceAutomationConditionsRequestFromJSON,
+    ReplaceAutomationConditionsRequestToJSON,
     SetDeviceStateRequestFromJSON,
     SetDeviceStateRequestToJSON,
+    UpdateAutomationRequestFromJSON,
+    UpdateAutomationRequestToJSON,
     UpdateDeviceRequestFromJSON,
     UpdateDeviceRequestToJSON,
     UserLoginRequestFromJSON,
@@ -46,12 +64,24 @@ import {
     UserSignUpRequestToJSON,
 } from '../models/index';
 
+export interface CreateAutomationOperationRequest {
+    createAutomationRequest: CreateAutomationRequest;
+}
+
 export interface CreateDeviceOperationRequest {
     createDeviceRequest: CreateDeviceRequest;
 }
 
+export interface DeleteAutomationRequest {
+    automationId: number;
+}
+
 export interface DeleteDeviceRequest {
     deviceId: number;
+}
+
+export interface GetAutomationRequest {
+    automationId: number;
 }
 
 export interface GetDeviceRequest {
@@ -62,9 +92,19 @@ export interface GetDeviceActivitiesRequest {
     deviceId: number;
 }
 
+export interface ReplaceAutomationConditionsOperationRequest {
+    automationId: number;
+    replaceAutomationConditionsRequest: ReplaceAutomationConditionsRequest;
+}
+
 export interface SetDeviceStateOperationRequest {
     deviceId: number;
     setDeviceStateRequest: SetDeviceStateRequest;
+}
+
+export interface UpdateAutomationOperationRequest {
+    automationId: number;
+    updateAutomationRequest: UpdateAutomationRequest;
 }
 
 export interface UpdateDeviceOperationRequest {
@@ -84,6 +124,37 @@ export interface UserSignUpOperationRequest {
  * 
  */
 export class DefaultApi extends runtime.BaseAPI {
+
+    /**
+     */
+    async createAutomationRaw(requestParameters: CreateAutomationOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateAutomation200Response>> {
+        if (requestParameters.createAutomationRequest === null || requestParameters.createAutomationRequest === undefined) {
+            throw new runtime.RequiredError('createAutomationRequest','Required parameter requestParameters.createAutomationRequest was null or undefined when calling createAutomation.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/automations/`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CreateAutomationRequestToJSON(requestParameters.createAutomationRequest),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CreateAutomation200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async createAutomation(requestParameters: CreateAutomationOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateAutomation200Response> {
+        const response = await this.createAutomationRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      */
@@ -114,6 +185,33 @@ export class DefaultApi extends runtime.BaseAPI {
     async createDevice(requestParameters: CreateDeviceOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateDevice200Response> {
         const response = await this.createDeviceRaw(requestParameters, initOverrides);
         return await response.value();
+    }
+
+    /**
+     */
+    async deleteAutomationRaw(requestParameters: DeleteAutomationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.automationId === null || requestParameters.automationId === undefined) {
+            throw new runtime.RequiredError('automationId','Required parameter requestParameters.automationId was null or undefined when calling deleteAutomation.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/automations/{automationId}`.replace(`{${"automationId"}}`, encodeURIComponent(String(requestParameters.automationId))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async deleteAutomation(requestParameters: DeleteAutomationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteAutomationRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -164,6 +262,58 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async getAllDeviceActivities(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetDeviceActivities200Response> {
         const response = await this.getAllDeviceActivitiesRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getAutomationRaw(requestParameters: GetAutomationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateAutomation200Response>> {
+        if (requestParameters.automationId === null || requestParameters.automationId === undefined) {
+            throw new runtime.RequiredError('automationId','Required parameter requestParameters.automationId was null or undefined when calling getAutomation.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/automations/{automationId}`.replace(`{${"automationId"}}`, encodeURIComponent(String(requestParameters.automationId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CreateAutomation200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getAutomation(requestParameters: GetAutomationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateAutomation200Response> {
+        const response = await this.getAutomationRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getAutomationsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetAutomations200Response>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/automations/`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetAutomations200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getAutomations(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetAutomations200Response> {
+        const response = await this.getAutomationsRaw(initOverrides);
         return await response.value();
     }
 
@@ -273,6 +423,41 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
+    async replaceAutomationConditionsRaw(requestParameters: ReplaceAutomationConditionsOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReplaceAutomationConditions200Response>> {
+        if (requestParameters.automationId === null || requestParameters.automationId === undefined) {
+            throw new runtime.RequiredError('automationId','Required parameter requestParameters.automationId was null or undefined when calling replaceAutomationConditions.');
+        }
+
+        if (requestParameters.replaceAutomationConditionsRequest === null || requestParameters.replaceAutomationConditionsRequest === undefined) {
+            throw new runtime.RequiredError('replaceAutomationConditionsRequest','Required parameter requestParameters.replaceAutomationConditionsRequest was null or undefined when calling replaceAutomationConditions.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/automations/{automationId}/conditions`.replace(`{${"automationId"}}`, encodeURIComponent(String(requestParameters.automationId))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ReplaceAutomationConditionsRequestToJSON(requestParameters.replaceAutomationConditionsRequest),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ReplaceAutomationConditions200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async replaceAutomationConditions(requestParameters: ReplaceAutomationConditionsOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ReplaceAutomationConditions200Response> {
+        const response = await this.replaceAutomationConditionsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
     async setDeviceStateRaw(requestParameters: SetDeviceStateOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.deviceId === null || requestParameters.deviceId === undefined) {
             throw new runtime.RequiredError('deviceId','Required parameter requestParameters.deviceId was null or undefined when calling setDeviceState.');
@@ -303,6 +488,41 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async setDeviceState(requestParameters: SetDeviceStateOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.setDeviceStateRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async updateAutomationRaw(requestParameters: UpdateAutomationOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateAutomation200Response>> {
+        if (requestParameters.automationId === null || requestParameters.automationId === undefined) {
+            throw new runtime.RequiredError('automationId','Required parameter requestParameters.automationId was null or undefined when calling updateAutomation.');
+        }
+
+        if (requestParameters.updateAutomationRequest === null || requestParameters.updateAutomationRequest === undefined) {
+            throw new runtime.RequiredError('updateAutomationRequest','Required parameter requestParameters.updateAutomationRequest was null or undefined when calling updateAutomation.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/automations/{automationId}`.replace(`{${"automationId"}}`, encodeURIComponent(String(requestParameters.automationId))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpdateAutomationRequestToJSON(requestParameters.updateAutomationRequest),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CreateAutomation200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async updateAutomation(requestParameters: UpdateAutomationOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateAutomation200Response> {
+        const response = await this.updateAutomationRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

@@ -1,6 +1,10 @@
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import fp from "fastify-plugin";
+import {
+  automationConditionSchema,
+  automationSchema,
+} from "../routes/automation/schema.js";
 import { deviceActivitySchema } from "../routes/device-activity/schema.js";
 import { deviceSchema } from "../routes/device/schema.js";
 import { userSchema } from "../routes/user/schema.js";
@@ -23,4 +27,6 @@ export const schemaSetup = fp(async (fastify) => {
   fastify.addSchema(userSchema);
   fastify.addSchema(deviceSchema);
   fastify.addSchema(deviceActivitySchema);
+  fastify.addSchema(automationConditionSchema);
+  fastify.addSchema(automationSchema);
 });

@@ -1,11 +1,22 @@
-import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  CategoryScale,
+  Chart,
+  ChartData,
+  LineElement,
+  LinearScale,
+  Point,
+  PointElement,
+} from "chart.js";
 import { Line } from "react-chartjs-2";
-import { Chart, CategoryScale, LinearScale, PointElement, LineElement } from "chart.js";
-import { Card, CardContent, CardHeader, CardTitle }from "@/components/ui/card";
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement);
 
-export default function GraphCard({ data }: any) {
+export default function GraphCard({
+  data,
+}: {
+  data: ChartData<"line", (number | Point | null)[], unknown>;
+}) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-start justify-between space-y-0">

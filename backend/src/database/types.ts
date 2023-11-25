@@ -57,3 +57,47 @@ export interface DeviceActivityDbObject {
   duration_seconds: number | null;
   created_at: Date;
 }
+
+export enum LogicalOperatorDbType {
+  AND = "and",
+  OR = "or",
+}
+
+export enum AutomationConditionTypeDbType {
+  DEVICE = "device",
+  CRON = "cron",
+}
+
+export interface AutomationDbObject {
+  id: number;
+  user_id: number;
+  name: string;
+  description: string | null;
+  logical_operator: LogicalOperatorDbType;
+}
+
+export interface AutomationConditionDbObject {
+  id: number;
+  automation_id: number;
+  condition_type: AutomationConditionTypeDbType;
+  device_id: number | null;
+  device_state: DeviceStateDbType | null;
+  device_value: number | null;
+  device_extra_data: any | null;
+  cron_expression: string | null;
+}
+
+export interface AutomationActionDbObject {
+  id: number;
+  automation_id: number;
+  device_id: number | null;
+  device_state: DeviceStateDbType | null;
+  device_value: number | null;
+  device_extra_data: any | null;
+}
+
+export interface AutomationActivityDbObject {
+  id: number;
+  automation_id: number;
+  created_at: Date;
+}

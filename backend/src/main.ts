@@ -4,6 +4,7 @@ import { PORT } from "./constants/environments.js";
 import { registerMQTTHandler } from "./mqtt/handler.js";
 import { authentication } from "./plugins/auth.js";
 import { schemaSetup } from "./plugins/schema.js";
+import { automationRouter } from "./routes/automation/route.js";
 import { deviceActivityRouter } from "./routes/device-activity/route.js";
 import { deviceRouter } from "./routes/device/route.js";
 import { userRouter } from "./routes/user/route.js";
@@ -26,6 +27,10 @@ await app.register(deviceRouter, {
 
 await app.register(deviceActivityRouter, {
   prefix: "/device-activities",
+});
+
+await app.register(automationRouter, {
+  prefix: "/automations",
 });
 
 registerMQTTHandler();

@@ -1,10 +1,15 @@
-"use client"
+"use client";
 // import GraphCard from "./_components/GraphCard"
 //hard code data
-import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  CategoryScale,
+  Chart,
+  LineElement,
+  LinearScale,
+  PointElement,
+} from "chart.js";
 import { Line } from "react-chartjs-2";
-import { Chart, CategoryScale, LinearScale, PointElement, LineElement } from "chart.js";
-import { Card, CardContent, CardHeader, CardTitle }from "@/components/ui/card";
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement);
 
@@ -20,7 +25,6 @@ function GraphCard({ data }: any) {
     </Card>
   );
 }
-
 
 const labels = ["1", "2", "3", "4", "5", "6"];
 const data = {
@@ -58,22 +62,20 @@ export default function HomePage() {
       <div className="flex py-4 justify-between items-center">
         <div className="space-y-0.5">
           <h2 className="text-2xl font-bold tracking-tight">Dashboard</h2>
-          <p className="text-muted-foreground">
-            Show all graph below
-          </p>
+          <p className="text-muted-foreground">Show all graph below</p>
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <GraphCard data = {data} />
-        <GraphCard data = {data} />
-        <GraphCard data = {data} />
-        <GraphCard data = {data} />
-        <GraphCard data = {data} />
-        <GraphCard data = {data} />
-        <GraphCard data = {data} />
-        <GraphCard data = {data} />
-        <GraphCard data = {data} />
-        <GraphCard data = {data} />
+        <GraphCard data={data} />
+        <GraphCard data={data} />
+        <GraphCard data={data} />
+        <GraphCard data={data} />
+        <GraphCard data={data} />
+        <GraphCard data={data} />
+        <GraphCard data={data} />
+        <GraphCard data={data} />
+        <GraphCard data={data} />
+        <GraphCard data={data} />
       </div>
     </div>
   );
