@@ -115,19 +115,13 @@ export const deviceActivityRepository = {
 
   async getAllDeviceActivities(filters?: {
     filter_device_ids?: number[];
-    filter_device_categories?: string[];
     start_date?: Date;
     end_date?: Date;
   }) {
-    const {
-      filter_device_ids,
-      filter_device_categories,
-      start_date,
-      end_date,
-    } = filters || {};
+    const { filter_device_ids, start_date, end_date } = filters || {};
 
     // Base SQL query
-    let sql = `SELECT da.*, d.id AS deviceId, d.name, d.wattage FROM device_activity da INNER JOIN device d ON da.device_id = d.id`;
+    let sql = `SELECT da.*, d.id AS deviceId, d.name, d.wattage, d.description_location, d.device_category FROM device_activity da INNER JOIN device d ON da.device_id = d.id`;
     const params = [];
     const conditions = [];
 
@@ -135,11 +129,6 @@ export const deviceActivityRepository = {
     if (filter_device_ids && filter_device_ids.length) {
       params.push(...filter_device_ids);
       conditions.push(`d.id = ANY($${params.length})`);
-    }
-
-    if (filter_device_categories && filter_device_categories.length) {
-      params.push(...filter_device_categories);
-      conditions.push(`d.device_category = ANY($${params.length})`);
     }
 
     if (start_date) {
@@ -162,7 +151,10 @@ export const deviceActivityRepository = {
 
     const res = await pool.query<
       DeviceActivityDbObject &
-        Pick<DeviceDbObject, "name" | "wattage"> & {
+        Pick<
+          DeviceDbObject,
+          "name" | "wattage" | "description_location" | "device_category"
+        > & {
           deviceId: number;
         }
     >(sql, params);
@@ -174,6 +166,8 @@ export const deviceActivityRepository = {
           id: deviceActivity.device_id,
           name: deviceActivity.name,
           wattage: deviceActivity.wattage,
+          description_location: deviceActivity.description_location,
+          device_category: deviceActivity.device_category,
         },
       })) || []
     );

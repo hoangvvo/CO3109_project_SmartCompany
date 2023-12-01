@@ -18,6 +18,7 @@ import "@/styles/globals.css";
 import { QueryClient } from "@tanstack/react-query";
 import {
   Activity,
+  BarChart3,
   Home,
   LucideIcon,
   MonitorSmartphone,
@@ -173,9 +174,12 @@ const Sidebar: React.FC = () => {
       </div>
       <div className="px-3 py-2">
         <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-          Logging
+          Analytics
         </h2>
         <div className="space-y-1 flex flex-col">
+          <SidebarItem href="/analytics" Icon={BarChart3}>
+            Analytics
+          </SidebarItem>
           <SidebarItem href="/activity" Icon={Activity}>
             All Activites
           </SidebarItem>

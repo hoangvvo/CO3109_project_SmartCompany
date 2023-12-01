@@ -1,4 +1,5 @@
 import { Type } from "@sinclair/typebox";
+import type { FastifySchema } from "fastify";
 import { DeviceStateDbType } from "../../database/types.js";
 import {
   TypeNullable,
@@ -27,6 +28,13 @@ export const deviceActivitySchema = Type.Object(
 
 export const deviceActivitiesGetSchema = {
   operationId: "getAllDeviceActivities",
+  querystring: Type.Optional(
+    Type.Object({
+      filter_device_ids: Type.Optional(Type.Array(Type.Number())),
+      start_date: Type.Optional(TypeStringDate()),
+      end_date: Type.Optional(TypeStringDate()),
+    }),
+  ),
   response: {
     200: Type.Object({
       deviceActivities: Type.Array(
@@ -34,4 +42,4 @@ export const deviceActivitiesGetSchema = {
       ),
     }),
   },
-} as const;
+} satisfies FastifySchema;

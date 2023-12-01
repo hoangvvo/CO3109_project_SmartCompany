@@ -4,7 +4,6 @@ import { deviceActivityApi } from "@/apis/device-activity";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -12,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import { PageHeader } from "@/components/view/page-header";
 import { useQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 
 export default function ActivityPage() {
   const { data } = useQuery({
@@ -28,7 +28,6 @@ export default function ActivityPage() {
       />
       <div className="py-4">
         <Table>
-          <TableCaption>A list of your recent device activities.</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead>Device</TableHead>
@@ -48,11 +47,18 @@ export default function ActivityPage() {
                 <TableCell>{activity.current_state}</TableCell>
                 <TableCell>{activity.current_value}</TableCell>
                 <TableCell>
-                  {JSON.stringify(activity.current_extra_data)}
+                  {Object.entries(activity.current_extra_data || {}).map(
+                    ([key, value]) => (
+                      <div key={key}>
+                        <span className="italic">{key}: </span>
+                        {value as number}
+                      </div>
+                    ),
+                  )}
                 </TableCell>
-                <TableCell>{String(activity.started_at)}</TableCell>
+                <TableCell>{format(activity.started_at, "PPpp")}</TableCell>
                 <TableCell>
-                  {activity.ended_at ? String(activity.ended_at) : ""}
+                  {activity.ended_at ? format(activity.ended_at, "PPpp") : "-"}
                 </TableCell>
               </TableRow>
             ))}

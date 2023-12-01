@@ -9,14 +9,17 @@ export const StatCard: FC<{
   Icon: LucideIcon;
   children: number;
   previous?: number;
-}> = ({ title, Icon, children, previous }) => {
+  suffix?: string;
+}> = ({ title, Icon, children, previous, suffix }) => {
   const [isRendered, setIsRendered] = useState(false);
   useEffect(() => {
     setIsRendered(true);
   }, []);
 
   const percentage =
-    typeof previous === "number" ? ((children - previous) / previous) * 100 : 0;
+    typeof previous === "number"
+      ? ((children - previous) / previous) * 100
+      : undefined;
 
   return (
     <Card className="hover:border-primary transition overflow-hidden h-[fit-content] min-h-[130px]">
@@ -25,7 +28,7 @@ export const StatCard: FC<{
         <Icon className="w-6 h-6" />
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">
+        <div className="text-2xl font-bold flex items-center gap-1">
           <AnimatedNumbers
             transitions={(index) => ({
               type: "spring",
@@ -33,6 +36,7 @@ export const StatCard: FC<{
             })}
             animateToNumber={children}
           />
+          {suffix}
         </div>
         <p
           className={cn(

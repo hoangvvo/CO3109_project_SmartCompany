@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { GetAggregatedAnalytics200ResponseAggregatedAnalyticsDevicesInner } from './GetAggregatedAnalytics200ResponseAggregatedAnalyticsDevicesInner';
+import {
+    GetAggregatedAnalytics200ResponseAggregatedAnalyticsDevicesInnerFromJSON,
+    GetAggregatedAnalytics200ResponseAggregatedAnalyticsDevicesInnerFromJSONTyped,
+    GetAggregatedAnalytics200ResponseAggregatedAnalyticsDevicesInnerToJSON,
+} from './GetAggregatedAnalytics200ResponseAggregatedAnalyticsDevicesInner';
+
 /**
  * 
  * @export
@@ -67,6 +74,12 @@ export interface GetAggregatedAnalytics200ResponseAggregatedAnalytics {
      * @memberof GetAggregatedAnalytics200ResponseAggregatedAnalytics
      */
     activity_count_compare: number;
+    /**
+     * 
+     * @type {Array<GetAggregatedAnalytics200ResponseAggregatedAnalyticsDevicesInner>}
+     * @memberof GetAggregatedAnalytics200ResponseAggregatedAnalytics
+     */
+    devices: Array<GetAggregatedAnalytics200ResponseAggregatedAnalyticsDevicesInner>;
 }
 
 /**
@@ -82,6 +95,7 @@ export function instanceOfGetAggregatedAnalytics200ResponseAggregatedAnalytics(v
     isInstance = isInstance && "watt_seconds_compare" in value;
     isInstance = isInstance && "activity_count" in value;
     isInstance = isInstance && "activity_count_compare" in value;
+    isInstance = isInstance && "devices" in value;
 
     return isInstance;
 }
@@ -104,6 +118,7 @@ export function GetAggregatedAnalytics200ResponseAggregatedAnalyticsFromJSONType
         'watt_seconds_compare': json['watt_seconds_compare'],
         'activity_count': json['activity_count'],
         'activity_count_compare': json['activity_count_compare'],
+        'devices': ((json['devices'] as Array<any>).map(GetAggregatedAnalytics200ResponseAggregatedAnalyticsDevicesInnerFromJSON)),
     };
 }
 
@@ -124,6 +139,7 @@ export function GetAggregatedAnalytics200ResponseAggregatedAnalyticsToJSON(value
         'watt_seconds_compare': value.watt_seconds_compare,
         'activity_count': value.activity_count,
         'activity_count_compare': value.activity_count_compare,
+        'devices': ((value.devices as Array<any>).map(GetAggregatedAnalytics200ResponseAggregatedAnalyticsDevicesInnerToJSON)),
     };
 }
 

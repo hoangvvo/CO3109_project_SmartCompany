@@ -24,6 +24,7 @@ import type {
   GetCurrentUser200Response,
   GetDeviceActivities200Response,
   GetDevices200Response,
+  GetRawAnalytics200Response,
   ReplaceAutomationConditions200Response,
   ReplaceAutomationConditionsRequest,
   SetDeviceStateRequest,
@@ -51,6 +52,8 @@ import {
     GetDeviceActivities200ResponseToJSON,
     GetDevices200ResponseFromJSON,
     GetDevices200ResponseToJSON,
+    GetRawAnalytics200ResponseFromJSON,
+    GetRawAnalytics200ResponseToJSON,
     ReplaceAutomationConditions200ResponseFromJSON,
     ReplaceAutomationConditions200ResponseToJSON,
     ReplaceAutomationConditionsRequestFromJSON,
@@ -87,7 +90,12 @@ export interface GetAggregatedAnalyticsRequest {
     startDate: Date;
     endDate: Date;
     filterDeviceIds?: Array<number>;
-    filterDeviceCategories?: Array<string>;
+}
+
+export interface GetAllDeviceActivitiesRequest {
+    filterDeviceIds?: Array<number>;
+    startDate?: Date;
+    endDate?: Date;
 }
 
 export interface GetAutomationRequest {
@@ -100,6 +108,13 @@ export interface GetDeviceRequest {
 
 export interface GetDeviceActivitiesRequest {
     deviceId: number;
+}
+
+export interface GetRawAnalyticsRequest {
+    startDate: Date;
+    endDate: Date;
+    filterDeviceIds?: Array<number>;
+    filterDeviceCategories?: Array<string>;
 }
 
 export interface ReplaceAutomationConditionsOperationRequest {
@@ -268,10 +283,6 @@ export class DefaultApi extends runtime.BaseAPI {
             queryParameters['filter_device_ids'] = requestParameters.filterDeviceIds;
         }
 
-        if (requestParameters.filterDeviceCategories) {
-            queryParameters['filter_device_categories'] = requestParameters.filterDeviceCategories;
-        }
-
         if (requestParameters.startDate !== undefined) {
             queryParameters['start_date'] = (requestParameters.startDate as any).toISOString();
         }
@@ -301,8 +312,20 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async getAllDeviceActivitiesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetDeviceActivities200Response>> {
+    async getAllDeviceActivitiesRaw(requestParameters: GetAllDeviceActivitiesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetDeviceActivities200Response>> {
         const queryParameters: any = {};
+
+        if (requestParameters.filterDeviceIds) {
+            queryParameters['filter_device_ids'] = requestParameters.filterDeviceIds;
+        }
+
+        if (requestParameters.startDate !== undefined) {
+            queryParameters['start_date'] = (requestParameters.startDate as any).toISOString();
+        }
+
+        if (requestParameters.endDate !== undefined) {
+            queryParameters['end_date'] = (requestParameters.endDate as any).toISOString();
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -318,8 +341,8 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async getAllDeviceActivities(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetDeviceActivities200Response> {
-        const response = await this.getAllDeviceActivitiesRaw(initOverrides);
+    async getAllDeviceActivities(requestParameters: GetAllDeviceActivitiesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetDeviceActivities200Response> {
+        const response = await this.getAllDeviceActivitiesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -476,6 +499,54 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async getDevices(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetDevices200Response> {
         const response = await this.getDevicesRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getRawAnalyticsRaw(requestParameters: GetRawAnalyticsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetRawAnalytics200Response>> {
+        if (requestParameters.startDate === null || requestParameters.startDate === undefined) {
+            throw new runtime.RequiredError('startDate','Required parameter requestParameters.startDate was null or undefined when calling getRawAnalytics.');
+        }
+
+        if (requestParameters.endDate === null || requestParameters.endDate === undefined) {
+            throw new runtime.RequiredError('endDate','Required parameter requestParameters.endDate was null or undefined when calling getRawAnalytics.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.filterDeviceIds) {
+            queryParameters['filter_device_ids'] = requestParameters.filterDeviceIds;
+        }
+
+        if (requestParameters.filterDeviceCategories) {
+            queryParameters['filter_device_categories'] = requestParameters.filterDeviceCategories;
+        }
+
+        if (requestParameters.startDate !== undefined) {
+            queryParameters['start_date'] = (requestParameters.startDate as any).toISOString();
+        }
+
+        if (requestParameters.endDate !== undefined) {
+            queryParameters['end_date'] = (requestParameters.endDate as any).toISOString();
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/analytics/raw`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetRawAnalytics200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getRawAnalytics(requestParameters: GetRawAnalyticsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetRawAnalytics200Response> {
+        const response = await this.getRawAnalyticsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

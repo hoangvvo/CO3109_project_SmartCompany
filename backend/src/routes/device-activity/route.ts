@@ -13,8 +13,21 @@ export const deviceActivityRouter: FastifyPluginAsyncTypebox = async (
       throw new UnauthorizedError();
     }
 
+    const { filter_device_ids } = request.query;
+
+    const start_date = request.query?.start_date
+      ? new Date(request.query.start_date)
+      : undefined;
+    const end_date = request.query?.end_date
+      ? new Date(request.query?.end_date)
+      : undefined;
+
     const deviceActivities =
-      await deviceActivityRepository.getAllDeviceActivities();
+      await deviceActivityRepository.getAllDeviceActivities({
+        start_date,
+        end_date,
+        filter_device_ids,
+      });
 
     return { deviceActivities };
   });

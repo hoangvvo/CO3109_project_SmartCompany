@@ -2,6 +2,13 @@
 
 import { api } from "@/apis/api";
 import { DeviceCurrentStateEnum } from "@/apis/openapi";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { CalendarDateRangePicker } from "@/components/view/date-range-picker";
 import { PageHeader } from "@/components/view/page-header";
 import { StatCard } from "@/components/view/stat-card";
@@ -10,6 +17,8 @@ import { Activity, MonitorSmartphone, Power, Workflow } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
+import { DeviceLeaderBoard } from "./analytics/_components/device-leaderboard";
+import { DeviceLineChart } from "./analytics/_components/device-line-chart";
 
 export default function HomePage() {
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
@@ -46,8 +55,7 @@ export default function HomePage() {
   return (
     <div className="container">
       <PageHeader
-        title="Home"
-        subtitle="Welcome to SmartCompany"
+        title="Dashboard"
         actions={
           <CalendarDateRangePicker
             dateRange={dateRange}
@@ -84,6 +92,37 @@ export default function HomePage() {
             >
               {dataAnalytics?.aggregated_analytics.activity_count || 0}
             </StatCard>
+          </Link>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+          <Link href="/analytics" className="col-span-4">
+            <Card className="hover:border-primary transition overflow-hidden">
+              <CardHeader>
+                <CardTitle>Energy Overview</CardTitle>
+              </CardHeader>
+              <CardContent className="pl-2" style={{ height: 500 }}>
+                <DeviceLineChart
+                  property="watt_seconds"
+                  dateRange={dateRange}
+                />
+              </CardContent>
+            </Card>
+          </Link>
+          <Link href="/analytics" className="col-span-3">
+            <Card className="flex flex-col hover:border-primary transition overflow-hidden">
+              <CardHeader>
+                <CardTitle>Energy Leaderboard</CardTitle>
+                <CardDescription>
+                  Devices sorted by energy usage
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="flex-1 h-0">
+                <DeviceLeaderBoard
+                  property="watt_seconds"
+                  dateRange={dateRange}
+                />
+              </CardContent>
+            </Card>
           </Link>
         </div>
       </div>

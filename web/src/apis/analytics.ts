@@ -1,12 +1,15 @@
 import { api } from "./api";
+import {
+  GetAggregatedAnalyticsRequest,
+  GetRawAnalyticsRequest,
+} from "./openapi";
 
 export const analyticsApi = {
-  getAggregatedAnalytics(variables: {
-    filter_device_ids?: number[];
-    filter_device_categories?: string[];
-    startDate: Date;
-    endDate: Date;
-  }) {
+  getAggregatedAnalytics(variables: GetAggregatedAnalyticsRequest) {
     return api.getAggregatedAnalytics(variables);
+  },
+
+  getRawAnalytics(variables: GetRawAnalyticsRequest) {
+    return api.getRawAnalytics(variables);
   },
 };

@@ -1,10 +1,6 @@
 import { deviceApi } from "@/apis/device";
 import { parseResponseError } from "@/apis/error";
-import {
-  Device,
-  DeviceCurrentStateEnum,
-  DeviceDeviceCategoryEnum,
-} from "@/apis/openapi";
+import { Device, DeviceCurrentStateEnum } from "@/apis/openapi";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -23,24 +19,10 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { toast } from "@/components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  AirVent,
-  DoorOpen,
-  Fan,
-  FileQuestion,
-  Lightbulb,
-  Thermometer,
-} from "lucide-react";
+import { FileQuestion } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-
-const DEVICE_CATEGORY_TO_ICON = {
-  [DeviceDeviceCategoryEnum.AirConditioner]: AirVent,
-  [DeviceDeviceCategoryEnum.Door]: DoorOpen,
-  [DeviceDeviceCategoryEnum.Fan]: Fan,
-  [DeviceDeviceCategoryEnum.Light]: Lightbulb,
-  [DeviceDeviceCategoryEnum.Thermostat]: Thermometer,
-};
+import { DEVICE_CATEGORY_TO_ICON } from "./constants";
 
 export const DeviceCard: React.FC<{ device: Device }> = ({ device }) => {
   const DeviceIcon =
