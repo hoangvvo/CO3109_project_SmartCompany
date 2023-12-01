@@ -11,6 +11,8 @@ models/CreateDeviceRequest.ts
 models/Device.ts
 models/DeviceActivity.ts
 models/DeviceActivityDevice.ts
+models/GetAggregatedAnalytics200Response.ts
+models/GetAggregatedAnalytics200ResponseAggregatedAnalytics.ts
 models/GetAutomations200Response.ts
 models/GetCurrentUser200Response.ts
 models/GetDeviceActivities200Response.ts

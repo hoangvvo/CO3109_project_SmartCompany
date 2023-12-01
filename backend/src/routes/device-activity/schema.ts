@@ -13,8 +13,8 @@ export const deviceActivitySchema = Type.Object(
     current_state: TypeStringEnum(DeviceStateDbType),
     current_value: TypeNullable(Type.Number()),
     current_extra_data: TypeNullable(Type.Any()),
-    duration_seconds: TypeNullable(Type.Number()),
-    created_at: TypeStringDate(),
+    started_at: TypeStringDate(),
+    ended_at: TypeNullable(TypeStringDate()),
     device: Type.Object({
       name: Type.String(),
     }),

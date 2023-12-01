@@ -61,8 +61,8 @@ export interface DeviceActivityDbObject {
   current_state: DeviceStateType;
   current_value?: number | null;
   current_extra_data?: any | null;
-  duration_seconds?: number | null;
-  created_at: Date;
+  started_at: number;
+  ended_at?: number | null;
 }
 ```
 

@@ -1,3 +1,4 @@
+import { DeviceDeviceCategoryEnum } from "@/apis/openapi";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -23,7 +24,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { DeviceCategoryType } from "@/types/device";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Info } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -37,9 +37,10 @@ const formSchema = z.object({
   description_location: z.string().min(1, {
     message: "Location must be at least 1 character.",
   }),
-  device_category: z.nativeEnum(DeviceCategoryType),
+  device_category: z.nativeEnum(DeviceDeviceCategoryEnum),
   current_value: z.number().nullable(),
   path: z.string(),
+  wattage: z.coerce.number(),
 });
 
 export const DeviceForm: React.FC<{
@@ -53,9 +54,10 @@ export const DeviceForm: React.FC<{
     defaultValues: defaultValues || {
       description: "",
       description_location: "",
-      device_category: DeviceCategoryType.LIGHT,
+      device_category: DeviceDeviceCategoryEnum.Light,
       name: "",
       current_value: null,
+      wattage: 0,
     },
   });
 
@@ -109,6 +111,20 @@ export const DeviceForm: React.FC<{
         />
         <FormField
           control={form.control}
+          name="wattage"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Wattage</FormLabel>
+              <FormControl>
+                <Input {...field} type="number" placeholder="0" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+          disabled={disabled}
+        />
+        <FormField
+          control={form.control}
           name="device_category"
           render={({ field }) => (
             <FormItem>
@@ -124,7 +140,7 @@ export const DeviceForm: React.FC<{
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {Object.values(DeviceCategoryType).map((category) => (
+                    {Object.values(DeviceDeviceCategoryEnum).map((category) => (
                       <SelectItem key={category} value={category}>
                         {category}
                       </SelectItem>

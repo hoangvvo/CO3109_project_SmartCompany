@@ -113,20 +113,67 @@ export const deviceActivityRepository = {
     return res.rows[0];
   },
 
-  async getAllDeviceActivities() {
+  async getAllDeviceActivities(filters?: {
+    filter_device_ids?: number[];
+    filter_device_categories?: string[];
+    start_date?: Date;
+    end_date?: Date;
+  }) {
+    const {
+      filter_device_ids,
+      filter_device_categories,
+      start_date,
+      end_date,
+    } = filters || {};
+
+    // Base SQL query
+    let sql = `SELECT da.*, d.id AS deviceId, d.name, d.wattage FROM device_activity da INNER JOIN device d ON da.device_id = d.id`;
+    const params = [];
+    const conditions = [];
+
+    // Add filters to the query
+    if (filter_device_ids && filter_device_ids.length) {
+      params.push(...filter_device_ids);
+      conditions.push(`d.id = ANY($${params.length})`);
+    }
+
+    if (filter_device_categories && filter_device_categories.length) {
+      params.push(...filter_device_categories);
+      conditions.push(`d.device_category = ANY($${params.length})`);
+    }
+
+    if (start_date) {
+      params.push(start_date);
+      conditions.push(`da.started_at >= $${params.length}`);
+    }
+
+    if (end_date) {
+      params.push(end_date);
+      conditions.push(
+        `(da.ended_at <= $${params.length} OR da.ended_at IS NULL)`,
+      );
+    }
+
+    if (conditions.length) {
+      sql += ` WHERE ${conditions.join(" AND ")}`;
+    }
+
+    sql += ` ORDER BY da.started_at DESC`;
+
     const res = await pool.query<
-      DeviceActivityDbObject & Pick<DeviceDbObject, "name">
-    >(`
-      SELECT device_activity.*, device.name FROM device_activity
-      JOIN device ON device.id = device_activity.device_id
-      ORDER BY device_activity.created_at DESC
-      `);
+      DeviceActivityDbObject &
+        Pick<DeviceDbObject, "name" | "wattage"> & {
+          deviceId: number;
+        }
+    >(sql, params);
 
     return (
       res.rows.map((deviceActivity) => ({
         ...deviceActivity,
         device: {
+          id: deviceActivity.device_id,
           name: deviceActivity.name,
+          wattage: deviceActivity.wattage,
         },
       })) || []
     );
@@ -159,7 +206,7 @@ export const deviceActivityRepository = {
   ) {
     const res = await pool.query<DeviceActivityDbObject>(
       `
-        INSERT INTO device_activity (device_id, current_state, current_value, current_extra_data, duration_seconds)
+        INSERT INTO device_activity (device_id, current_state, current_value, current_extra_data, started_at, ended_at)
         VALUES ($1, $2, $3, $4, $5)
         RETURNING *
         `,
@@ -168,7 +215,8 @@ export const deviceActivityRepository = {
         deviceActivity.current_state,
         deviceActivity.current_value,
         deviceActivity.current_extra_data,
-        deviceActivity.duration_seconds,
+        deviceActivity.started_at,
+        deviceActivity.ended_at,
       ],
     );
 
@@ -181,8 +229,8 @@ export const deviceActivityRepository = {
     const res = await pool.query<DeviceActivityDbObject>(
       `
         UPDATE device_activity
-        SET device_id = $1, current_state = $2, current_value = $3, current_extra_data = $4, duration_seconds = $5
-        WHERE id = $6
+        SET device_id = $1, current_state = $2, current_value = $3, current_extra_data = $4, started_at = $5, ended_at = $6
+        WHERE id = $7
         RETURNING *
         `,
       [
@@ -190,7 +238,8 @@ export const deviceActivityRepository = {
         deviceActivity.current_state,
         deviceActivity.current_value,
         deviceActivity.current_extra_data,
-        deviceActivity.duration_seconds,
+        deviceActivity.started_at,
+        deviceActivity.ended_at,
         deviceActivity.id,
       ],
     );

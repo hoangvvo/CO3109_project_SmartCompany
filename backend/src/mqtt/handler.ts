@@ -30,9 +30,7 @@ export const handleStateMessage = async (topic: string, message: string) => {
     // update last activity with duration
     await deviceActivityRepository.updateDeviceActivity({
       ...lastActivity,
-      duration_seconds: Math.floor(
-        (Date.now() - lastActivity.created_at.getTime()) / 1000,
-      ),
+      ended_at: new Date(),
     });
   }
 
@@ -41,7 +39,8 @@ export const handleStateMessage = async (topic: string, message: string) => {
     current_state: state,
     current_value: value,
     current_extra_data: extra_data,
-    duration_seconds: null,
+    started_at: new Date(),
+    ended_at: null,
   });
 
   console.log("mqtt: created activity", createdActivity);

@@ -22,7 +22,10 @@ export default function ActivityPage() {
 
   return (
     <div className="container">
-      <PageHeader title="Activity" subtitle="All device activities" />
+      <PageHeader
+        title="Activity"
+        subtitle="All your activities in one place"
+      />
       <div className="py-4">
         <Table>
           <TableCaption>A list of your recent device activities.</TableCaption>
@@ -32,7 +35,8 @@ export default function ActivityPage() {
               <TableHead>State</TableHead>
               <TableHead>Value</TableHead>
               <TableHead>Extra data</TableHead>
-              <TableHead>Timestamp</TableHead>
+              <TableHead>Start</TableHead>
+              <TableHead>End</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -43,8 +47,13 @@ export default function ActivityPage() {
                 </TableCell>
                 <TableCell>{activity.current_state}</TableCell>
                 <TableCell>{activity.current_value}</TableCell>
-                <TableCell>{activity.current_extra_data}</TableCell>
-                <TableCell>{String(activity.created_at)}</TableCell>
+                <TableCell>
+                  {JSON.stringify(activity.current_extra_data)}
+                </TableCell>
+                <TableCell>{String(activity.started_at)}</TableCell>
+                <TableCell>
+                  {activity.ended_at ? String(activity.ended_at) : ""}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -55,6 +55,12 @@ export interface CreateDeviceRequest {
      * @memberof CreateDeviceRequest
      */
     current_value: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateDeviceRequest
+     */
+    wattage: number | null;
 }
 
 
@@ -80,6 +86,7 @@ export function instanceOfCreateDeviceRequest(value: object): boolean {
     isInstance = isInstance && "path" in value;
     isInstance = isInstance && "device_category" in value;
     isInstance = isInstance && "current_value" in value;
+    isInstance = isInstance && "wattage" in value;
 
     return isInstance;
 }
@@ -100,6 +107,7 @@ export function CreateDeviceRequestFromJSONTyped(json: any, ignoreDiscriminator:
         'description_location': !exists(json, 'description_location') ? undefined : json['description_location'],
         'device_category': json['device_category'],
         'current_value': json['current_value'],
+        'wattage': json['wattage'],
     };
 }
 
@@ -118,6 +126,7 @@ export function CreateDeviceRequestToJSON(value?: CreateDeviceRequest | null): a
         'description_location': value.description_location,
         'device_category': value.device_category,
         'current_value': value.current_value,
+        'wattage': value.wattage,
     };
 }
 

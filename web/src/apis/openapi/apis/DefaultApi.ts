@@ -19,6 +19,7 @@ import type {
   CreateAutomationRequest,
   CreateDevice200Response,
   CreateDeviceRequest,
+  GetAggregatedAnalytics200Response,
   GetAutomations200Response,
   GetCurrentUser200Response,
   GetDeviceActivities200Response,
@@ -40,6 +41,8 @@ import {
     CreateDevice200ResponseToJSON,
     CreateDeviceRequestFromJSON,
     CreateDeviceRequestToJSON,
+    GetAggregatedAnalytics200ResponseFromJSON,
+    GetAggregatedAnalytics200ResponseToJSON,
     GetAutomations200ResponseFromJSON,
     GetAutomations200ResponseToJSON,
     GetCurrentUser200ResponseFromJSON,
@@ -80,6 +83,13 @@ export interface DeleteDeviceRequest {
     deviceId: number;
 }
 
+export interface GetAggregatedAnalyticsRequest {
+    startDate: Date;
+    endDate: Date;
+    filterDeviceIds?: Array<number>;
+    filterDeviceCategories?: Array<string>;
+}
+
 export interface GetAutomationRequest {
     automationId: number;
 }
@@ -109,7 +119,7 @@ export interface UpdateAutomationOperationRequest {
 
 export interface UpdateDeviceOperationRequest {
     deviceId: number;
-    updateDeviceRequest?: UpdateDeviceRequest;
+    updateDeviceRequest: UpdateDeviceRequest;
 }
 
 export interface UserLoginOperationRequest {
@@ -239,6 +249,54 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async deleteDevice(requestParameters: DeleteDeviceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteDeviceRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async getAggregatedAnalyticsRaw(requestParameters: GetAggregatedAnalyticsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetAggregatedAnalytics200Response>> {
+        if (requestParameters.startDate === null || requestParameters.startDate === undefined) {
+            throw new runtime.RequiredError('startDate','Required parameter requestParameters.startDate was null or undefined when calling getAggregatedAnalytics.');
+        }
+
+        if (requestParameters.endDate === null || requestParameters.endDate === undefined) {
+            throw new runtime.RequiredError('endDate','Required parameter requestParameters.endDate was null or undefined when calling getAggregatedAnalytics.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.filterDeviceIds) {
+            queryParameters['filter_device_ids'] = requestParameters.filterDeviceIds;
+        }
+
+        if (requestParameters.filterDeviceCategories) {
+            queryParameters['filter_device_categories'] = requestParameters.filterDeviceCategories;
+        }
+
+        if (requestParameters.startDate !== undefined) {
+            queryParameters['start_date'] = (requestParameters.startDate as any).toISOString();
+        }
+
+        if (requestParameters.endDate !== undefined) {
+            queryParameters['end_date'] = (requestParameters.endDate as any).toISOString();
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/analytics/aggregate`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetAggregatedAnalytics200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getAggregatedAnalytics(requestParameters: GetAggregatedAnalyticsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetAggregatedAnalytics200Response> {
+        const response = await this.getAggregatedAnalyticsRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
@@ -530,6 +588,10 @@ export class DefaultApi extends runtime.BaseAPI {
     async updateDeviceRaw(requestParameters: UpdateDeviceOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateDevice200Response>> {
         if (requestParameters.deviceId === null || requestParameters.deviceId === undefined) {
             throw new runtime.RequiredError('deviceId','Required parameter requestParameters.deviceId was null or undefined when calling updateDevice.');
+        }
+
+        if (requestParameters.updateDeviceRequest === null || requestParameters.updateDeviceRequest === undefined) {
+            throw new runtime.RequiredError('updateDeviceRequest','Required parameter requestParameters.updateDeviceRequest was null or undefined when calling updateDevice.');
         }
 
         const queryParameters: any = {};

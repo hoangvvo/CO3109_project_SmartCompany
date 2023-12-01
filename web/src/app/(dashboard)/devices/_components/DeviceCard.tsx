@@ -1,5 +1,10 @@
 import { deviceApi } from "@/apis/device";
 import { parseResponseError } from "@/apis/error";
+import {
+  Device,
+  DeviceCurrentStateEnum,
+  DeviceDeviceCategoryEnum,
+} from "@/apis/openapi";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -17,7 +22,6 @@ import {
 } from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "@/components/ui/use-toast";
-import { Device, DeviceCategoryType, DeviceStateType } from "@/types/device";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   AirVent,
@@ -31,11 +35,11 @@ import Link from "next/link";
 import { useState } from "react";
 
 const DEVICE_CATEGORY_TO_ICON = {
-  [DeviceCategoryType.AIR_CONDITIONER]: AirVent,
-  [DeviceCategoryType.DOOR]: DoorOpen,
-  [DeviceCategoryType.FAN]: Fan,
-  [DeviceCategoryType.LIGHT]: Lightbulb,
-  [DeviceCategoryType.THERMOSTAT]: Thermometer,
+  [DeviceDeviceCategoryEnum.AirConditioner]: AirVent,
+  [DeviceDeviceCategoryEnum.Door]: DoorOpen,
+  [DeviceDeviceCategoryEnum.Fan]: Fan,
+  [DeviceDeviceCategoryEnum.Light]: Lightbulb,
+  [DeviceDeviceCategoryEnum.Thermostat]: Thermometer,
 };
 
 export const DeviceCard: React.FC<{ device: Device }> = ({ device }) => {
@@ -70,7 +74,7 @@ export const DeviceCard: React.FC<{ device: Device }> = ({ device }) => {
   const onStateToggle = (checked: boolean) => {
     mutation.mutate({
       id: device.id,
-      state: checked ? DeviceStateType.ON : DeviceStateType.OFF,
+      state: checked ? DeviceCurrentStateEnum.On : DeviceCurrentStateEnum.Off,
       value: device.current_value,
     });
   };
@@ -96,7 +100,7 @@ export const DeviceCard: React.FC<{ device: Device }> = ({ device }) => {
           </div>
           <DeviceIcon
             className={`w-8 h-8 ${
-              device.current_state === DeviceStateType.ON
+              device.current_state === DeviceCurrentStateEnum.On
                 ? "text-primary"
                 : "text-muted-foreground"
             }`}
@@ -113,7 +117,7 @@ export const DeviceCard: React.FC<{ device: Device }> = ({ device }) => {
         <div className="flex flex-col justify-center items-center gap-2">
           <p className="text-secondary-foreground text-lg opacity-75">Power</p>
           <Switch
-            checked={device.current_state === DeviceStateType.ON}
+            checked={device.current_state === DeviceCurrentStateEnum.On}
             disabled={mutation.isPending}
             className="w-10 h-6"
             onCheckedChange={onStateToggle}

@@ -56,6 +56,7 @@ export const devicesPostSchema = {
     description_location: Type.Optional(TypeNullable(Type.String())),
     device_category: TypeStringEnum(DeviceCategoryDbType),
     current_value: TypeNullable(Type.Number()),
+    wattage: TypeNullable(Type.Number()),
   }),
   response: {
     200: Type.Object({
@@ -88,6 +89,7 @@ export const devicePutSchema = {
     description_location: Type.Optional(TypeNullable(Type.String())),
     device_category: Type.Optional(TypeStringEnum(DeviceCategoryDbType)),
     current_value: TypeNullable(Type.Number()),
+    wattage: TypeNullable(Type.Number()),
   }),
   response: {
     200: Type.Object({

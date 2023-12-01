@@ -58,16 +58,16 @@ export interface DeviceActivity {
     current_extra_data: any | null;
     /**
      * 
-     * @type {number}
+     * @type {Date}
      * @memberof DeviceActivity
      */
-    duration_seconds: number | null;
+    started_at: Date;
     /**
      * 
      * @type {Date}
      * @memberof DeviceActivity
      */
-    created_at: Date;
+    ended_at: Date | null;
     /**
      * 
      * @type {DeviceActivityDevice}
@@ -97,8 +97,8 @@ export function instanceOfDeviceActivity(value: object): boolean {
     isInstance = isInstance && "current_state" in value;
     isInstance = isInstance && "current_value" in value;
     isInstance = isInstance && "current_extra_data" in value;
-    isInstance = isInstance && "duration_seconds" in value;
-    isInstance = isInstance && "created_at" in value;
+    isInstance = isInstance && "started_at" in value;
+    isInstance = isInstance && "ended_at" in value;
     isInstance = isInstance && "device" in value;
 
     return isInstance;
@@ -119,8 +119,8 @@ export function DeviceActivityFromJSONTyped(json: any, ignoreDiscriminator: bool
         'current_state': json['current_state'],
         'current_value': json['current_value'],
         'current_extra_data': json['current_extra_data'],
-        'duration_seconds': json['duration_seconds'],
-        'created_at': (new Date(json['created_at'])),
+        'started_at': (new Date(json['started_at'])),
+        'ended_at': (json['ended_at'] === null ? null : new Date(json['ended_at'])),
         'device': DeviceActivityDeviceFromJSON(json['device']),
     };
 }
@@ -139,8 +139,8 @@ export function DeviceActivityToJSON(value?: DeviceActivity | null): any {
         'current_state': value.current_state,
         'current_value': value.current_value,
         'current_extra_data': value.current_extra_data,
-        'duration_seconds': value.duration_seconds,
-        'created_at': (value.created_at.toISOString()),
+        'started_at': (value.started_at.toISOString()),
+        'ended_at': (value.ended_at === null ? null : value.ended_at.toISOString()),
         'device': DeviceActivityDeviceToJSON(value.device),
     };
 }

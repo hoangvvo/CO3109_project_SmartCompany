@@ -46,6 +46,7 @@ export interface DeviceDbObject {
    * JSON object for extra data. For example, the temperature and humidity for a thermostat.
    */
   current_extra_data: any | null;
+  wattage: number | null;
 }
 
 export interface DeviceActivityDbObject {
@@ -54,8 +55,8 @@ export interface DeviceActivityDbObject {
   current_state: DeviceStateDbType;
   current_value: number | null;
   current_extra_data: any | null;
-  duration_seconds: number | null;
-  created_at: Date;
+  started_at: Date;
+  ended_at: Date | null;
 }
 
 export enum LogicalOperatorDbType {

@@ -9,6 +9,8 @@ export * from './CreateDeviceRequest';
 export * from './Device';
 export * from './DeviceActivity';
 export * from './DeviceActivityDevice';
+export * from './GetAggregatedAnalytics200Response';
+export * from './GetAggregatedAnalytics200ResponseAggregatedAnalytics';
 export * from './GetAutomations200Response';
 export * from './GetCurrentUser200Response';
 export * from './GetDeviceActivities200Response';

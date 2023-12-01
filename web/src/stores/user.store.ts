@@ -1,5 +1,5 @@
+import { User } from "@/apis/openapi";
 import { userApi } from "@/apis/user";
-import { User } from "@/types/user";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 

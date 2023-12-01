@@ -49,6 +49,18 @@ export interface UpdateDeviceRequest {
      * @memberof UpdateDeviceRequest
      */
     device_category?: UpdateDeviceRequestDeviceCategoryEnum;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateDeviceRequest
+     */
+    current_value: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateDeviceRequest
+     */
+    wattage: number | null;
 }
 
 
@@ -70,6 +82,8 @@ export type UpdateDeviceRequestDeviceCategoryEnum = typeof UpdateDeviceRequestDe
  */
 export function instanceOfUpdateDeviceRequest(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "current_value" in value;
+    isInstance = isInstance && "wattage" in value;
 
     return isInstance;
 }
@@ -89,6 +103,8 @@ export function UpdateDeviceRequestFromJSONTyped(json: any, ignoreDiscriminator:
         'description': !exists(json, 'description') ? undefined : json['description'],
         'description_location': !exists(json, 'description_location') ? undefined : json['description_location'],
         'device_category': !exists(json, 'device_category') ? undefined : json['device_category'],
+        'current_value': json['current_value'],
+        'wattage': json['wattage'],
     };
 }
 
@@ -106,6 +122,8 @@ export function UpdateDeviceRequestToJSON(value?: UpdateDeviceRequest | null): a
         'description': value.description,
         'description_location': value.description_location,
         'device_category': value.device_category,
+        'current_value': value.current_value,
+        'wattage': value.wattage,
     };
 }
 

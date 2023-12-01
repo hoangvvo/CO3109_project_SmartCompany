@@ -4,6 +4,7 @@ import { PORT } from "./constants/environments.js";
 import { registerMQTTHandler } from "./mqtt/handler.js";
 import { authentication } from "./plugins/auth.js";
 import { schemaSetup } from "./plugins/schema.js";
+import { analyticsRouter } from "./routes/analytics/route.js";
 import { automationRouter } from "./routes/automation/route.js";
 import { deviceActivityRouter } from "./routes/device-activity/route.js";
 import { deviceRouter } from "./routes/device/route.js";
@@ -31,6 +32,10 @@ await app.register(deviceActivityRouter, {
 
 await app.register(automationRouter, {
   prefix: "/automations",
+});
+
+await app.register(analyticsRouter, {
+  prefix: "/analytics",
 });
 
 registerMQTTHandler();

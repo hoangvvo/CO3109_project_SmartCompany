@@ -46,6 +46,7 @@ export const deviceRouter: FastifyPluginAsyncTypebox = async (fastify) => {
       description_location,
       device_category,
       current_value,
+      wattage,
     } = request.body;
 
     const createdDevice = await deviceRepository.createDevice({
@@ -58,6 +59,7 @@ export const deviceRouter: FastifyPluginAsyncTypebox = async (fastify) => {
       current_state: DeviceStateDbType.OFF,
       current_value,
       current_extra_data: null,
+      wattage: wattage ?? null,
     });
 
     return { device: createdDevice };
@@ -91,6 +93,7 @@ export const deviceRouter: FastifyPluginAsyncTypebox = async (fastify) => {
       description_location,
       device_category,
       current_value,
+      wattage,
     } = request.body;
 
     const device = await deviceRepository.getDeviceById(
@@ -109,6 +112,7 @@ export const deviceRouter: FastifyPluginAsyncTypebox = async (fastify) => {
       ...(description_location !== undefined && { description_location }),
       ...(device_category !== undefined && { device_category }),
       ...(current_value !== undefined && { current_value }),
+      ...(wattage !== undefined && { wattage }),
     });
 
     return { device: updatedDevice };
