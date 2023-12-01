@@ -17,12 +17,13 @@ import { useUserStore } from "@/stores/user.store";
 import "@/styles/globals.css";
 import { QueryClient } from "@tanstack/react-query";
 import {
-  CreditCard,
-  Files,
+  Activity,
   Home,
   LucideIcon,
-  Printer,
+  MonitorSmartphone,
   Settings,
+  Users,
+  Workflow,
 } from "lucide-react";
 import { Inter as FontSans } from "next/font/google";
 import Link from "next/link";
@@ -33,26 +34,6 @@ export const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
-
-const NavbarLink: React.FC<{ href: string; children: string }> = ({
-  href,
-  children,
-}) => {
-  const pathname = usePathname();
-
-  return (
-    <Link
-      href={href}
-      className={`text-sm font-medium ${
-        pathname === href
-          ? "text-secondary-foreground"
-          : "text-muted-foreground"
-      } transition-colors hover:text-primary`}
-    >
-      {children}
-    </Link>
-  );
-};
 
 const NavbarUser: React.FC = () => {
   const { user } = useUserStore();
@@ -175,7 +156,7 @@ const Sidebar: React.FC = () => {
           Devices
         </h2>
         <div className="space-y-1 flex flex-col">
-          <SidebarItem href="/printers" Icon={Printer}>
+          <SidebarItem href="/devices" Icon={MonitorSmartphone}>
             All Devices
           </SidebarItem>
         </div>
@@ -185,7 +166,7 @@ const Sidebar: React.FC = () => {
           Activities
         </h2>
         <div className="space-y-1 flex flex-col">
-          <SidebarItem href="/activity" Icon={Files}>
+          <SidebarItem href="/activity" Icon={Activity}>
             All Activites
           </SidebarItem>
         </div>
@@ -195,7 +176,7 @@ const Sidebar: React.FC = () => {
           Automations
         </h2>
         <div className="space-y-1 flex flex-col">
-          <SidebarItem href="/team" Icon={CreditCard}>
+          <SidebarItem href="/automation" Icon={Workflow}>
             All Automation
           </SidebarItem>
         </div>
@@ -205,7 +186,7 @@ const Sidebar: React.FC = () => {
           Accounts
         </h2>
         <div className="space-y-1 flex flex-col">
-          <SidebarItem href="/team" Icon={CreditCard}>
+          <SidebarItem href="/team" Icon={Users}>
             My Team
           </SidebarItem>
           <SidebarItem href="/settings" Icon={Settings}>

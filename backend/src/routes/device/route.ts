@@ -19,6 +19,8 @@ import {
   devicesPostSchema,
 } from "./schema.js";
 
+const DEVICE_CHANGE_TIMEOUT = 7000;
+
 export const deviceRouter: FastifyPluginAsyncTypebox = async (fastify) => {
   fastify.addHook("onRequest", fastify.auth);
 
@@ -37,8 +39,14 @@ export const deviceRouter: FastifyPluginAsyncTypebox = async (fastify) => {
       throw new UnauthorizedError();
     }
 
-    const { name, path, description, description_location, device_category } =
-      request.body;
+    const {
+      name,
+      path,
+      description,
+      description_location,
+      device_category,
+      current_value,
+    } = request.body;
 
     const createdDevice = await deviceRepository.createDevice({
       user_id: request.user.id,
@@ -48,7 +56,7 @@ export const deviceRouter: FastifyPluginAsyncTypebox = async (fastify) => {
       description_location: description_location ?? null,
       device_category,
       current_state: DeviceStateDbType.OFF,
-      current_value: null,
+      current_value,
       current_extra_data: null,
     });
 
@@ -76,8 +84,14 @@ export const deviceRouter: FastifyPluginAsyncTypebox = async (fastify) => {
       throw new UnauthorizedError();
     }
 
-    const { name, path, description, description_location, device_category } =
-      request.body;
+    const {
+      name,
+      path,
+      description,
+      description_location,
+      device_category,
+      current_value,
+    } = request.body;
 
     const device = await deviceRepository.getDeviceById(
       request.params.deviceId,
@@ -94,6 +108,7 @@ export const deviceRouter: FastifyPluginAsyncTypebox = async (fastify) => {
       ...(description !== undefined && { description }),
       ...(description_location !== undefined && { description_location }),
       ...(device_category !== undefined && { device_category }),
+      ...(current_value !== undefined && { current_value }),
     });
 
     return { device: updatedDevice };
@@ -169,7 +184,7 @@ export const deviceRouter: FastifyPluginAsyncTypebox = async (fastify) => {
       const promise = new Promise((resolve, reject) => {
         const timeout = setTimeout(() => {
           reject(new StateSetTimeoutError());
-        });
+        }, DEVICE_CHANGE_TIMEOUT);
 
         const listener = (topic: string, message: Buffer) => {
           if (topic !== MQTTTopic.DeviceStateChanged) {

@@ -49,6 +49,12 @@ export interface CreateDeviceRequest {
      * @memberof CreateDeviceRequest
      */
     device_category: CreateDeviceRequestDeviceCategoryEnum;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateDeviceRequest
+     */
+    current_value: number | null;
 }
 
 
@@ -73,6 +79,7 @@ export function instanceOfCreateDeviceRequest(value: object): boolean {
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "path" in value;
     isInstance = isInstance && "device_category" in value;
+    isInstance = isInstance && "current_value" in value;
 
     return isInstance;
 }
@@ -92,6 +99,7 @@ export function CreateDeviceRequestFromJSONTyped(json: any, ignoreDiscriminator:
         'description': !exists(json, 'description') ? undefined : json['description'],
         'description_location': !exists(json, 'description_location') ? undefined : json['description_location'],
         'device_category': json['device_category'],
+        'current_value': json['current_value'],
     };
 }
 
@@ -109,6 +117,7 @@ export function CreateDeviceRequestToJSON(value?: CreateDeviceRequest | null): a
         'description': value.description,
         'description_location': value.description_location,
         'device_category': value.device_category,
+        'current_value': value.current_value,
     };
 }
 

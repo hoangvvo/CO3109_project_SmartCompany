@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { PageHeader } from "@/components/view/page-header";
 import { useQuery } from "@tanstack/react-query";
 
 export default function ActivityPage() {
@@ -21,12 +22,7 @@ export default function ActivityPage() {
 
   return (
     <div className="container">
-      <div className="flex py-4 justify-between items-center">
-        <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">Activities</h2>
-          <p className="text-muted-foreground">All device activities</p>
-        </div>
-      </div>
+      <PageHeader title="Activity" subtitle="All device activities" />
       <div className="py-4">
         <Table>
           <TableCaption>A list of your recent device activities.</TableCaption>

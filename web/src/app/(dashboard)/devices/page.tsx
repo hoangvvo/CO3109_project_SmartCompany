@@ -1,6 +1,7 @@
 "use client";
 
 import { deviceApi } from "@/apis/device";
+import { PageHeader } from "@/components/view/page-header";
 import { Device } from "@/types/device";
 import { useQuery } from "@tanstack/react-query";
 import { AddDevice } from "./_components/AddDevice";
@@ -15,19 +16,15 @@ export default function DevicesPage() {
 
   return (
     <div className="container">
-      <div className="flex py-4 justify-between items-center">
-        <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">Devices</h2>
-          <p className="text-muted-foreground">
-            Manage all your devices in the company
-          </p>
-        </div>
-        <AddDevice />
-      </div>
+      <PageHeader
+        title="Devices"
+        subtitle="Manage all your devices in the company"
+        actions={<AddDevice />}
+      />
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
         {data?.devices.map((device) => (
-          <DeviceCard key={device.id} device={device as Device} />
+          <DeviceCard device={device as Device} key={device.id} />
         ))}
       </div>
     </div>
