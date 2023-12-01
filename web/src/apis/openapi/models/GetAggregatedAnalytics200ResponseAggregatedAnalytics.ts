@@ -55,6 +55,18 @@ export interface GetAggregatedAnalytics200ResponseAggregatedAnalytics {
      * @memberof GetAggregatedAnalytics200ResponseAggregatedAnalytics
      */
     watt_seconds_compare: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetAggregatedAnalytics200ResponseAggregatedAnalytics
+     */
+    activity_count: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetAggregatedAnalytics200ResponseAggregatedAnalytics
+     */
+    activity_count_compare: number;
 }
 
 /**
@@ -68,6 +80,8 @@ export function instanceOfGetAggregatedAnalytics200ResponseAggregatedAnalytics(v
     isInstance = isInstance && "count_compare" in value;
     isInstance = isInstance && "watt_seconds" in value;
     isInstance = isInstance && "watt_seconds_compare" in value;
+    isInstance = isInstance && "activity_count" in value;
+    isInstance = isInstance && "activity_count_compare" in value;
 
     return isInstance;
 }
@@ -88,6 +102,8 @@ export function GetAggregatedAnalytics200ResponseAggregatedAnalyticsFromJSONType
         'count_compare': json['count_compare'],
         'watt_seconds': json['watt_seconds'],
         'watt_seconds_compare': json['watt_seconds_compare'],
+        'activity_count': json['activity_count'],
+        'activity_count_compare': json['activity_count_compare'],
     };
 }
 
@@ -106,6 +122,8 @@ export function GetAggregatedAnalytics200ResponseAggregatedAnalyticsToJSON(value
         'count_compare': value.count_compare,
         'watt_seconds': value.watt_seconds,
         'watt_seconds_compare': value.watt_seconds_compare,
+        'activity_count': value.activity_count,
+        'activity_count_compare': value.activity_count_compare,
     };
 }
 

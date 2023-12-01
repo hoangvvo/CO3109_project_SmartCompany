@@ -169,7 +169,7 @@ export const DeviceForm: React.FC<{
                       <p>
                         The device has a controllable value, such as
                         <br />
-                        level of a fan or brightness of a light.
+                        temperature of an AC or brightness of a light.
                       </p>
                     </TooltipContent>
                   </Tooltip>

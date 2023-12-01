@@ -65,6 +65,8 @@ export const analyticsRouter: FastifyPluginAsyncTypebox = async (fastify) => {
           count_compare,
           on_duration_compare,
           watt_seconds_compare,
+          activity_count: deviceActivities.length,
+          activity_count_compare: deviceActivitiesCompare.length,
         },
       };
     },

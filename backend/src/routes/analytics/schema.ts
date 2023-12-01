@@ -9,6 +9,8 @@ export const aggregatedAnalyticsSchema = Type.Object({
   count_compare: Type.Number(),
   watt_seconds: Type.Number(), // in watts
   watt_seconds_compare: Type.Number(), // in watts
+  activity_count: Type.Number(),
+  activity_count_compare: Type.Number(),
 });
 
 export const aggregatedAnalyticsGetSchema = {
