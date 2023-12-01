@@ -127,7 +127,7 @@ export const deviceActivityRepository = {
 
     // Add filters to the query
     if (filter_device_ids && filter_device_ids.length) {
-      params.push(...filter_device_ids);
+      params.push(filter_device_ids);
       conditions.push(`d.id = ANY($${params.length})`);
     }
 

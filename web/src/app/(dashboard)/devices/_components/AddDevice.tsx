@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/sheet";
 import { toast } from "@/components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 import { DeviceForm } from "./DeviceForm";
 
@@ -45,7 +46,10 @@ export const AddDevice: React.FC = () => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button>Add device</Button>
+        <Button>
+          <Plus />
+          Add device
+        </Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

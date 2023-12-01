@@ -17,7 +17,7 @@ export const StatCard: FC<{
   }, []);
 
   const percentage =
-    typeof previous === "number"
+    typeof previous === "number" && previous !== 0
       ? ((children - previous) / previous) * 100
       : undefined;
 

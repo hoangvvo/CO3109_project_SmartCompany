@@ -16,12 +16,16 @@ import { useQuery } from "@tanstack/react-query";
 import { Activity, Clock, MonitorSmartphone, PlugZap } from "lucide-react";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
+import { DeviceFilters } from "../devices/_components/DeviceFilters";
 import { DeviceLeaderBoard } from "./_components/device-leaderboard";
 import { DeviceLineChart } from "./_components/device-line-chart";
 import { toHours, toKiloWattHours } from "./utils";
 
 export default function AnalyticsPage() {
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
+  const [filterDeviceIds, setFilterDeviceIds] = useState<number[] | undefined>(
+    undefined,
+  );
 
   const { data: dataAnalytics } = useQuery({
     queryKey: [
@@ -30,6 +34,7 @@ export default function AnalyticsPage() {
       {
         startDate: dateRange?.from?.toJSON(),
         endDate: dateRange?.to?.toJSON(),
+        filterDeviceIds,
       },
     ],
     queryFn: () =>
@@ -37,6 +42,7 @@ export default function AnalyticsPage() {
         ? api.getAggregatedAnalytics({
             startDate: dateRange.from,
             endDate: dateRange.to,
+            filterDeviceIds,
           })
         : null,
     enabled: !!dateRange?.from && !!dateRange.to,
@@ -47,10 +53,16 @@ export default function AnalyticsPage() {
       <PageHeader
         title="Analytics"
         actions={
-          <CalendarDateRangePicker
-            dateRange={dateRange}
-            setDateRange={setDateRange}
-          />
+          <>
+            <DeviceFilters
+              filterDeviceIds={filterDeviceIds}
+              setFilterDeviceIds={setFilterDeviceIds}
+            />
+            <CalendarDateRangePicker
+              dateRange={dateRange}
+              setDateRange={setDateRange}
+            />
+          </>
         }
       />
       <div className="mt-2 flex flex-col gap-4">
@@ -111,6 +123,7 @@ export default function AnalyticsPage() {
                   <DeviceLineChart
                     property="watt_seconds"
                     dateRange={dateRange}
+                    filterDeviceIds={filterDeviceIds}
                   />
                 </CardContent>
               </Card>
@@ -125,6 +138,7 @@ export default function AnalyticsPage() {
                   <DeviceLeaderBoard
                     property="watt_seconds"
                     dateRange={dateRange}
+                    filterDeviceIds={filterDeviceIds}
                   />
                 </CardContent>
               </Card>

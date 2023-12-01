@@ -28,6 +28,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Info } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { DEVICE_CATEGORY_ENUM_TO_LABEL } from "./constants";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -101,6 +102,13 @@ export const DeviceForm: React.FC<{
                     <SelectItem value="P1">Pin P1</SelectItem>
                     <SelectItem value="P2">Pin P2</SelectItem>
                     <SelectItem value="P3">Pin P3</SelectItem>
+                    <SelectItem value="P4">Pin P4</SelectItem>
+                    <SelectItem value="P5">Pin P5</SelectItem>
+                    <SelectItem value="P6">Pin P6</SelectItem>
+                    <SelectItem value="P7">Pin P7</SelectItem>
+                    <SelectItem value="P8">Pin P8</SelectItem>
+                    <SelectItem value="P9">Pin P9</SelectItem>
+                    <SelectItem value="P10">Pin P10</SelectItem>
                   </SelectContent>
                 </Select>
               </FormControl>
@@ -142,7 +150,7 @@ export const DeviceForm: React.FC<{
                   <SelectContent>
                     {Object.values(DeviceDeviceCategoryEnum).map((category) => (
                       <SelectItem key={category} value={category}>
-                        {category}
+                        {DEVICE_CATEGORY_ENUM_TO_LABEL[category]}
                       </SelectItem>
                     ))}
                   </SelectContent>

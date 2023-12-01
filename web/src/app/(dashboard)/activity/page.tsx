@@ -9,14 +9,35 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { CalendarDateRangePicker } from "@/components/view/date-range-picker";
 import { PageHeader } from "@/components/view/page-header";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
+import { useState } from "react";
+import { DateRange } from "react-day-picker";
+import { DeviceFilters } from "../devices/_components/DeviceFilters";
 
 export default function ActivityPage() {
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
+  const [filterDeviceIds, setFilterDeviceIds] = useState<number[] | undefined>(
+    undefined,
+  );
+
   const { data } = useQuery({
-    queryKey: ["device_activities"],
-    queryFn: deviceActivityApi.getAllDeviceActivities,
+    queryKey: [
+      "device_activities",
+      {
+        startDate: dateRange?.from?.toJSON(),
+        endDate: dateRange?.to?.toJSON(),
+        filterDeviceIds,
+      },
+    ],
+    queryFn: () =>
+      deviceActivityApi.getAllDeviceActivities({
+        startDate: dateRange?.from,
+        endDate: dateRange?.to,
+        filterDeviceIds,
+      }),
     refetchInterval: 5000,
   });
 
@@ -25,6 +46,18 @@ export default function ActivityPage() {
       <PageHeader
         title="Activity"
         subtitle="All your activities in one place"
+        actions={
+          <>
+            <DeviceFilters
+              filterDeviceIds={filterDeviceIds}
+              setFilterDeviceIds={setFilterDeviceIds}
+            />
+            <CalendarDateRangePicker
+              dateRange={dateRange}
+              setDateRange={setDateRange}
+            />
+          </>
+        }
       />
       <div className="py-4">
         <Table>

@@ -1,13 +1,13 @@
 BEGIN;
-INSERT INTO app_user(id, email, password_hash, name, image_url, created_at)
-  VALUES (1, 'hoang.vo@hcmut.edu.vn', '$argon2id$v=19$m=65536,t=3,p=4$Bx3ivHFr3BbLAPzawq+esw$j8t1Zt2h9CV/myumG1TS6lBsc9WWQnp6EopgdXN/Ce0', 'Hoang Vo', 'https://avatars.githubusercontent.com/u/1004115?v=4', '2023-01-01 00:00:00');
+INSERT INTO app_user(email, password_hash, name, image_url, created_at)
+  VALUES ('hoang.vo@hcmut.edu.vn', '$argon2id$v=19$m=65536,t=3,p=4$Bx3ivHFr3BbLAPzawq+esw$j8t1Zt2h9CV/myumG1TS6lBsc9WWQnp6EopgdXN/Ce0', 'Hoang Vo', 'https://avatars.githubusercontent.com/u/1004115?v=4', '2023-01-01 00:00:00');
 --- device
-INSERT INTO device(id, user_id, name, path, description, description_location, device_category, created_at, current_state, current_value, current_extra_data, wattage)
-  VALUES (1, 1, 'Meeting Room Light', 'P1', 'The light in the meeting room', 'Meeting Room', 'light', '2023-11-01 00:00:00', 'off', NULL, NULL, 60),
-(2, 1, 'Central AC', 'P2', 'The air conditioner in the office', 'Office', 'air_conditioner', '2023-11-01 00:00:00', 'off', 24, NULL, 3500),
-(3, 1, 'Fan 1', 'P3', 'The fan in the hallway', 'Hallway', 'fan', '2023-11-01 00:00:00', 'off', 0, NULL, 75),
-(4, 1, 'Door A', 'P4', 'The door in the basement', 'Basement', 'door', '2023-11-01 00:00:00', 'off', NULL, NULL, 175),
-(5, 1, 'Thermostat C', 'P5', 'The thermostat in the office', 'Office', 'thermostat', '2023-11-01 00:00:00', 'off', 21, '{"temperature": 24, "humidity": 0.3}', 2400);
+INSERT INTO device(user_id, name, path, description, description_location, device_category, created_at, current_state, current_value, current_extra_data, wattage)
+  VALUES (1, 'Meeting Room Light', 'P1', 'The light in the meeting room', 'Meeting Room', 'light', '2023-11-01 00:00:00', 'off', NULL, NULL, 60),
+(1, 'Central AC', 'P2', 'The air conditioner in the office', 'Office', 'air_conditioner', '2023-11-01 00:00:00', 'off', 24, NULL, 3500),
+(1, 'Fan 1', 'P3', 'The fan in the hallway', 'Hallway', 'fan', '2023-11-01 00:00:00', 'off', 0, NULL, 75),
+(1, 'Door A', 'P4', 'The door in the basement', 'Basement', 'door', '2023-11-01 00:00:00', 'off', NULL, NULL, 175),
+(1, 'Thermostat C', 'P5', 'The thermostat in the office', 'Office', 'thermostat', '2023-11-01 00:00:00', 'off', 21, '{"temperature": 24, "humidity": 0.3}', 2400);
 --- device_activity
 ----- Meeting Room Light
 INSERT INTO device_activity(device_id, current_state, started_at, ended_at)

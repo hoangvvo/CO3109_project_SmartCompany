@@ -10,7 +10,8 @@ import { toHours, toKiloWattHours } from "../utils";
 export const DeviceLeaderBoard: FC<{
   property: "on_duration" | "watt_seconds";
   dateRange: DateRange | undefined;
-}> = ({ property, dateRange }) => {
+  filterDeviceIds?: number[];
+}> = ({ property, dateRange, filterDeviceIds }) => {
   const { data: dataAnalytics } = useQuery({
     queryKey: [
       "analytics",
@@ -18,6 +19,7 @@ export const DeviceLeaderBoard: FC<{
       {
         startDate: dateRange?.from?.toJSON(),
         endDate: dateRange?.to?.toJSON(),
+        filterDeviceIds,
       },
     ],
     queryFn: () =>
@@ -25,6 +27,7 @@ export const DeviceLeaderBoard: FC<{
         ? api.getAggregatedAnalytics({
             startDate: dateRange.from,
             endDate: dateRange.to,
+            filterDeviceIds,
           })
         : null,
     enabled: !!dateRange?.from && !!dateRange.to,

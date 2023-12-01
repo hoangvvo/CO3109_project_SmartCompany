@@ -20,7 +20,8 @@ import { toHours, toKiloWattHours } from "../utils";
 export const DeviceLineChart: FC<{
   dateRange: DateRange | undefined;
   property: "on_duration" | "watt_seconds";
-}> = ({ dateRange, property }) => {
+  filterDeviceIds?: number[];
+}> = ({ dateRange, property, filterDeviceIds }) => {
   const { data: dataRawAnalytics } = useQuery({
     queryKey: [
       "analytics",
@@ -28,6 +29,7 @@ export const DeviceLineChart: FC<{
       {
         startDate: dateRange?.from?.toJSON(),
         endDate: dateRange?.to?.toJSON(),
+        filterDeviceIds,
       },
     ],
     queryFn: () =>
@@ -35,6 +37,7 @@ export const DeviceLineChart: FC<{
         ? api.getRawAnalytics({
             startDate: dateRange.from,
             endDate: dateRange.to,
+            filterDeviceIds,
           })
         : null,
     enabled: !!dateRange?.from && !!dateRange.to,

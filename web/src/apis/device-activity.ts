@@ -1,4 +1,5 @@
 import { api } from "./api";
+import { GetAllDeviceActivitiesRequest } from "./openapi";
 
 export const deviceActivityApi = {
   getDeviceActivities(id: string) {
@@ -7,7 +8,7 @@ export const deviceActivityApi = {
     });
   },
 
-  async getAllDeviceActivities() {
-    return api.getAllDeviceActivities();
+  async getAllDeviceActivities(variables: GetAllDeviceActivitiesRequest) {
+    return api.getAllDeviceActivities(variables);
   },
 };

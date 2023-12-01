@@ -10,7 +10,14 @@ import { deviceActivityRouter } from "./routes/device-activity/route.js";
 import { deviceRouter } from "./routes/device/route.js";
 import { userRouter } from "./routes/user/route.js";
 
-const app = fastify();
+const app = fastify({
+  logger: {
+    transport: {
+      target: "pino-pretty",
+    },
+  },
+  disableRequestLogging: true,
+});
 
 app.register(fastifyCookie);
 
@@ -36,6 +43,11 @@ await app.register(automationRouter, {
 
 await app.register(analyticsRouter, {
   prefix: "/analytics",
+});
+
+app.setErrorHandler(function (error, request, reply) {
+  this.log.error(error);
+  reply.send(error);
 });
 
 registerMQTTHandler();
