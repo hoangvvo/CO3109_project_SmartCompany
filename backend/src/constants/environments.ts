@@ -12,7 +12,6 @@ const { BROKER_URL, DATABASE_URL, PORT } = envSchema<
   Static<typeof envSchemaSchema>
 >({
   schema: envSchemaSchema,
-  dotenv: true,
 });
 
 export { BROKER_URL, DATABASE_URL, PORT };
