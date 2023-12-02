@@ -102,7 +102,7 @@ export const deviceRepository = {
 export const deviceActivityRepository = {
   async getLastDeviceActivityById(id: number) {
     const res = await pool.query<DeviceActivityDbObject>(
-      `SELECT * FROM device_activity WHERE id = $1 ORDER BY created_at DESC LIMIT 1`,
+      `SELECT * FROM device_activity WHERE id = $1 ORDER BY started_at DESC LIMIT 1`,
       [id],
     );
 
@@ -181,7 +181,7 @@ export const deviceActivityRepository = {
       SELECT device_activity.*, device.name FROM device_activity
       JOIN device ON device.id = device_activity.device_id
       WHERE device_id = $1
-      ORDER BY device_activity.created_at DESC
+      ORDER BY device_activity.started_at DESC
       `[device_id],
     );
 
@@ -196,7 +196,7 @@ export const deviceActivityRepository = {
   },
 
   async createDeviceActivity(
-    deviceActivity: Omit<DeviceActivityDbObject, "id" | "created_at">,
+    deviceActivity: Omit<DeviceActivityDbObject, "id">,
   ) {
     const res = await pool.query<DeviceActivityDbObject>(
       `
@@ -217,9 +217,7 @@ export const deviceActivityRepository = {
     return res.rows[0];
   },
 
-  async updateDeviceActivity(
-    deviceActivity: Omit<DeviceActivityDbObject, "created_at">,
-  ) {
+  async updateDeviceActivity(deviceActivity: DeviceActivityDbObject) {
     const res = await pool.query<DeviceActivityDbObject>(
       `
         UPDATE device_activity

@@ -57,7 +57,9 @@ export function registerMQTTHandler() {
   console.log("mqtt: registering handler");
   mqttClient.on("message", (topic, message) => {
     console.log(`MQTT client message: ${topic}`, message.toString());
-    handleStateMessage(topic, message.toString());
+    handleStateMessage(topic, message.toString()).catch((err) => {
+      console.error("mqtt: error handling message", err);
+    });
   });
 
   mqttClient.subscribe(MQTTTopic.DeviceStateSet);
