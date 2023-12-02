@@ -39,6 +39,7 @@
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
+    "framer-motion": "^10.16.12",
     "lucide-react": "^0.287.0",
     "mqtt": "^5.1.4",
     "nanoid": "^5.0.2",

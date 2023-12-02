@@ -1,8 +1,10 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
 import { FC, useEffect, useState } from "react";
-import AnimatedNumbers from "react-animated-numbers";
+import AnimatedNumber from "./animated-numbers";
 
 export const StatCard: FC<{
   title: string;
@@ -29,7 +31,7 @@ export const StatCard: FC<{
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold flex items-center gap-1">
-          <AnimatedNumbers
+          <AnimatedNumber
             transitions={(index) => ({
               type: "spring",
               duration: index + 0.3,
