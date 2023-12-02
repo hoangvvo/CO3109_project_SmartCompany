@@ -2,6 +2,7 @@ import { Type } from "@sinclair/typebox";
 import type { FastifySchema } from "fastify";
 import {
   AutomationConditionTypeDbType,
+  ConditionOperatorType,
   DeviceStateDbType,
   LogicalOperatorDbType,
 } from "../../database/types.js";
@@ -13,21 +14,29 @@ export const automationConditionSchema = Type.Object(
     automation_id: Type.Number(),
     condition_type: TypeStringEnum(AutomationConditionTypeDbType),
     device_id: TypeNullable(Type.Number()),
-    device_state: TypeNullable(TypeStringEnum(DeviceStateDbType)),
-    device_value: TypeNullable(Type.Number()),
-    device_extra_data: TypeNullable(
-      Type.Object(
-        {},
-        {
-          additionalProperties: true,
-        },
-      ),
-    ),
+    device_property: TypeNullable(Type.String()),
+    condition_operator: TypeNullable(TypeStringEnum(ConditionOperatorType)),
+    condition_value: TypeNullable(Type.Number()),
     cron_expression: TypeNullable(Type.String()),
   },
   {
     $id: "AutomationCondition",
     title: "Automation Condition",
+  },
+);
+
+export const automationActionSchema = Type.Object(
+  {
+    id: Type.Number(),
+    automation_id: Type.Number(),
+    device_id: TypeNullable(Type.Number()),
+    device_state: TypeNullable(TypeStringEnum(DeviceStateDbType)),
+    device_value: TypeNullable(Type.Number()),
+    device_extra_data: TypeNullable(Type.Any()),
+  },
+  {
+    $id: "AutomationAction",
+    title: "Automation Action",
   },
 );
 
@@ -41,6 +50,11 @@ export const automationSchema = Type.Object(
     conditions: Type.Optional(
       Type.Array(
         Type.Ref<typeof automationConditionSchema>(automationConditionSchema),
+      ),
+    ),
+    actions: Type.Optional(
+      Type.Array(
+        Type.Ref<typeof automationActionSchema>(automationActionSchema),
       ),
     ),
   },
@@ -124,16 +138,9 @@ export const automationConditionsPutSchema = {
       Type.Object({
         condition_type: TypeStringEnum(AutomationConditionTypeDbType),
         device_id: TypeNullable(Type.Number()),
-        device_state: TypeNullable(TypeStringEnum(DeviceStateDbType)),
-        device_value: TypeNullable(Type.Number()),
-        device_extra_data: TypeNullable(
-          Type.Object(
-            {},
-            {
-              additionalProperties: true,
-            },
-          ),
-        ),
+        device_property: TypeNullable(Type.String()),
+        condition_operator: TypeNullable(TypeStringEnum(ConditionOperatorType)),
+        condition_value: TypeNullable(Type.Number()),
         cron_expression: TypeNullable(Type.String()),
       }),
     ),
@@ -142,6 +149,27 @@ export const automationConditionsPutSchema = {
     200: Type.Object({
       conditions: Type.Array(
         Type.Ref<typeof automationConditionSchema>(automationConditionSchema),
+      ),
+    }),
+  },
+} satisfies FastifySchema;
+
+export const automationActionPutSchema = {
+  operationId: "replaceAutomationAction",
+  params: Type.Object({
+    automationId: Type.Number(),
+  }),
+  body: Type.Object({
+    action: Type.Object({
+      device_id: TypeNullable(Type.Number()),
+      device_state: TypeNullable(TypeStringEnum(DeviceStateDbType)),
+      device_value: TypeNullable(Type.Number()),
+    }),
+  }),
+  response: {
+    200: Type.Object({
+      actions: Type.Array(
+        Type.Ref<typeof automationActionSchema>(automationActionSchema),
       ),
     }),
   },

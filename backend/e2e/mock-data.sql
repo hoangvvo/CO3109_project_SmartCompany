@@ -10,7 +10,8 @@ INSERT INTO device(user_id, name, path, description, description_location, devic
 (1, 'Thermostat C', 'P5', 'The thermostat in the office', 'Office', 'thermostat', '2023-11-01 00:00:00', 'off', 21, '{"temperature": 24, "humidity": 0.3}', 2400),
 (1, 'Office A Light', 'P6', 'The light in the office', 'Office', 'light', '2023-11-01 00:00:00', 'off', NULL, NULL, 60),
 (1, 'Office B Light', 'P7', 'The light in the office', 'Office', 'light', '2023-11-01 00:00:00', 'off', NULL, NULL, 60),
-(1, 'Office C Light', 'P8', 'The light in the office', 'Office', 'light', '2023-11-01 00:00:00', 'off', NULL, NULL, 60);
+(1, 'Office C Light', 'P8', 'The light in the office', 'Office', 'light', '2023-11-01 00:00:00', 'off', NULL, NULL, 60),
+(1, 'Environment Sensor', 'P9', 'Sensors for various environment aspects', 'Office', 'thermostat', '2023-11-01 00:00:00', 'on', NULL, '{"co_concentration": 0.5, "light_intensity": 120, "loudness": 100}', 100);
 --- device_activity
 ----- Meeting Room Light
 INSERT INTO device_activity(device_id, current_state, started_at, ended_at)
@@ -173,5 +174,17 @@ INSERT INTO device_activity(device_id, current_state, started_at, ended_at)
 (6, 'on', '2023-11-25 11:06:37', '2023-11-28 13:31:11'),
 (6, 'on', '2023-11-27 11:00:04', '2023-11-27 18:43:23'),
 (6, 'off', '2023-11-29 23:48:46', '2023-11-30 23:41:24');
+--- Environment Sensor
+INSERT INTO device_activity(device_id, current_state, started_at, ended_at, current_extra_data)
+  VALUES (9, 'on', '2023-11-01 00:00:00', '2023-11-17 22:17:06', '{"co_concentration": 0.6, "light_intensity": 179, "loudness": 87}'),
+(9, 'on', '2023-11-17 22:17:06', '2023-11-21 03:43:45', '{"co_concentration": 0.5, "light_intensity": 107, "loudness": 74}'),
+(9, 'on', '2023-11-21 03:43:45', '2023-11-23 15:37:25', '{"co_concentration": 0.6, "light_intensity": 104, "loudness": 108}'),
+(9, 'on', '2023-11-23 15:37:25', '2023-11-27 12:40:40', '{"co_concentration": 0.4, "light_intensity": 179, "loudness": 50}'),
+(9, 'on', '2023-11-27 12:40:40', '2023-11-30 03:36:12', '{"co_concentration": 0.3, "light_intensity": 55, "loudness": 99}'),
+(9, 'on', '2023-11-30 03:36:12', '2023-11-30 06:53:58', '{"co_concentration": 0.9, "light_intensity": 184, "loudness": 117}'),
+(9, 'on', '2023-11-30 06:53:58', '2023-11-30 11:23:09', '{"co_concentration": 0.4, "light_intensity": 76, "loudness": 95}'),
+(9, 'on', '2023-11-30 11:23:09', '2023-11-30 18:34:56', '{"co_concentration": 0.5, "light_intensity": 179, "loudness": 120}'),
+(9, 'on', '2023-11-30 18:34:56', '2023-11-30 20:35:37', '{"co_concentration": 0.7, "light_intensity": 107, "loudness": 98}'),
+(9, 'on', '2023-11-30 20:35:37', '2023-11-30 21:06:22', '{"co_concentration": 0.9, "light_intensity": 140, "loudness": 114}');
 COMMIT;
 

@@ -25,6 +25,8 @@ import type {
   GetDeviceActivities200Response,
   GetDevices200Response,
   GetRawAnalytics200Response,
+  ReplaceAutomationAction200Response,
+  ReplaceAutomationActionRequest,
   ReplaceAutomationConditions200Response,
   ReplaceAutomationConditionsRequest,
   SetDeviceStateRequest,
@@ -54,6 +56,10 @@ import {
     GetDevices200ResponseToJSON,
     GetRawAnalytics200ResponseFromJSON,
     GetRawAnalytics200ResponseToJSON,
+    ReplaceAutomationAction200ResponseFromJSON,
+    ReplaceAutomationAction200ResponseToJSON,
+    ReplaceAutomationActionRequestFromJSON,
+    ReplaceAutomationActionRequestToJSON,
     ReplaceAutomationConditions200ResponseFromJSON,
     ReplaceAutomationConditions200ResponseToJSON,
     ReplaceAutomationConditionsRequestFromJSON,
@@ -115,6 +121,11 @@ export interface GetRawAnalyticsRequest {
     endDate: Date;
     filterDeviceIds?: Array<number>;
     filterDeviceCategories?: Array<string>;
+}
+
+export interface ReplaceAutomationActionOperationRequest {
+    automationId: number;
+    replaceAutomationActionRequest: ReplaceAutomationActionRequest;
 }
 
 export interface ReplaceAutomationConditionsOperationRequest {
@@ -547,6 +558,41 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async getRawAnalytics(requestParameters: GetRawAnalyticsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetRawAnalytics200Response> {
         const response = await this.getRawAnalyticsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async replaceAutomationActionRaw(requestParameters: ReplaceAutomationActionOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReplaceAutomationAction200Response>> {
+        if (requestParameters.automationId === null || requestParameters.automationId === undefined) {
+            throw new runtime.RequiredError('automationId','Required parameter requestParameters.automationId was null or undefined when calling replaceAutomationAction.');
+        }
+
+        if (requestParameters.replaceAutomationActionRequest === null || requestParameters.replaceAutomationActionRequest === undefined) {
+            throw new runtime.RequiredError('replaceAutomationActionRequest','Required parameter requestParameters.replaceAutomationActionRequest was null or undefined when calling replaceAutomationAction.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/automations/{automationId}/actions`.replace(`{${"automationId"}}`, encodeURIComponent(String(requestParameters.automationId))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ReplaceAutomationActionRequestToJSON(requestParameters.replaceAutomationActionRequest),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ReplaceAutomationAction200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async replaceAutomationAction(requestParameters: ReplaceAutomationActionOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ReplaceAutomationAction200Response> {
+        const response = await this.replaceAutomationActionRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

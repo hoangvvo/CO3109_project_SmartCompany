@@ -77,14 +77,23 @@ export interface AutomationDbObject {
   logical_operator: LogicalOperatorDbType;
 }
 
+export enum ConditionOperatorType {
+  Eq = "eq",
+  Neq = "neq",
+  Gt = "gt",
+  Gte = "gte",
+  Lt = "lt",
+  Lte = "lte",
+}
+
 export interface AutomationConditionDbObject {
   id: number;
   automation_id: number;
   condition_type: AutomationConditionTypeDbType;
   device_id: number | null;
-  device_state: DeviceStateDbType | null;
-  device_value: number | null;
-  device_extra_data: any | null;
+  device_property: string | null;
+  condition_operator: ConditionOperatorType | null;
+  condition_value: number | null;
   cron_expression: string | null;
 }
 

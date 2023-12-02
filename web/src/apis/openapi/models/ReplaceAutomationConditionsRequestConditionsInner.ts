@@ -36,19 +36,19 @@ export interface ReplaceAutomationConditionsRequestConditionsInner {
      * @type {string}
      * @memberof ReplaceAutomationConditionsRequestConditionsInner
      */
-    device_state: ReplaceAutomationConditionsRequestConditionsInnerDeviceStateEnum;
+    device_property: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReplaceAutomationConditionsRequestConditionsInner
+     */
+    condition_operator: ReplaceAutomationConditionsRequestConditionsInnerConditionOperatorEnum;
     /**
      * 
      * @type {number}
      * @memberof ReplaceAutomationConditionsRequestConditionsInner
      */
-    device_value: number | null;
-    /**
-     * 
-     * @type {{ [key: string]: any; }}
-     * @memberof ReplaceAutomationConditionsRequestConditionsInner
-     */
-    device_extra_data: { [key: string]: any; } | null;
+    condition_value: number | null;
     /**
      * 
      * @type {string}
@@ -70,11 +70,15 @@ export type ReplaceAutomationConditionsRequestConditionsInnerConditionTypeEnum =
 /**
  * @export
  */
-export const ReplaceAutomationConditionsRequestConditionsInnerDeviceStateEnum = {
-    On: 'on',
-    Off: 'off'
+export const ReplaceAutomationConditionsRequestConditionsInnerConditionOperatorEnum = {
+    Eq: 'eq',
+    Neq: 'neq',
+    Gt: 'gt',
+    Gte: 'gte',
+    Lt: 'lt',
+    Lte: 'lte'
 } as const;
-export type ReplaceAutomationConditionsRequestConditionsInnerDeviceStateEnum = typeof ReplaceAutomationConditionsRequestConditionsInnerDeviceStateEnum[keyof typeof ReplaceAutomationConditionsRequestConditionsInnerDeviceStateEnum];
+export type ReplaceAutomationConditionsRequestConditionsInnerConditionOperatorEnum = typeof ReplaceAutomationConditionsRequestConditionsInnerConditionOperatorEnum[keyof typeof ReplaceAutomationConditionsRequestConditionsInnerConditionOperatorEnum];
 
 
 /**
@@ -84,9 +88,9 @@ export function instanceOfReplaceAutomationConditionsRequestConditionsInner(valu
     let isInstance = true;
     isInstance = isInstance && "condition_type" in value;
     isInstance = isInstance && "device_id" in value;
-    isInstance = isInstance && "device_state" in value;
-    isInstance = isInstance && "device_value" in value;
-    isInstance = isInstance && "device_extra_data" in value;
+    isInstance = isInstance && "device_property" in value;
+    isInstance = isInstance && "condition_operator" in value;
+    isInstance = isInstance && "condition_value" in value;
     isInstance = isInstance && "cron_expression" in value;
 
     return isInstance;
@@ -104,9 +108,9 @@ export function ReplaceAutomationConditionsRequestConditionsInnerFromJSONTyped(j
         
         'condition_type': json['condition_type'],
         'device_id': json['device_id'],
-        'device_state': json['device_state'],
-        'device_value': json['device_value'],
-        'device_extra_data': json['device_extra_data'],
+        'device_property': json['device_property'],
+        'condition_operator': json['condition_operator'],
+        'condition_value': json['condition_value'],
         'cron_expression': json['cron_expression'],
     };
 }
@@ -122,9 +126,9 @@ export function ReplaceAutomationConditionsRequestConditionsInnerToJSON(value?: 
         
         'condition_type': value.condition_type,
         'device_id': value.device_id,
-        'device_state': value.device_state,
-        'device_value': value.device_value,
-        'device_extra_data': value.device_extra_data,
+        'device_property': value.device_property,
+        'condition_operator': value.condition_operator,
+        'condition_value': value.condition_value,
         'cron_expression': value.cron_expression,
     };
 }

@@ -13,6 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { AutomationAction } from './AutomationAction';
+import {
+    AutomationActionFromJSON,
+    AutomationActionFromJSONTyped,
+    AutomationActionToJSON,
+} from './AutomationAction';
 import type { AutomationCondition } from './AutomationCondition';
 import {
     AutomationConditionFromJSON,
@@ -62,6 +68,12 @@ export interface Automation {
      * @memberof Automation
      */
     conditions?: Array<AutomationCondition>;
+    /**
+     * 
+     * @type {Array<AutomationAction>}
+     * @memberof Automation
+     */
+    actions?: Array<AutomationAction>;
 }
 
 
@@ -105,6 +117,7 @@ export function AutomationFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'description': json['description'],
         'logical_operator': json['logical_operator'],
         'conditions': !exists(json, 'conditions') ? undefined : ((json['conditions'] as Array<any>).map(AutomationConditionFromJSON)),
+        'actions': !exists(json, 'actions') ? undefined : ((json['actions'] as Array<any>).map(AutomationActionFromJSON)),
     };
 }
 
@@ -123,6 +136,7 @@ export function AutomationToJSON(value?: Automation | null): any {
         'description': value.description,
         'logical_operator': value.logical_operator,
         'conditions': value.conditions === undefined ? undefined : ((value.conditions as Array<any>).map(AutomationConditionToJSON)),
+        'actions': value.actions === undefined ? undefined : ((value.actions as Array<any>).map(AutomationActionToJSON)),
     };
 }
 

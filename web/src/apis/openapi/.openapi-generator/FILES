@@ -3,6 +3,7 @@ apis/DefaultApi.ts
 apis/index.ts
 index.ts
 models/Automation.ts
+models/AutomationAction.ts
 models/AutomationCondition.ts
 models/CreateAutomation200Response.ts
 models/CreateAutomationRequest.ts
@@ -21,6 +22,9 @@ models/GetDevices200Response.ts
 models/GetRawAnalytics200Response.ts
 models/GetRawAnalytics200ResponseRawAnalytics.ts
 models/GetRawAnalytics200ResponseRawAnalyticsDataInner.ts
+models/ReplaceAutomationAction200Response.ts
+models/ReplaceAutomationActionRequest.ts
+models/ReplaceAutomationActionRequestAction.ts
 models/ReplaceAutomationConditions200Response.ts
 models/ReplaceAutomationConditionsRequest.ts
 models/ReplaceAutomationConditionsRequestConditionsInner.ts

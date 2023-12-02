@@ -1,10 +1,12 @@
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import { NotFoundError, UnauthorizedError } from "../../constants/errors.js";
 import {
+  automationActionRepository,
   automationConditionRepository,
   automationRepository,
 } from "../../database/automation.js";
 import {
+  automationActionPutSchema,
   automationConditionsPutSchema,
   automationDeleteSchema,
   automationGetSchema,
@@ -56,6 +58,9 @@ export const automationRouter: FastifyPluginAsyncTypebox = async (fastify) => {
             await automationConditionRepository.getConditionsByAutomationId(
               automation.id,
             ),
+          actions: await automationActionRepository.getActionsByAutomationId(
+            automation.id,
+          ),
         },
       };
     },
@@ -131,6 +136,33 @@ export const automationRouter: FastifyPluginAsyncTypebox = async (fastify) => {
         );
 
       return { conditions };
+    },
+  );
+
+  fastify.put(
+    "/:automationId/actions",
+    { schema: automationActionPutSchema },
+    async (request) => {
+      if (!request.user) {
+        throw new UnauthorizedError();
+      }
+
+      const automation = await automationRepository.getAutomationById(
+        request.params.automationId,
+      );
+
+      if (!automation) {
+        throw new NotFoundError();
+      }
+
+      const actions =
+        await automationActionRepository.updateActionForAutomation({
+          automation_id: automation.id,
+          ...request.body.action,
+          device_extra_data: null,
+        });
+
+      return { actions };
     },
   );
 };

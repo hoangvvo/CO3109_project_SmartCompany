@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export * from './Automation';
+export * from './AutomationAction';
 export * from './AutomationCondition';
 export * from './CreateAutomation200Response';
 export * from './CreateAutomationRequest';
@@ -19,6 +20,9 @@ export * from './GetDevices200Response';
 export * from './GetRawAnalytics200Response';
 export * from './GetRawAnalytics200ResponseRawAnalytics';
 export * from './GetRawAnalytics200ResponseRawAnalyticsDataInner';
+export * from './ReplaceAutomationAction200Response';
+export * from './ReplaceAutomationActionRequest';
+export * from './ReplaceAutomationActionRequestAction';
 export * from './ReplaceAutomationConditions200Response';
 export * from './ReplaceAutomationConditionsRequest';
 export * from './ReplaceAutomationConditionsRequestConditionsInner';

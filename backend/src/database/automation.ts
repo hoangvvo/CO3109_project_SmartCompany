@@ -1,5 +1,6 @@
 import { pool } from "./database.js";
 import type {
+  AutomationActionDbObject,
   AutomationActivityDbObject,
   AutomationConditionDbObject,
   AutomationDbObject,
@@ -100,11 +101,13 @@ export const automationConditionRepository = {
     // Create new conditions for this automation
     const res = await pool.query<AutomationConditionDbObject>(
       `
-        INSERT INTO automation_condition (automation_id, device_id, device_state, device_value)
+        INSERT INTO automation_condition (automation_id, condition_type, device_id, device_property, condition_operator, condition_value, cron_expression)
         VALUES ${conditions
           .map(
             (_, index) =>
-              `($1, $${index * 3 + 2}, $${index * 3 + 3}, $${index * 3 + 4})`,
+              `($1, $${index * 6 + 2}, $${index * 6 + 3}, $${index * 6 + 4}, $${
+                index * 6 + 5
+              }, $${index * 6 + 6}, $${index * 6 + 7})`,
           )
           .join(", ")}
         RETURNING *
@@ -112,14 +115,86 @@ export const automationConditionRepository = {
       [
         automationId,
         ...conditions.flatMap((condition) => [
+          condition.condition_type,
           condition.device_id,
-          condition.device_state,
-          condition.device_value,
+          condition.device_property,
+          condition.condition_operator,
+          condition.condition_value,
+          condition.cron_expression,
         ]),
       ],
     );
 
     return res.rows;
+  },
+};
+
+export const automationActionRepository = {
+  // Fetch all actions for a specific automation
+  async getActionsByAutomationId(automationId: number) {
+    const res = await pool.query<AutomationActionDbObject>(
+      `SELECT * FROM automation_action WHERE automation_id = $1`,
+      [automationId],
+    );
+
+    return res.rows;
+  },
+
+  // Create a new automation action
+  async updateActionForAutomation(
+    action: Omit<AutomationActionDbObject, "id" | "created_at">,
+  ) {
+    const existingActionRes = await pool.query<AutomationActionDbObject>(
+      `SELECT * FROM automation_action WHERE automation_id = $1`,
+      [action.automation_id],
+    );
+    if (existingActionRes.rowCount === 0) {
+      const res = await pool.query<AutomationActionDbObject>(
+        `
+          INSERT INTO automation_action (automation_id, device_id, device_state, device_value, device_extra_data)
+          VALUES ($1, $2, $3, $4, $5)
+          RETURNING *
+        `,
+        [
+          action.automation_id,
+          action.device_id,
+          action.device_state,
+          action.device_value,
+          action.device_extra_data,
+        ],
+      );
+
+      return res.rows;
+    } else {
+      const res = await pool.query<AutomationActionDbObject>(
+        `
+          UPDATE automation_action
+          SET device_id = $1, device_state = $2, device_value = $3, device_extra_data = $4
+          WHERE automation_id = $5
+          RETURNING *
+        `,
+        [
+          action.device_id,
+          action.device_state,
+          action.device_value,
+          action.device_extra_data,
+          action.automation_id,
+        ],
+      );
+
+      return res.rows;
+    }
+  },
+
+  // Delete an automation action by its ID
+  async deleteActionById(id: number) {
+    await pool.query(
+      `
+        DELETE FROM automation_action
+        WHERE id = $1
+      `,
+      [id],
+    );
   },
 };
 

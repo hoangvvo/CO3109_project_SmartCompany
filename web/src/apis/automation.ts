@@ -1,6 +1,7 @@
 import { api } from "./api";
 import {
   CreateAutomationRequest,
+  ReplaceAutomationActionRequest,
   ReplaceAutomationConditionsRequest,
   UpdateAutomationRequest,
 } from "./openapi";
@@ -39,11 +40,22 @@ export const automationApi = {
   },
 
   async replaceAutomationConditions({
+    automationId,
     ...input
   }: ReplaceAutomationConditionsRequest & { automationId: number }) {
     return api.replaceAutomationConditions({
-      automationId: input.automationId,
+      automationId: automationId,
       replaceAutomationConditionsRequest: input,
+    });
+  },
+
+  async replaceAutomationAction({
+    automationId,
+    ...input
+  }: ReplaceAutomationActionRequest & { automationId: number }) {
+    return api.replaceAutomationAction({
+      automationId: automationId,
+      replaceAutomationActionRequest: input,
     });
   },
 };

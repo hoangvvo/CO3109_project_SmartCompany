@@ -48,19 +48,19 @@ export interface AutomationCondition {
      * @type {string}
      * @memberof AutomationCondition
      */
-    device_state: AutomationConditionDeviceStateEnum;
+    device_property: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof AutomationCondition
+     */
+    condition_operator: AutomationConditionConditionOperatorEnum;
     /**
      * 
      * @type {number}
      * @memberof AutomationCondition
      */
-    device_value: number | null;
-    /**
-     * 
-     * @type {{ [key: string]: any; }}
-     * @memberof AutomationCondition
-     */
-    device_extra_data: { [key: string]: any; } | null;
+    condition_value: number | null;
     /**
      * 
      * @type {string}
@@ -82,11 +82,15 @@ export type AutomationConditionConditionTypeEnum = typeof AutomationConditionCon
 /**
  * @export
  */
-export const AutomationConditionDeviceStateEnum = {
-    On: 'on',
-    Off: 'off'
+export const AutomationConditionConditionOperatorEnum = {
+    Eq: 'eq',
+    Neq: 'neq',
+    Gt: 'gt',
+    Gte: 'gte',
+    Lt: 'lt',
+    Lte: 'lte'
 } as const;
-export type AutomationConditionDeviceStateEnum = typeof AutomationConditionDeviceStateEnum[keyof typeof AutomationConditionDeviceStateEnum];
+export type AutomationConditionConditionOperatorEnum = typeof AutomationConditionConditionOperatorEnum[keyof typeof AutomationConditionConditionOperatorEnum];
 
 
 /**
@@ -98,9 +102,9 @@ export function instanceOfAutomationCondition(value: object): boolean {
     isInstance = isInstance && "automation_id" in value;
     isInstance = isInstance && "condition_type" in value;
     isInstance = isInstance && "device_id" in value;
-    isInstance = isInstance && "device_state" in value;
-    isInstance = isInstance && "device_value" in value;
-    isInstance = isInstance && "device_extra_data" in value;
+    isInstance = isInstance && "device_property" in value;
+    isInstance = isInstance && "condition_operator" in value;
+    isInstance = isInstance && "condition_value" in value;
     isInstance = isInstance && "cron_expression" in value;
 
     return isInstance;
@@ -120,9 +124,9 @@ export function AutomationConditionFromJSONTyped(json: any, ignoreDiscriminator:
         'automation_id': json['automation_id'],
         'condition_type': json['condition_type'],
         'device_id': json['device_id'],
-        'device_state': json['device_state'],
-        'device_value': json['device_value'],
-        'device_extra_data': json['device_extra_data'],
+        'device_property': json['device_property'],
+        'condition_operator': json['condition_operator'],
+        'condition_value': json['condition_value'],
         'cron_expression': json['cron_expression'],
     };
 }
@@ -140,9 +144,9 @@ export function AutomationConditionToJSON(value?: AutomationCondition | null): a
         'automation_id': value.automation_id,
         'condition_type': value.condition_type,
         'device_id': value.device_id,
-        'device_state': value.device_state,
-        'device_value': value.device_value,
-        'device_extra_data': value.device_extra_data,
+        'device_property': value.device_property,
+        'condition_operator': value.condition_operator,
+        'condition_value': value.condition_value,
         'cron_expression': value.cron_expression,
     };
 }
