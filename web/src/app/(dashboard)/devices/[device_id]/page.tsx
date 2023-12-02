@@ -62,6 +62,7 @@ export default function DevicePage({
   const { data, status, error } = useQuery({
     queryKey: ["devices", params.device_id],
     queryFn: () => deviceApi.getDevice(params.device_id),
+    refetchInterval: 5000,
   });
 
   if (status === "pending") {
