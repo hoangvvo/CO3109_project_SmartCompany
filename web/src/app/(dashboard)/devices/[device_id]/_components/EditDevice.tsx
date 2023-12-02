@@ -1,6 +1,6 @@
-import { automationApi } from "@/apis/automation";
+import { deviceApi } from "@/apis/device";
 import { parseResponseError } from "@/apis/error";
-import { Automation } from "@/apis/openapi";
+import { Device } from "@/apis/openapi";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -14,30 +14,30 @@ import { toast } from "@/components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Pencil } from "lucide-react";
 import { FC, useState } from "react";
-import { AutomationForm } from "../../_components/AutomationForm";
+import { DeviceForm } from "../../_components/DeviceForm";
 
-const EditAutomationForm: FC<{
+const EditDeviceForm: FC<{
   setOpen: (open: boolean) => void;
-  automation: Automation;
-}> = ({ setOpen, automation }) => {
+  device: Device;
+}> = ({ setOpen, device }) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: automationApi.updateAutomation,
+    mutationFn: deviceApi.updateDevice,
     onSuccess(data) {
       queryClient.invalidateQueries({
-        queryKey: ["automations"],
+        queryKey: ["devices"],
       });
       toast({
-        title: "Automation updated",
-        description: "The automation has been created.",
+        title: "Device updated",
+        description: "The device has been updated.",
       });
       setOpen(false);
     },
     onError(error) {
       parseResponseError(error).then((error) => {
         toast({
-          title: "Automation update failed",
+          title: "Device update failed",
           description: error.message,
           variant: "destructive",
         });
@@ -46,27 +46,28 @@ const EditAutomationForm: FC<{
   });
 
   return (
-    <AutomationForm
+    <DeviceForm
       onSubmit={(data) =>
         mutation.mutate({
-          id: automation.id,
+          id: device.id,
           ...data,
         })
       }
       disabled={mutation.isPending}
-      initialValues={{
-        name: automation.name,
-        description: automation.description || "",
-        logical_operator: automation.logical_operator,
+      defaultValues={{
+        ...device,
+        description: device.description || "",
+        description_location: device.description_location || "",
+        wattage: device.wattage || 0,
       }}
-      submitLabel="Update"
+      submitText="Update"
     />
   );
 };
 
-export const EditAutomation: React.FC<{
-  automation: Automation;
-}> = ({ automation }) => {
+export const EditDevice: FC<{
+  device: Device;
+}> = ({ device }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -83,7 +84,7 @@ export const EditAutomation: React.FC<{
             Edit a new automation workflow to the company
           </SheetDescription>
         </SheetHeader>
-        <EditAutomationForm setOpen={setOpen} automation={automation} />
+        <EditDeviceForm setOpen={setOpen} device={device} />
       </SheetContent>
     </Sheet>
   );

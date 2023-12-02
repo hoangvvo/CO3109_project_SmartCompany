@@ -36,10 +36,10 @@ const AutomationPageContent: FC<{
     <div className="container">
       <div className="flex py-4 justify-between items-center">
         <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight flex items-center gap-2">
+          <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2">
             {automation.name}
             <EditAutomation automation={automation} />
-          </h2>
+          </h1>
           <p className="text-muted-foreground">{automation.description}</p>
         </div>
       </div>

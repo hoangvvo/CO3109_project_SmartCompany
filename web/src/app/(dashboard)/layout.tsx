@@ -258,7 +258,7 @@ export default function DashboardLayout({
       <Navbar />
       <div className="lg:pl-64 pt-16 relative min-h-screen">
         <Sidebar />
-        <main>
+        <main className="pb-12">
           <AuthBanner />
           {children}
         </main>

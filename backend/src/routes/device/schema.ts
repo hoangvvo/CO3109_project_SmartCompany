@@ -31,6 +31,7 @@ export const deviceSchema = Type.Object(
         },
       ),
     ),
+    wattage: TypeNullable(Type.Number()),
   },
   {
     $id: "Device",

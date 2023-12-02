@@ -24,10 +24,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { DEVICE_CATEGORY_TO_ICON } from "./constants";
 
-export const DeviceCard: React.FC<{ device: Device }> = ({ device }) => {
-  const DeviceIcon =
-    DEVICE_CATEGORY_TO_ICON[device.device_category] || FileQuestion;
-
+export const DeviceControl: React.FC<{ device: Device }> = ({ device }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: deviceApi.updateDeviceState,
@@ -73,6 +70,52 @@ export const DeviceCard: React.FC<{ device: Device }> = ({ device }) => {
   };
 
   return (
+    <div className="flex justify-around items-start relative w-full">
+      <div className="flex flex-col justify-center items-center gap-2">
+        <p className="text-secondary-foreground text-lg opacity-75">Power</p>
+        <Switch
+          checked={device.current_state === DeviceCurrentStateEnum.On}
+          disabled={mutation.isPending}
+          className="w-10 h-6"
+          onCheckedChange={onStateToggle}
+        />
+      </div>
+      {typeof device.current_value !== "number" ? null : (
+        <div className="flex flex-col justify-center items-center gap-1">
+          <p className="text-secondary-foreground text-lg opacity-75">Value</p>
+          <Popover onOpenChange={commitTempValue}>
+            <PopoverTrigger disabled={mutation.isPending}>
+              <Badge className="text-lg font-semibold">
+                {device.current_value}
+              </Badge>
+            </PopoverTrigger>
+            <PopoverContent className="w-28">
+              <Input
+                id="width"
+                className="col-span-2 h-8"
+                type="number"
+                value={tempValue}
+                onChange={(e) => setTempValue(e.currentTarget.valueAsNumber)}
+                disabled={mutation.isPending}
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+      )}
+      {mutation.isPending && (
+        <div className="absolute z-10 inset-0 w-full h-full flex justify-center items-center bg-white bg-opacity-25 backdrop-blur-sm">
+          <span className="text-primary">Updating...</span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export const DeviceCard: React.FC<{ device: Device }> = ({ device }) => {
+  const DeviceIcon =
+    DEVICE_CATEGORY_TO_ICON[device.device_category] || FileQuestion;
+
+  return (
     <Card className="hover:border-primary transition overflow-hidden h-[fit-content]">
       <Link href={`/devices/${device.id}`}>
         <CardHeader className="flex flex-row items-start justify-between space-y-0">
@@ -95,45 +138,8 @@ export const DeviceCard: React.FC<{ device: Device }> = ({ device }) => {
           <p>Extra data: {JSON.stringify(device.current_extra_data)}</p>
         </CardContent>
       </Link>
-      <CardFooter className="flex justify-around items-start border-t pt-4 bg-secondary relative">
-        <div className="flex flex-col justify-center items-center gap-2">
-          <p className="text-secondary-foreground text-lg opacity-75">Power</p>
-          <Switch
-            checked={device.current_state === DeviceCurrentStateEnum.On}
-            disabled={mutation.isPending}
-            className="w-10 h-6"
-            onCheckedChange={onStateToggle}
-          />
-        </div>
-        {typeof device.current_value !== "number" ? null : (
-          <div className="flex flex-col justify-center items-center gap-1">
-            <p className="text-secondary-foreground text-lg opacity-75">
-              Value
-            </p>
-            <Popover onOpenChange={commitTempValue}>
-              <PopoverTrigger disabled={mutation.isPending}>
-                <Badge className="text-lg font-semibold">
-                  {device.current_value}
-                </Badge>
-              </PopoverTrigger>
-              <PopoverContent className="w-28">
-                <Input
-                  id="width"
-                  className="col-span-2 h-8"
-                  type="number"
-                  value={tempValue}
-                  onChange={(e) => setTempValue(e.currentTarget.valueAsNumber)}
-                  disabled={mutation.isPending}
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
-        )}
-        {mutation.isPending && (
-          <div className="absolute z-10 inset-0 w-full h-full flex justify-center items-center bg-white bg-opacity-25 backdrop-blur-sm">
-            <span className="text-primary">Updating...</span>
-          </div>
-        )}
+      <CardFooter className="border-t pt-4 bg-secondary relative">
+        <DeviceControl device={device} />
       </CardFooter>
     </Card>
   );

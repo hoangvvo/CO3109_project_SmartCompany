@@ -2,9 +2,9 @@ import { api } from "./api";
 import { GetAllDeviceActivitiesRequest } from "./openapi";
 
 export const deviceActivityApi = {
-  getDeviceActivities(id: string) {
+  getDeviceActivities(id: number) {
     return api.getDeviceActivities({
-      deviceId: Number(id),
+      deviceId: id,
     });
   },
 

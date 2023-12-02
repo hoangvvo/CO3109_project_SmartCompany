@@ -85,6 +85,12 @@ export interface Device {
      * @memberof Device
      */
     current_extra_data: { [key: string]: any; } | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Device
+     */
+    wattage: number | null;
 }
 
 
@@ -126,6 +132,7 @@ export function instanceOfDevice(value: object): boolean {
     isInstance = isInstance && "current_state" in value;
     isInstance = isInstance && "current_value" in value;
     isInstance = isInstance && "current_extra_data" in value;
+    isInstance = isInstance && "wattage" in value;
 
     return isInstance;
 }
@@ -151,6 +158,7 @@ export function DeviceFromJSONTyped(json: any, ignoreDiscriminator: boolean): De
         'current_state': json['current_state'],
         'current_value': json['current_value'],
         'current_extra_data': json['current_extra_data'],
+        'wattage': json['wattage'],
     };
 }
 
@@ -174,6 +182,7 @@ export function DeviceToJSON(value?: Device | null): any {
         'current_state': value.current_state,
         'current_value': value.current_value,
         'current_extra_data': value.current_extra_data,
+        'wattage': value.wattage,
     };
 }
 
