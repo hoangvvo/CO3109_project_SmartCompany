@@ -134,7 +134,7 @@ export default function AnalyticsPage() {
                     Devices sorted by energy usage
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="flex-1 h-0">
+                <CardContent className="flex-1 min-h-0">
                   <DeviceLeaderBoard
                     property="watt_seconds"
                     dateRange={dateRange}
@@ -164,7 +164,7 @@ export default function AnalyticsPage() {
                     Devices sorted by active duration
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="flex-1 h-0">
+                <CardContent className="flex-1 min-h-0">
                   <DeviceLeaderBoard
                     property="on_duration"
                     dateRange={dateRange}
