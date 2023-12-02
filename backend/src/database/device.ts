@@ -102,7 +102,7 @@ export const deviceRepository = {
 export const deviceActivityRepository = {
   async getLastDeviceActivityById(id: number) {
     const res = await pool.query<DeviceActivityDbObject>(
-      `SELECT * FROM device_activity WHERE id = $1 ORDER BY started_at DESC LIMIT 1`,
+      `SELECT * FROM device_activity WHERE device_id = $1 ORDER BY started_at DESC LIMIT 1`,
       [id],
     );
 
