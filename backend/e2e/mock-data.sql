@@ -3,11 +3,14 @@ INSERT INTO app_user(email, password_hash, name, image_url, created_at)
   VALUES ('hoang.vo@hcmut.edu.vn', '$argon2id$v=19$m=65536,t=3,p=4$Bx3ivHFr3BbLAPzawq+esw$j8t1Zt2h9CV/myumG1TS6lBsc9WWQnp6EopgdXN/Ce0', 'Hoang Vo', 'https://avatars.githubusercontent.com/u/1004115?v=4', '2023-01-01 00:00:00');
 --- device
 INSERT INTO device(user_id, name, path, description, description_location, device_category, created_at, current_state, current_value, current_extra_data, wattage)
-  VALUES (1, 'Meeting Room Light', 'P1', 'The light in the meeting room', 'Meeting Room', 'light', '2023-11-01 00:00:00', 'off', NULL, NULL, 60),
+  VALUES (1, 'Meeting Room Light', 'P1', 'The light in the meeting room', 'Meeting Room', 'light', '2023-11-01 00:00:00', 'on', NULL, NULL, 60),
 (1, 'Central AC', 'P2', 'The air conditioner in the office', 'Office', 'air_conditioner', '2023-11-01 00:00:00', 'off', 24, NULL, 3500),
 (1, 'Fan 1', 'P3', 'The fan in the hallway', 'Hallway', 'fan', '2023-11-01 00:00:00', 'off', 0, NULL, 75),
 (1, 'Door A', 'P4', 'The door in the basement', 'Basement', 'door', '2023-11-01 00:00:00', 'off', NULL, NULL, 175),
-(1, 'Thermostat C', 'P5', 'The thermostat in the office', 'Office', 'thermostat', '2023-11-01 00:00:00', 'off', 21, '{"temperature": 24, "humidity": 0.3}', 2400);
+(1, 'Thermostat C', 'P5', 'The thermostat in the office', 'Office', 'thermostat', '2023-11-01 00:00:00', 'off', 21, '{"temperature": 24, "humidity": 0.3}', 2400),
+(1, 'Office A Light', 'P6', 'The light in the office', 'Office', 'light', '2023-11-01 00:00:00', 'off', NULL, NULL, 60),
+(1, 'Office B Light', 'P7', 'The light in the office', 'Office', 'light', '2023-11-01 00:00:00', 'off', NULL, NULL, 60),
+(1, 'Office C Light', 'P8', 'The light in the office', 'Office', 'light', '2023-11-01 00:00:00', 'off', NULL, NULL, 60);
 --- device_activity
 ----- Meeting Room Light
 INSERT INTO device_activity(device_id, current_state, started_at, ended_at)
@@ -138,5 +141,37 @@ INSERT INTO device_activity(device_id, current_state, started_at, ended_at, curr
 (5, 'on', '2023-11-27 03:16:15', '2023-11-30 18:11:22', 18, '{"temperature": 18, "humidity": 0.98}'),
 (5, 'on', '2023-11-29 00:36:30', '2023-11-30 10:50:23', 25, '{"temperature": 23, "humidity": 0.1}'),
 (5, 'on', '2023-11-30 12:25:43', '2023-11-30 19:03:51', 31, '{"temperature": 28, "humidity": 0.72}');
+----- Office A Light
+INSERT INTO device_activity(device_id, current_state, started_at, ended_at)
+  VALUES (6, 'on', '2023-11-03 06:11:40', '2023-11-10 11:15:30'),
+(6, 'on', '2023-11-06 15:00:07', '2023-11-08 19:22:26'),
+(6, 'off', '2023-11-07 04:18:04', '2023-11-16 09:33:18'),
+(6, 'off', '2023-11-07 10:01:54', '2023-11-16 03:59:40'),
+(6, 'on', '2023-11-07 17:52:28', '2023-11-08 17:53:13'),
+(6, 'off', '2023-11-09 01:52:47', '2023-11-27 15:54:17'),
+(6, 'on', '2023-11-09 09:28:00', '2023-11-09 17:56:48'),
+(6, 'off', '2023-11-09 09:44:38', '2023-11-13 01:57:45'),
+(6, 'on', '2023-11-11 12:56:54', '2023-11-21 22:24:40'),
+(6, 'on', '2023-11-12 11:01:25', '2023-11-29 21:44:21'),
+(6, 'off', '2023-11-12 19:46:41', '2023-11-18 05:54:19'),
+(6, 'on', '2023-11-13 03:17:08', '2023-11-20 00:51:02'),
+(6, 'off', '2023-11-13 17:07:50', '2023-11-27 23:20:05'),
+(6, 'on', '2023-11-14 07:28:46', '2023-11-22 09:08:39'),
+(6, 'off', '2023-11-15 07:54:01', '2023-11-22 12:43:01'),
+(6, 'on', '2023-11-16 01:26:10', '2023-11-17 18:53:54'),
+(6, 'off', '2023-11-16 17:06:08', '2023-11-22 04:32:07'),
+(6, 'on', '2023-11-16 23:56:18', '2023-11-29 03:42:15'),
+(6, 'off', '2023-11-17 05:14:53', '2023-11-29 07:52:35'),
+(6, 'off', '2023-11-18 18:55:04', '2023-11-26 22:34:59'),
+(6, 'on', '2023-11-19 11:51:58', '2023-11-20 14:14:10'),
+(6, 'on', '2023-11-19 23:42:04', '2023-11-20 01:24:13'),
+(6, 'off', '2023-11-20 05:52:07', '2023-11-23 10:23:59'),
+(6, 'on', '2023-11-20 06:03:10', '2023-11-20 15:10:29'),
+(6, 'off', '2023-11-21 05:15:28', '2023-11-27 15:58:43'),
+(6, 'on', '2023-11-21 05:54:39', '2023-11-24 13:08:54'),
+(6, 'off', '2023-11-21 14:37:56', '2023-11-28 04:15:12'),
+(6, 'on', '2023-11-25 11:06:37', '2023-11-28 13:31:11'),
+(6, 'on', '2023-11-27 11:00:04', '2023-11-27 18:43:23'),
+(6, 'off', '2023-11-29 23:48:46', '2023-11-30 23:41:24');
 COMMIT;
 

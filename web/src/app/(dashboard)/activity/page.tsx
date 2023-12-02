@@ -45,7 +45,6 @@ export default function ActivityPage() {
     <div className="container">
       <PageHeader
         title="Activity"
-        subtitle="All your activities in one place"
         actions={
           <>
             <DeviceFilters

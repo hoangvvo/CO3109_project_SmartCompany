@@ -37,7 +37,6 @@ export default function DevicesPage() {
     <div className="container">
       <PageHeader
         title="Devices"
-        subtitle="Manage all your devices in the company"
         actions={
           <>
             <DeviceFilters

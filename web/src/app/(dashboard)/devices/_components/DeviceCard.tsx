@@ -95,7 +95,7 @@ export const DeviceCard: React.FC<{ device: Device }> = ({ device }) => {
           <p>Extra data: {JSON.stringify(device.current_extra_data)}</p>
         </CardContent>
       </Link>
-      <CardFooter className="flex justify-around items-start border-t pt-4 bg-secondary">
+      <CardFooter className="flex justify-around items-start border-t pt-4 bg-secondary relative">
         <div className="flex flex-col justify-center items-center gap-2">
           <p className="text-secondary-foreground text-lg opacity-75">Power</p>
           <Switch
@@ -127,6 +127,11 @@ export const DeviceCard: React.FC<{ device: Device }> = ({ device }) => {
                 />
               </PopoverContent>
             </Popover>
+          </div>
+        )}
+        {mutation.isPending && (
+          <div className="absolute z-10 inset-0 w-full h-full flex justify-center items-center bg-white bg-opacity-25 backdrop-blur-sm">
+            <span className="text-primary">Updating...</span>
           </div>
         )}
       </CardFooter>

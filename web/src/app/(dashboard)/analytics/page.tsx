@@ -86,7 +86,7 @@ export default function AnalyticsPage() {
             {toHours(dataAnalytics?.aggregated_analytics.on_duration) || 0}
           </StatCard>
           <StatCard
-            title="Electricity used"
+            title="Electricity consumed"
             Icon={PlugZap}
             previous={toKiloWattHours(
               dataAnalytics?.aggregated_analytics.watt_seconds_compare,

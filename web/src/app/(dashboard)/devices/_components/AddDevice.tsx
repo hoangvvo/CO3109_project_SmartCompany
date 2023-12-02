@@ -47,7 +47,7 @@ export const AddDevice: React.FC = () => {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button>
-          <Plus />
+          <Plus className="mr-2 h-4 w-4" />
           Add device
         </Button>
       </SheetTrigger>

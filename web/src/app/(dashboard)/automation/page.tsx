@@ -14,11 +14,7 @@ export default function AutomationPage() {
 
   return (
     <div className="container">
-      <PageHeader
-        title="Automation"
-        subtitle="Automate devices to respond to events"
-        actions={<AddAutomation />}
-      />
+      <PageHeader title="Automation" actions={<AddAutomation />} />
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {data?.automations.map((automation) => (
           <AutomationCard key={automation.id} automation={automation} />

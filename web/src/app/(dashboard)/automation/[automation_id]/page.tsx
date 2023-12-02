@@ -7,7 +7,8 @@ import { ErrorPage } from "@/components/pages/error-page";
 import { toast } from "@/components/ui/use-toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FC } from "react";
-import { AutomationForm } from "../_components/AutomationForm";
+import { AutomationEditor } from "./_components/AutomationEditor";
+import { EditAutomation } from "./_components/EditAutomation";
 
 const AutomationPageContent: FC<{
   automation: Automation;
@@ -35,27 +36,14 @@ const AutomationPageContent: FC<{
     <div className="container">
       <div className="flex py-4 justify-between items-center">
         <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">
+          <h2 className="text-2xl font-bold tracking-tight flex items-center gap-2">
             {automation.name}
+            <EditAutomation automation={automation} />
           </h2>
           <p className="text-muted-foreground">{automation.description}</p>
         </div>
       </div>
-      <AutomationForm
-        initialValues={{
-          name: automation.name,
-          description: automation.description || "",
-          logical_operator: automation.logical_operator,
-        }}
-        onSubmit={(data) => {
-          updateAutomationMutation.mutate({
-            id: automation.id,
-            ...data,
-          });
-        }}
-        disabled={updateAutomationMutation.isPending}
-        submitLabel="Update"
-      />
+      <AutomationEditor automation={automation} />
     </div>
   );
 };
