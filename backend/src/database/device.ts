@@ -201,7 +201,7 @@ export const deviceActivityRepository = {
     const res = await pool.query<DeviceActivityDbObject>(
       `
         INSERT INTO device_activity (device_id, current_state, current_value, current_extra_data, started_at, ended_at)
-        VALUES ($1, $2, $3, $4, $5)
+        VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING *
         `,
       [
