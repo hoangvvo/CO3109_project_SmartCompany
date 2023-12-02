@@ -11,16 +11,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { toast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { useUserStore } from "@/stores/user.store";
 import "@/styles/globals.css";
-import { QueryClient } from "@tanstack/react-query";
 import {
   Activity,
   BarChart3,
   Home,
   LucideIcon,
+  Menu,
   MonitorSmartphone,
   Settings,
   Users,
@@ -104,21 +105,6 @@ const NavbarSearch: React.FC = () => {
   );
 };
 
-const Navbar: React.FC = () => {
-  return (
-    <nav className="border-b border-border w-full fixed bg-background h-16 z-10">
-      <div className="flex h-full gap-10 items-center px-4 lg:px-8">
-        <Link href="/" className="flex items-center gap-1">
-          <span className="font-semibold">Smart Office</span>
-        </Link>
-        <div className="flex items-center justify-start gap-4 flex-1"></div>
-        <NavbarSearch />
-        <NavbarUser />
-      </div>
-    </nav>
-  );
-};
-
 const SidebarItem: React.FC<{
   href: string;
   children: string;
@@ -142,9 +128,9 @@ const SidebarItem: React.FC<{
   );
 };
 
-const Sidebar: React.FC = () => {
+const SidebarContent: React.FC = () => {
   return (
-    <div className="w-64 h-[calc(100vh-64px)] fixed top-16 inset-y-0 left-0 pb-12 pt-4 lg:border-r">
+    <>
       <div className="px-3 py-2">
         <div className="space-y-1 flex flex-col">
           <SidebarItem href="/" Icon={Home}>
@@ -198,11 +184,52 @@ const Sidebar: React.FC = () => {
           </SidebarItem>
         </div>
       </div>
+    </>
+  );
+};
+
+const Sidebar: React.FC = () => {
+  return (
+    <div className="w-64 h-[calc(100vh-64px)] fixed top-16 inset-y-0 left-0 pb-12 pt-4 border-r hidden lg:block">
+      <SidebarContent />
     </div>
   );
 };
 
-const queryClient = new QueryClient();
+const MobileSidebar: React.FC = () => {
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button
+          aria-label="Menu"
+          variant="ghost"
+          size="icon"
+          className="lg:hidden"
+        >
+          <Menu />
+        </Button>
+      </SheetTrigger>
+      <SheetContent className="lg:hidden" side="left">
+        <SidebarContent />
+      </SheetContent>
+    </Sheet>
+  );
+};
+
+const Navbar: React.FC = () => {
+  return (
+    <nav className="border-b border-border w-full fixed bg-background h-16 z-10">
+      <div className="flex h-full gap-10 items-center px-4 lg:px-8">
+        <MobileSidebar />
+        <Link href="/" className="flex items-center gap-1">
+          <span className="font-semibold">Smart Office</span>
+        </Link>
+        <div className="flex items-center justify-start gap-4 flex-1"></div>
+        <NavbarUser />
+      </div>
+    </nav>
+  );
+};
 
 export default function RootLayout({
   children,
