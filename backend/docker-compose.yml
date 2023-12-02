@@ -27,6 +27,9 @@ services:
       - 9001:9001
     volumes:
       - mosquitto_data:/mosquitto/data
+      - type: bind
+        source: ./config/mosquitto/
+        target: /mosquitto/config/
 
 volumes:
   postgres_data:

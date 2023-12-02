@@ -7,7 +7,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/main.js",
+    "start": "node --env-file=.env dist/main.js",
     "build": "tsc",
     "dev": "node --import=tsimp/import --env-file=.env --watch src/main.ts",
     "lint": "eslint ./ --ext json,ts,js --ignore-path .gitignore",

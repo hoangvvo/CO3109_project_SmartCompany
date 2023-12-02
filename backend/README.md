@@ -1,6 +1,5 @@
 # smart-company
 
-
 ## Instruction
 
 1. Create a `.env` file in the root directory of the project.
@@ -9,6 +8,7 @@
 PORT=4000
 DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable
 REDIS_URL=redis://localhost:6379
+BROKER_URL=mqtt://localhost:1883
 ```
 
 2. Install dependencies
@@ -17,10 +17,24 @@ REDIS_URL=redis://localhost:6379
 npm install
 ```
 
-3. Run the project
+3. Start docker compose
 
 ```sh
-npm run dev
+docker-compose up
+```
+
+In another terminal:
+
+3. Build the project
+
+```sh
+npm run build
+```
+
+4. Run the project
+
+```sh
+npm run start
 ```
 
 ## Workflows
