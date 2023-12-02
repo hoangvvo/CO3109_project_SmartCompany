@@ -1,5 +1,4 @@
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
-import { UnauthorizedError } from "../../constants/errors.js";
 import { deviceActivityRepository } from "../../database/device.js";
 import {
   aggregatedAnalyticsGetSchema,
@@ -14,10 +13,6 @@ export const analyticsRouter: FastifyPluginAsyncTypebox = async (fastify) => {
     "/aggregate",
     { schema: aggregatedAnalyticsGetSchema },
     async (request) => {
-      if (!request.user) {
-        throw new UnauthorizedError();
-      }
-
       const { filter_device_ids } = request.query;
 
       const start_date = new Date(request.query.start_date);
@@ -73,10 +68,6 @@ export const analyticsRouter: FastifyPluginAsyncTypebox = async (fastify) => {
   );
 
   fastify.get("/raw", { schema: rawAnalyticsGetSchema }, async (request) => {
-    if (!request.user) {
-      throw new UnauthorizedError();
-    }
-
     const { filter_device_ids } = request.query;
 
     const start_date = new Date(request.query.start_date);

@@ -1,5 +1,4 @@
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
-import { UnauthorizedError } from "../../constants/errors.js";
 import { deviceActivityRepository } from "../../database/device.js";
 import { deviceActivitiesGetSchema } from "./schema.js";
 
@@ -9,10 +8,6 @@ export const deviceActivityRouter: FastifyPluginAsyncTypebox = async (
   fastify.addHook("onRequest", fastify.auth);
 
   fastify.get("/", { schema: deviceActivitiesGetSchema }, async (request) => {
-    if (!request.user) {
-      throw new UnauthorizedError();
-    }
-
     const { filter_device_ids } = request.query;
 
     const start_date = request.query?.start_date

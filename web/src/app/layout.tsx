@@ -1,6 +1,5 @@
 "use client";
 
-import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
@@ -29,15 +28,15 @@ export default function RootLayout({
         )}
       >
         <QueryClientProvider client={queryClient}>
-          <ThemeProvider
+          {/* <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
-          >
-            {children}
-            <Toaster />
-          </ThemeProvider>
+          > */}
+          {children}
+          <Toaster />
+          {/* </ThemeProvider> */}
         </QueryClientProvider>
       </body>
     </html>

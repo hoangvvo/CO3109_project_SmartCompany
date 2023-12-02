@@ -24,11 +24,7 @@ const DEVICE_CHANGE_TIMEOUT = 7000;
 export const deviceRouter: FastifyPluginAsyncTypebox = async (fastify) => {
   fastify.addHook("onRequest", fastify.auth);
 
-  fastify.get("/", { schema: devicesGetSchema }, async (request) => {
-    if (!request.user) {
-      throw new UnauthorizedError();
-    }
-
+  fastify.get("/", { schema: devicesGetSchema }, async () => {
     const devices = await deviceRepository.getAllDevices();
 
     return { devices };
@@ -66,10 +62,6 @@ export const deviceRouter: FastifyPluginAsyncTypebox = async (fastify) => {
   });
 
   fastify.get("/:deviceId", { schema: deviceGetSchema }, async (request) => {
-    if (!request.user) {
-      throw new UnauthorizedError();
-    }
-
     const device = await deviceRepository.getDeviceById(
       request.params.deviceId,
     );
@@ -144,10 +136,6 @@ export const deviceRouter: FastifyPluginAsyncTypebox = async (fastify) => {
     "/:deviceId/activities",
     { schema: deviceActivitiesGetSchema },
     async (request) => {
-      if (!request.user) {
-        throw new UnauthorizedError();
-      }
-
       const device = await deviceRepository.getDeviceById(
         request.params.deviceId,
       );

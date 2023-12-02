@@ -16,11 +16,7 @@ import {
 export const automationRouter: FastifyPluginAsyncTypebox = async (fastify) => {
   fastify.addHook("onRequest", fastify.auth);
 
-  fastify.get("/", { schema: automationsGetSchema }, async (request) => {
-    if (!request.user) {
-      throw new UnauthorizedError();
-    }
-
+  fastify.get("/", { schema: automationsGetSchema }, async () => {
     const automations = await automationRepository.getAllAutomations();
 
     return { automations };
@@ -45,10 +41,6 @@ export const automationRouter: FastifyPluginAsyncTypebox = async (fastify) => {
     "/:automationId",
     { schema: automationGetSchema },
     async (request) => {
-      if (!request.user) {
-        throw new UnauthorizedError();
-      }
-
       const automation = await automationRepository.getAutomationById(
         request.params.automationId,
       );

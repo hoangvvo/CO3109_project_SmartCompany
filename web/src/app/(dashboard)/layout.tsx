@@ -10,9 +10,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { toast } from "@/components/ui/use-toast";
+import Logo from "@/components/view/logo";
 import { cn } from "@/lib/utils";
 import { useUserStore } from "@/stores/user.store";
 import "@/styles/globals.css";
@@ -20,6 +20,7 @@ import {
   Activity,
   BarChart3,
   Home,
+  Info,
   LucideIcon,
   Menu,
   MonitorSmartphone,
@@ -29,7 +30,7 @@ import {
 } from "lucide-react";
 import { Inter as FontSans } from "next/font/google";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export const fontSans = FontSans({
@@ -80,28 +81,6 @@ const NavbarUser: React.FC = () => {
         <DropdownMenuItem onClick={onLogout}>Log out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
-};
-
-const NavbarSearch: React.FC = () => {
-  const router = useRouter();
-
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    router.push(`/search?q=${e.currentTarget.search.value}`);
-  };
-
-  return (
-    <form onSubmit={onSubmit}>
-      <Input
-        required
-        name="search"
-        type="search"
-        placeholder="Search..."
-        className="w-64"
-      />
-    </form>
   );
 };
 
@@ -197,8 +176,16 @@ const Sidebar: React.FC = () => {
 };
 
 const MobileSidebar: React.FC = () => {
+  const [open, setOpen] = useState(false);
+
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button
           aria-label="Menu"
@@ -221,8 +208,8 @@ const Navbar: React.FC = () => {
     <nav className="border-b border-border w-full fixed bg-background h-16 z-10">
       <div className="flex h-full gap-10 items-center px-4 lg:px-8">
         <MobileSidebar />
-        <Link href="/" className="flex items-center gap-1">
-          <span className="font-semibold">Smart Office</span>
+        <Link href="/" className="flex-none hidden md:flex">
+          <Logo />
         </Link>
         <div className="flex items-center justify-start gap-4 flex-1"></div>
         <NavbarUser />
@@ -231,7 +218,30 @@ const Navbar: React.FC = () => {
   );
 };
 
-export default function RootLayout({
+const AuthBanner: React.FC = () => {
+  const { user } = useUserStore();
+
+  if (user) return null;
+
+  return (
+    <div className="bg-secondary py-2 px-4 rounded-lg container my-2 flex justify-between items-center">
+      <div className="flex items-center gap-2">
+        <Info className="text-primary w-6 h-6" />
+        <span className="text-sm text-primary">
+          You must be logged in to access all the features of this app.
+        </span>
+      </div>
+      <Link
+        href="/login"
+        className={buttonVariants({ size: "sm", variant: "link" })}
+      >
+        Log in
+      </Link>
+    </div>
+  );
+};
+
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -248,7 +258,10 @@ export default function RootLayout({
       <Navbar />
       <div className="lg:pl-64 pt-16 relative min-h-screen">
         <Sidebar />
-        <main>{children}</main>
+        <main>
+          <AuthBanner />
+          {children}
+        </main>
       </div>
     </>
   );
