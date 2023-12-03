@@ -52,3 +52,13 @@ migrate -source file://./migrations -database "$DATABASE_URL" up
 ```sh
 migrate create -ext sql -dir ./migrations -seq <migration_name>
 ```
+
+3. Import mock data
+
+```sh
+psql -U postgres -d postgres -f ./e2e/mock-data.sql
+```
+
+## TODO
+
+- [ ] Implement Redis queue to support horizontal scaling (handling duplicate MQTT messages and Cron execution)

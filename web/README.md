@@ -7,7 +7,7 @@ HCMUT CO3109 project Smart Company.
 1. Create a `.env.local` file in the root directory of the project.
 
 ```env
-API_URL=
+API_URL=http://localhost:4000
 ```
 
 2. Install dependencies

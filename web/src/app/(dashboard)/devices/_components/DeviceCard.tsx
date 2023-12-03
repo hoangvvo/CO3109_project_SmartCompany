@@ -36,7 +36,7 @@ export const DeviceControl: React.FC<{ device: Device }> = ({ device }) => {
         queryKey: ["device", variables.id],
       });
       toast({
-        title: "Device state change requested",
+        title: "Device state change successfully",
       });
     },
     onError(error) {
