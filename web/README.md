@@ -4,6 +4,8 @@ HCMUT CO3109 project Smart Company.
 
 ## Instruction
 
+You must start the backend first before this.
+
 1. Create a `.env.local` file in the root directory of the project.
 
 ```env
@@ -16,10 +18,16 @@ API_URL=http://localhost:4000
 npm install
 ```
 
-3. Run the project
+3. Build the project
 
 ```sh
-npm run dev
+npm run build
+```
+
+4. Run the project
+
+```sh
+npm run start
 ```
 
 ## Workflows

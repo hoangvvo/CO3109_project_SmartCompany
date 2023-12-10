@@ -1,8 +1,20 @@
 # smart-company
 
+## Requirements
+
+The following tools are required to run the project:
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [Node.js](https://nodejs.org/en/download/) (v20)
+- [Migrate CLI](https://github.com/golang-migrate/migrate/tree/master/cmd/migrate)
+- [pgAdmin](https://www.pgadmin.org/download/)
+
 ## Instruction
 
-1. Create a `.env` file in the root directory of the project.
+Note for teacher: You can skip all the steps related to backend if you use the .env file that come with the ZIP file of the BKEL submission.
+
+1. Create a `.env` file in the root directory (inside `backend` folder) of the project.
 
 ```env
 PORT=4000
@@ -25,13 +37,29 @@ docker-compose up
 
 In another terminal:
 
-3. Build the project
+3. Run database migration (only once)
+
+```sh
+migrate -source file://./migrations -database "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable" up
+```
+
+If you have trouble using this tool, you can run each migration file in [migrations directory](./migrations/) manually using pgAdmin.
+
+4. Import mock data (optional)
+
+You can either run the file [mock-data.sql](./e2e/mock-data.sql) in pgAdmin or run the following command:
+
+```sh
+psql -U postgres -d postgres -f ./e2e/mock-data.sql
+```
+
+5. Build the project
 
 ```sh
 npm run build
 ```
 
-4. Run the project
+6. Run the project
 
 ```sh
 npm run start
@@ -57,6 +85,13 @@ migrate create -ext sql -dir ./migrations -seq <migration_name>
 
 ```sh
 psql -U postgres -d postgres -f ./e2e/mock-data.sql
+```
+
+4. Remove docker compose data
+
+```sh
+docker compose down -v
+docker volume rm $(docker volume ls -q)
 ```
 
 ## TODO
