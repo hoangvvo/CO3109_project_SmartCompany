@@ -91,9 +91,9 @@ function App() {
   return (
     <>
       <h1>Simulator</h1>
-      <TestComponent name="Meeting Room Light" path="P1" initialState="on" />
-      <TestComponent name="Central AC" initialState="off" initialValue={24} hasValue path="P2" />
-      <TestComponent name="Theromostat C" initialState="on" initialValue={21} hasValue path="P5" hasExtraData />
+      <TestComponent name="dhs20" path="P0" initialState="on" hasExtraData />
+      <TestComponent name="light" initialState="off" path="P1" />
+      <TestComponent name="fan C" initialState="on" initialValue={50} hasValue path="P2" />
     </>
   )
 }
