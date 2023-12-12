@@ -99,6 +99,7 @@ export const DeviceForm: React.FC<{
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
+                    <SelectItem value="P0">Pin P0</SelectItem>
                     <SelectItem value="P1">Pin P1</SelectItem>
                     <SelectItem value="P2">Pin P2</SelectItem>
                     <SelectItem value="P3">Pin P3</SelectItem>
