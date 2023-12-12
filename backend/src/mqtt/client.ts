@@ -5,7 +5,7 @@ const client = connect(BROKER_URL);
 console.log("MQTT client connecting...");
 
 client.on("connect", () => {
-  console.log("MQTT client connected");
+  console.log("MQTT client connected: " + BROKER_URL);
 });
 
 client.on("error", (error) => {
