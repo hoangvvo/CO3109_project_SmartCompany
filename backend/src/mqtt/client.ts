@@ -1,12 +1,7 @@
 import { connect } from "mqtt";
+import { BROKER_URL } from "../constants/environments.js";
 
-const client = connect({
-  host: "76ce80b3597543e1ba0c836518fdac5e.s2.eu.hivemq.cloud",
-  port: 8883,
-  protocol: "mqtts",
-  username: "admin",
-  password: "password",
-});
+const client = connect(BROKER_URL);
 console.log("MQTT client connecting...");
 
 client.on("connect", () => {
