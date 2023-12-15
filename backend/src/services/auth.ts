@@ -15,7 +15,7 @@ export const authService = {
     const token = nanoid(32);
 
     const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 7);
+    expiresAt.setDate(expiresAt.getDate() + 120);
 
     await appSessionRepository.insertSession({
       user_id: userId,

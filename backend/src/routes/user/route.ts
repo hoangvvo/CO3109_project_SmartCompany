@@ -3,7 +3,6 @@ import { appUserRepository } from "../../database/app-user.js";
 import { authService } from "../../services/auth.js";
 import { DuplicateEmailError, InvalidCredentialsError } from "./error.js";
 import {
-  userGetSchema,
   userLoginSchema,
   userLogoutSchema,
   userSignUpSchema,
@@ -12,7 +11,7 @@ import {
 export const userRouter: FastifyPluginAsyncTypebox = async (fastify) => {
   fastify.addHook("onRequest", fastify.auth);
 
-  fastify.get("/", { schema: userGetSchema }, async (request) => {
+  fastify.get("/", async (request) => {
     return {
       user: request.user,
     };

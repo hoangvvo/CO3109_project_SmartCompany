@@ -24,7 +24,6 @@ export const appSessionRepository = {
       JOIN app_session s
         ON u.id = s.user_id
       WHERE s.token = $1
-        AND s.expires_at > NOW()
     `,
       [token],
     );
